@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أَلْعاب كَلِمَات اللُّغَة العَرَبِيَّة لِلصَّفّ ٩</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400;500;600;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #F0F4F8;
+            --card-color: #4DB6AC;
+            --accent-color: #FFCA28;
+            --text-color: #37474F;
+            --text-light-color: #FFFFFF;
+            --card-back-color: #FFFFFF;
+            --card-back-light: #E8F5E9;
+            --player1-color: #42A5F5;
+            --player2-color: #EF5350;
+            --disabled-color: #B0BEC5;
+            --correct-color: #4CAF50;
+            --incorrect-color: #F44336;
+            --shadow-color: #B0BEC5;
+        }
+        * { box-sizing: border-box; }
+
+        button, input {
+            font-family: 'Markazi Text', 'Tajawal', serif;
+        }
+
+        body {
+            font-family: 'Markazi Text', 'Tajawal', serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            text-align: center;
+            overflow: hidden;
+        }
+        .screen { display: none; width: 100%; height: 100vh; padding: 20px; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; transition: opacity 0.5s; overflow-y: auto; }
+        .screen.active { display: flex; }
+
+        .main-title, .sub-title, .menu-title, .unit-numeral, .description, .card-face {
+            font-family: 'Markazi Text', 'Tajawal', serif;
+        }
+        
+        #typing-prompt {
+             font-family: 'Markazi Text', 'Tajawal', serif;
+        }
+
+        .main-title { font-size: clamp(2.5rem, 7vw, 4.5rem); color: var(--text-color); text-shadow: 2px 2px 4px rgba(0,0,0,0.1); margin-bottom: 0; }
+        .grade-numeral {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            color: var(--card-color);
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .sub-title { font-size: clamp(1.5rem, 4vw, 2.2rem); color: #00796B; margin-bottom: 30px; }
+        .menu-container { display: grid; gap: 25px; width: 90%; max-width: 1200px; }
+        
+        #start-screen .menu-container {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 1200px;
+            gap: 20px;
+        }
+
+        #game-choice-screen .menu-container {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 950px;
+        }
+
+        .menu-btn {
+            background-color: var(--card-back-color);
+            color: var(--text-color);
+            border: 1px solid #CFD8DC;
+            border-bottom: 8px solid var(--shadow-color);
+            padding: 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.1s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            position: relative;
+            gap: 10px;
+        }
+        .menu-btn:hover {
+            background-color: #ECEFF1;
+            transform: translateY(-3px);
+            border-bottom-width: 10px;
+        }
+        .menu-btn:active {
+            transform: translateY(4px);
+            border-bottom-width: 4px;
+        }
+        
+        .menu-btn > div {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .menu-btn .menu-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .menu-btn .description { font-size: 1.2rem; font-weight: normal; color: #546E7A; opacity: 0.8; margin-top: 0; }
+        .menu-btn.unit-btn {
+            padding-top: 50px;
+            padding-bottom: 15px;
+        }
+        .unit-numeral {
+            position: absolute;
+            top: 10px;
+            left: 0; right: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        #start-screen .unit-btn .menu-title {
+            font-size: 2.2rem;
+            line-height: 1.1; 
+        }
+        .unit-btn > div, .menu-btn > div {
+            justify-content: center;
+            flex-grow: 1;
+        }
+        .menu-btn svg {
+            width: 44px;
+            height: 44px;
+            fill: var(--accent-color);
+            transition: fill 0.2s;
+        }
+        .menu-btn:hover svg {
+            fill: var(--card-color);
+        }
+        
+        #lesson-screen .menu-btn {
+            min-height: 240px;
+            padding: 25px;
+        }
+         .lesson-emoji {
+            font-size: 4rem;
+            line-height: 1;
+        }
+        #lesson-screen .menu-btn .menu-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+        }
+
+        .start-btn { 
+            font-family: inherit;
+            font-size: 2rem; 
+            padding: 15px 50px; 
+            border-radius: 20px; 
+            background-color: var(--card-color); 
+            color: var(--text-light-color); 
+            border: none; 
+            cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 0 #26A69A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .start-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 7px 0 #26A69A;
+        }
+        .start-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #26A69A;
+        }
+        #quiz-start-btn {
+            padding: 25px 50px;
+            font-size: 3.5rem;
+            min-width: 350px;
+        }
+        .header-navigation { position: absolute; top: 20px; left: 20px; z-index: 200; }
+        .back-btn { background: none; border: none; cursor: pointer; padding: 5px; }
+        .back-btn svg { width: 40px; height: 40px; fill: #000; transition: all 0.2s; opacity: 0.8; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
+        .back-btn:hover svg { fill: var(--accent-color); opacity: 1; transform: scale(1.1); }
+        .hidden { display: none !important; }
+
+        #unit-screen {
+            justify-content: center;
+            gap: 40px;
+        }
+        
+        #game-screen { flex-direction: row; justify-content: space-between; padding: 20px; align-items: center; overflow: hidden; }
+        .score-display { 
+            flex: 0 0 90px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            font-size: clamp(3rem, 6vw, 4rem);
+            font-weight: bold;
+            transition: all 0.4s ease;
+            opacity: 0.9;
+            border-radius: 25px;
+            color: rgba(255,255,255,0.9);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        #player1-display { background: linear-gradient(180deg, #42A5F5, #1E88E5); }
+        #player2-display { background: linear-gradient(180deg, #EF5350, #E53935); }
+        .score-display svg { width: 80px; height: 80px; fill: rgba(255,255,255,0.8); }
+        
+        .score-display.active { 
+            opacity: 1; 
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.9);
+        }
+        #player1-display.active { box-shadow: inset 0 0 20px rgba(0,0,0,0.4), 0 0 30px 8px var(--player1-color); }
+        #player2-display.active { box-shadow: inset 0 0 20px rgba(0,0,0,0.4), 0 0 30px 8px var(--player2-color); }
+
+        #game-board { 
+            flex-grow: 1; 
+            width: auto; 
+            max-width: 1200px; 
+            margin: 0 20px; 
+            display: grid; 
+            gap: 10px; 
+            perspective: 1200px; 
+            grid-template-columns: repeat(5, 1fr); 
+            grid-template-rows: repeat(4, 1fr); 
+            height: calc(100vh - 40px);
+        }
+        .card { background-color: transparent; cursor: pointer; container-type: inline-size; }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            word-break: break-word;
+            font-size: clamp(1.5rem, 20cqw, 5rem);
+            text-align: center;
+            line-height: 1.1;
+        }
+        .card-front { background-color: #B2DFDB; }
+        .card-back { color: var(--text-light-color); transform: rotateY(180deg); background-color: var(--card-color);}
+        .card.p1-turn .card-back { background-color: var(--player1-color); }
+        .card.p2-turn .card-back { background-color: var(--player2-color); }
+        .card.p1-match .card-face.card-back { background-color: var(--player1-color); }
+        .card.p2-match .card-face.card-back { background-color: var(--player2-color); }
+        
+        .game-over-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-back-color);
+            padding: 30px 50px;
+            border-radius: 20px;
+            border: 3px solid var(--accent-color);
+            z-index: 200;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .game-start-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 150;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-over-overlay h2 { font-size: 2.5rem; margin: 0; }
+        #winner-icon-container, #quiz-winner-icon-container, #typing-winner-icon-container { display: flex; justify-content: center; gap: 10px; }
+        #winner-icon-container svg, #quiz-winner-icon-container svg, #typing-winner-icon-container svg { width: 80px; height: 80px; }
+        #memory-win-text.p1-win, #quiz-win-text.p1-win, #typing-win-text.p1-win { color: var(--player1-color); }
+        #winner-icon-container.p1-win svg, #quiz-winner-icon-container.p1-win svg, #typing-winner-icon-container.p1-win svg { fill: var(--player1-color); }
+        #memory-win-text.p2-win, #quiz-win-text.p2-win, #typing-win-text.p2-win { color: var(--player2-color); }
+        #winner-icon-container.p2-win svg, #quiz-winner-icon-container.p2-win svg, #typing-winner-icon-container.p2-win svg { fill: var(--player2-color); }
+        #memory-win-text.draw, #quiz-win-text.draw, #typing-win-text.draw { color: var(--accent-color); }
+        #winner-icon-container.draw svg, #quiz-winner-icon-container.draw svg, #typing-winner-icon-container.draw svg { width: 60px; height: 60px; }
+        #winner-icon-container.draw svg:first-child, #quiz-winner-icon-container.draw svg:first-child, #typing-winner-icon-container.draw svg:first-child { fill: var(--player1-color); }
+        #winner-icon-container.draw svg:last-child, #quiz-winner-icon-container.draw svg:last-child, #typing-winner-icon-container.draw svg:last-child { fill: var(--player2-color); }
+
+        .win-buttons { display: flex; gap: 40px; margin-top: 20px; }
+        .win-buttons .icon-btn { background-color: transparent; border: none; cursor: pointer; transition: all 0.3s ease; }
+        .win-buttons .icon-btn:hover { transform: scale(1.1); }
+        .win-buttons .icon-btn svg { width: 56px; height: 56px; fill: var(--accent-color); }
+        
+        #quiz-screen { flex-direction: row; padding: 20px; gap: 10px; align-items: stretch; position: relative; justify-content: center;}
+        #quiz-screen::after { content: ''; position: absolute; top: 10%; bottom: 10%; left: 50%; transform: translateX(-50%); width: 4px; background-color: rgba(0,0,0,0.1); border-radius: 2px; }
+        .quiz-player-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; gap: 15px; border-radius: 20px; transition: transform 0.5s; position: relative; }
+        .score-effects-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: hidden; border-radius: 20px; }
+        .score-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--text-light-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: float-up-and-fade 2s ease-out forwards;
+        }
+        .score-effect.bonus { z-index: 101; }
+        .burst-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            margin-top: -5px;
+            margin-left: -5px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: burst 1.2s ease-out;
+        }
+        @keyframes burst {
+            0% { transform: rotate(var(--angle)) translateY(20px) scale(1); opacity: 1; }
+            100% { transform: rotate(var(--angle)) translateY(120px) scale(0); opacity: 0; }
+        }
+
+        .score-effect svg { width: 32px; height: 32px; fill: white; filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5)); }
+        @keyframes float-up-and-fade {
+            0% { transform: translate(-50%, 0); opacity: 1; }
+            100% { transform: translate(-50%, -300px); opacity: 0; }
+        }
+        .quiz-player-area.shake { animation: shake 0.5s; }
+        .quiz-option-btn.shake { animation: shake 0.5s; }
+        
+        .quiz-top-bar {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+        }
+
+        .quiz-game-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .quiz-player-area .quiz-progress { 
+            font-size: 1.8rem; 
+            color: var(--text-color); 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center;
+        }
+        .quiz-score-display { display: flex; align-items: center; gap: 8px; }
+        .quiz-score-display svg { width: 32px; height: 32px; fill: var(--accent-color); }
+        .quiz-player-area .progress-bar { 
+            flex-grow: 1;
+            margin: 0;
+        }
+
+        .quiz-player-area .quiz-question { 
+            font-size: clamp(1.8rem, 15cqw, 3.5rem); 
+            font-weight: bold; 
+            padding: 15px; 
+            background-color: var(--card-back-color); 
+            border-radius: 20px; 
+            min-height: 120px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 100%; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            margin-bottom: 15px; 
+            direction: rtl; 
+            container-type: inline-size;
+        }
+        .quiz-player-area .quiz-options { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; flex-grow: 1; transition: opacity 0.3s; }
+        .quiz-options.answered .quiz-option-btn:not(.correct):not(.incorrect) {
+        }
+        .quiz-player-area .quiz-option-btn {
+            font-family: inherit;
+            border: 3px solid;
+            color: var(--text-color);
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-align: center;
+            direction: ltr;
+        }
+        .quiz-option-btn.selected { transform: scale(1.02); }
+        .p1 .quiz-option-btn.selected { border-color: var(--player1-color); box-shadow: 0 4px 10px rgba(66, 165, 245, 0.3); }
+        .p2 .quiz-option-btn.selected { border-color: var(--player2-color); box-shadow: 0 4px 10px rgba(239, 83, 80, 0.3); }
+
+        .quiz-option-btn.correct {
+            background-color: var(--correct-color) !important;
+            border-color: var(--correct-color) !important;
+            color: var(--text-light-color) !important;
+            transform: scale(1.03);
+        }
+        .quiz-option-btn.incorrect {
+            background-color: var(--incorrect-color) !important;
+            border-color: var(--incorrect-color) !important;
+            color: var(--text-light-color) !important;
+            transform: scale(1.03);
+        }
+
+        .quiz-option-btn:disabled { cursor: not-allowed; }
+        
+        .quiz-player-area.p1 { background-color: rgba(66, 165, 245, 0.1); }
+        .quiz-player-area.p1 .quiz-option-btn {
+            background-color: #E3F2FD;
+            border-color: #90CAF9;
+        }
+        .quiz-player-area.p1 .quiz-option-btn:hover:not(:disabled) {
+            background-color: #BBDEFB;
+            border-color: var(--player1-color);
+            transform: translateY(-2px);
+        }
+        .quiz-player-area.p1 .quiz-option-btn-icon { fill: var(--player1-color); }
+        
+        .quiz-player-area.p2 { background-color: rgba(239, 83, 80, 0.1); }
+        .quiz-player-area.p2 .quiz-option-btn {
+            background-color: #FFEBEE;
+            border-color: #EF9A9A;
+        }
+        .quiz-player-area.p2 .quiz-option-btn:hover:not(:disabled) {
+            background-color: #FFCDD2;
+            border-color: var(--player2-color);
+            transform: translateY(-2px);
+        }
+        .quiz-player-area.p2 .quiz-option-btn-icon { fill: var(--player2-color); }
+
+        #match-screen { justify-content: center; padding-top: 20px; gap: 20px; overflow: hidden; }
+        .match-container { display: flex; gap: 20px; width: 100%; max-width: 1200px; flex-grow: 1; padding-bottom: 20px; }
+        .match-column { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: space-around; }
+        .match-item, .match-target { 
+            font-family: inherit;
+            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            padding: 10px; 
+            border-radius: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        .match-item { background: var(--card-back-color); border: 2px solid #CFD8DC; cursor: grab; box-shadow: 0 4px 6px rgba(0,0,0,0.1); direction: rtl; }
+        .match-target { background: rgba(255,255,255,0.2); border: 2px dashed var(--text-color); direction: ltr; }
+        .match-item.dragging { opacity: 0.5; }
+        .match-target.drag-over { border-color: var(--accent-color); background-color: rgba(255, 202, 40, 0.2); }
+        .match-item.correct-match, .match-target.correct-match {
+            background-color: var(--correct-color);
+            border-color: var(--correct-color);
+            color: white;
+            cursor: default;
+            opacity: 0.8;
+            transform: scale(0.98);
+            transition: all 0.3s ease;
+        }
+        .match-item.correct-match { box-shadow: none; }
+        .match-target.incorrect-flash { animation: flash-red 0.5s; }
+        @keyframes flash-red { from, to { background-color: rgba(255,255,255,0.2); } 50% { background-color: var(--incorrect-color); } }
+        #match-complete-overlay .icon-btn { background-color: transparent; border: none; cursor: pointer; transition: transform 0.3s ease; }
+        #match-complete-overlay .icon-btn:hover { transform: scale(1.1); }
+        #match-complete-overlay .icon-btn svg { width: 120px; height: 120px; fill: var(--accent-color); animation: pulse-glow 1.5s infinite ease-in-out; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+        
+        #typing-screen { flex-direction: row; align-items: center; justify-content: center; padding: 20px; gap: 20px; position: relative;}
+        
+        #typing-main-container { display: flex; flex-direction: row-reverse; width: 100%; max-width: 1400px; gap: 20px; align-items: stretch; }
+        #typing-status-panel { 
+            flex: 1; 
+            background-color: var(--card-back-color); 
+            border-radius: 15px; 
+            padding: 20px; 
+            align-self: stretch; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            display: flex;
+            flex-direction: column;
+            max-height: calc(100vh - 40px);
+        }
+        #typing-status-panel h2 { 
+            margin-top: 0; 
+            color: var(--card-color); 
+            border-bottom: 2px solid #CFD8DC; 
+            padding-bottom: 10px; 
+            flex-shrink: 0;
+        }
+        #typing-status-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            text-align: right; 
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        #typing-status-list li { padding: 10px; margin-bottom: 10px; border-radius: 8px; border-right-width: 5px; border-right-style: solid; transition: background-color 0.3s; }
+        #typing-status-list li.correct { background-color: #E8F5E9; border-right-color: var(--correct-color); }
+        #typing-status-list li.incorrect { background-color: #FFEBEE; border-right-color: var(--incorrect-color); }
+        .status-word { font-weight: bold; font-size: 1.4rem; }
+        .status-translation { color: #546E7A; margin-bottom: 5px; }
+        .status-user-answer { font-style: italic; color: var(--incorrect-color); }
+        .status-user-answer::before { content: "جوابك: "; font-style: normal; }
+
+        #typing-game-area { flex: 2; display: flex; flex-direction: column; align-items: center; gap: 15px; justify-content: center; position: relative;}
+        #typing-interactive-elements { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .countdown-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(44, 62, 80, 0.85); z-index: 200; display: none; justify-content: center; align-items: center; font-size: clamp(8rem, 30vw, 15rem); font-weight: bold; color: var(--accent-color); -webkit-text-stroke: 2px var(--bg-color); }
+        .typing-stats { display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 800px; font-size: 1.8rem; gap: 20px; }
+        .stat-item { position: relative; display: flex; align-items: center; gap: 10px; background-color: var(--card-back-color); padding: 8px 15px; border-radius: 10px; transition: all 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .score-effects-container-typing { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: visible; }
+        .typing-score-effect {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--correct-color);
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+            animation: pop-up-and-fade 1.5s ease-out forwards;
+        }
+        @keyframes pop-up-and-fade {
+            0% { transform: translate(-50%, 0) scale(0.5); opacity: 1; }
+            50% { transform: translate(-50%, -60px) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -80px) scale(0.8); opacity: 0; }
+        }
+        .stat-item svg { width: 32px; height: 32px; fill: var(--accent-color); }
+        .progress-bar { display: flex; gap: 4px; width: 100%; max-width: 800px; height: 8px; }
+        .progress-segment { flex: 1; background-color: #CFD8DC; border-radius: 4px; transition: all 0.3s ease; }
+        .progress-segment.correct { background-color: var(--correct-color); }
+        .progress-segment.incorrect { background-color: var(--incorrect-color); }
+        .progress-segment.active { background-color: var(--accent-color); transform: scaleY(1.5); }
+        #typing-prompt { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: bold; background-color: var(--card-back-color); border-radius: 20px; min-height: 150px; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 800px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        .typing-input-area { display: flex; align-items: stretch; gap: 10px; width: 100%; max-width: 800px; }
+        #typing-input { font-size: 2rem; flex-grow: 1; padding: 15px; border-radius: 10px; border: 3px solid #CFD8DC; background: var(--card-back-color); color: var(--text-color); text-align: right; direction: rtl; transition: box-shadow 0.2s, border-color 0.2s; }
+        #typing-input:focus { outline: none; border-color: var(--accent-color); }
+        #typing-input:disabled { background-color: #ECEFF1; cursor: not-allowed; }
+        #typing-input.correct-input { border-color: var(--correct-color); animation: flash-green 0.5s; }
+        #typing-input.incorrect-input { border-color: var(--incorrect-color); animation: shake 0.5s; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        @keyframes flash-green { 50% { box-shadow: 0 0 12px var(--correct-color); } }
+        #typing-submit-btn { border: none; background-color: var(--correct-color); color: var(--text-light-color); border-radius: 10px; padding: 0 25px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 0 #388E3C; }
+        #typing-submit-btn:hover { background-color: #4CAF50; }
+        #typing-submit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #388E3C; }
+        #typing-submit-btn svg { width: 32px; height: 32px; fill: white; pointer-events: none; }
+        #virtual-keyboard { direction: rtl; padding: 10px; display: flex; flex-direction: column; gap: 8px; background-color: rgba(0,0,0,0.1); border-radius: 10px; width: 100%; max-width: 800px; transition: all 0.3s; }
+        .keyboard-row { display: flex; justify-content: center; gap: 8px; }
+        .keyboard-key {
+            font-family: 'Markazi Text', 'Tajawal', serif;
+            color: var(--text-color);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.8rem;
+            padding: 12px 6px;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .keyboard-key:active { transform: translateY(2px); }
+        .keyboard-key.backspace { background-color: var(--accent-color); }
+        .keyboard-key svg { width: 24px; height: 24px; fill: var(--text-color); pointer-events: none;}
+        #typing-ready-btn { width: 90%; max-width: 600px; padding: 20px; font-size: clamp(1.8rem, 5vw, 2.5rem); z-index: 5; }
+        #typing-ready-btn:not(.hidden) { animation: pulse-glow 1.5s infinite ease-in-out; }
+        #typing-game-over .icon-btn { animation: pulse-glow 1.5s infinite ease-in-out; }
+        #typing-game-over .icon-btn svg { width: 80px; height: 80px;}
+
+        .results-screen { padding-top: 80px; }
+        .results-screen.match-complete {
+            padding-top: 0;
+            justify-content: center;
+        }
+        .results-screen.match-complete .win-buttons {
+            margin-top: 0;
+        }
+        .results-screen.match-complete .header-navigation {
+            display: none;
+        }
+
+        .results-screen h2 { font-size: 4rem; margin-bottom: 25px; }
+        .results-screen p { font-size: 2.5rem; color: var(--accent-color); margin-top: 0; }
+        
+        #results-details { text-align: right; direction:rtl; width: 90%; max-width: 800px; max-height: 45vh; overflow-y: auto; background: var(--card-back-color); padding: 30px; border-radius: 15px; }
+        #results-details h3 { font-size: 2.2rem; margin-bottom: 20px; }
+        #results-details ul { list-style: none; padding: 0; margin: 0; }
+        #results-details li { margin-bottom: 25px; font-size: 2.2rem; line-height: 1.7; padding-bottom: 20px; border-bottom: 2px solid var(--card-back-light); }
+        #results-details li:last-child { border-bottom: none; }
+        #results-details .prompt { font-weight: bold; }
+        #results-details .user-answer { color: var(--incorrect-color); text-decoration: line-through; background-color: rgba(239, 83, 80, 0.2); padding: 5px 10px; border-radius: 8px; }
+        #results-details .correct-answer { color: var(--correct-color); background-color: rgba(102, 187, 106, 0.2); padding: 5px 10px; border-radius: 8px; }
+        
+        @keyframes pulse-glow { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(77, 182, 172, 0.2)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(77, 182, 172, 0.6));} }
+        
+        @media (max-width: 1200px) { #typing-main-container { flex-direction: column-reverse; height: auto; } #typing-status-panel { width: 100%; flex: none; height: 250px; } #typing-game-area { width: 100%; } #quiz-screen { flex-direction: column; } #quiz-screen::after { display: none; } }
+        @media (max-width: 800px) { #start-screen .menu-container, #game-choice-screen .menu-container { grid-template-columns: 1fr; } #game-screen { flex-direction: column; padding-top: 20px; } .score-display { flex-direction: row; height: 80px; width: 100%; } #game-board { flex-grow: 1; margin: 10px 0; } .quiz-player-area .quiz-options { grid-template-columns: 1fr; } .match-item, .match-target { font-size: 1.2rem; padding: 8px;} .keyboard-key { font-size: 1.1rem; padding: 8px 4px; } }
+    </style>
+</head>
+
+<body>
+    <!-- Not: Audio etiketleri kaldırıldı çünkü sesler artık Web Audio API ile dinamik olarak üretiliyor. -->
+
+    <div id="start-screen" class="screen active">
+        <h1 class="main-title">أَلْعاب الكَلِمات لِلصَّفّ</h1>
+        <div class="grade-numeral">٩</div>
+        <h2 class="sub-title">اِخْتَرْ وَحْدَة</h2>
+        <div id="unit-container" class="menu-container"></div>
+    </div>
+    <div id="lesson-screen" class="screen"><div class="header-navigation"><button class="back-btn" data-target="start-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="lesson-title" class="sub-title">اختر درسًا</h2><div id="lesson-container" class="menu-container"></div></div>
+    <div id="game-choice-screen" class="screen">
+        <div class="header-navigation"><button class="back-btn" data-target="lesson-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="game-choice-title" class="sub-title">اِخْتَرْ لُعْبَة</h2>
+        <div id="game-choice-container" class="menu-container">
+            <button class="menu-btn" data-game-type="memory">
+                <svg viewBox="0 0 24 24"><path d="M7 3H17C18.1 3 19 3.9 19 5V15C19 16.1 18.1 17 17 17H7C5.9 17 5 16.1 5 15V5C5 3.9 5.9 3 7 3M3 7V19C3 20.1 3.9 21 5 21H15V19H5V7H3Z" /></svg>
+                <div>
+                    <span class="menu-title">بِطاقات الذّاكِرَة</span>
+                    <span class="description">اِبْحَثْ عَن الكَلِمات المُتَطابِقَة</span>
+                </div>
+            </button>
+            <button class="menu-btn" data-game-type="quiz">
+                <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M11,16H13V18H11V16Z" /></svg>
+                <div>
+                    <span class="menu-title">اِخْتِبار الاِخْتِيار مِنْ مُتَعَدِّد</span>
+                    <span class="description">اِبْحَثْ عَن المَعْنى الصَّحيح</span>
+                </div>
+            </button>
+            <button class="menu-btn" data-game-type="match">
+                <svg viewBox="0 0 24 24"><path d="M21,9L17,5V8H10V10H17V13M7,11V8L3,12L7,16V13H14V11H7Z" /></svg>
+                <div>
+                    <span class="menu-title">مُطابَقَة الكَلِمات</span>
+                    <span class="description">اِسْحَبْ وَأَفْلِتْ</span>
+                </div>
+            </button>
+            <button class="menu-btn" data-game-type="typing">
+                <svg viewBox="0 0 24 24"><path d="M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z" /></svg>
+                <div>
+                    <span class="menu-title">الكِتابَة السَّريعَة</span>
+                    <span class="description">اُكْتُبْ الكَلِمَة بِشَكْل صَحيح</span>
+                </div>
+            </button>
+        </div>
+    </div>
+    
+    <div id="game-screen" class="screen">
+        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+        <div id="player1-display" class="score-display">
+            <svg viewBox="0 0 24 24" style="fill:var(--text-light-color);"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+            <span id="score1">0</span>
+        </div>
+        <div id="game-board"></div>
+        <div id="player2-display" class="score-display">
+            <svg viewBox="0 0 24 24" style="fill:var(--text-light-color);"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+            <span id="score2">0</span>
+        </div>
+        <div id="memory-game-over" class="game-over-overlay hidden">
+            <div id="winner-icon-container"></div>
+            <h2 id="memory-win-text"></h2>
+            <div class="win-buttons">
+                <button class="icon-btn" id="play-again-memory-btn" title="العب مرة أخرى"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                <button class="icon-btn" id="main-menu-memory-btn" title="القائمة الرئيسية"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+            </div>
+        </div>
+    </div>
+    <div id="quiz-screen" class="screen">
+        <div id="quiz-countdown-overlay" class="countdown-overlay"></div>
+        <div id="quiz-start-overlay" class="game-start-overlay">
+            <button id="quiz-start-btn" class="start-btn">اِبْدَأْ</button>
+        </div>
+        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+        <div class="quiz-player-area p1">
+            <div class="score-effects-container"></div>
+            <div class="quiz-game-content hidden">
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress" id="quiz-progress-p1"></div>
+                    <div class="progress-bar" id="quiz-progress-bar-p1"></div>
+                </div>
+                <div class="quiz-question" id="quiz-question-p1"></div>
+                <div class="quiz-options" id="quiz-options-p1"></div>
+            </div>
+        </div>
+        <div class="quiz-player-area p2">
+            <div class="score-effects-container"></div>
+            <div class="quiz-game-content hidden">
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress" id="quiz-progress-p2"></div>
+                    <div class="progress-bar" id="quiz-progress-bar-p2"></div>
+                </div>
+                <div class="quiz-question" id="quiz-question-p2"></div>
+                <div class="quiz-options" id="quiz-options-p2"></div>
+            </div>
+        </div>
+        <div id="quiz-game-over" class="game-over-overlay hidden">
+            <div id="quiz-winner-icon-container"></div>
+            <h2 id="quiz-win-text"></h2>
+            <div class="win-buttons">
+                <button class="icon-btn" id="new-round-quiz-btn" title="جولة جديدة"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+            </div>
+        </div>
+    </div>
+    <div id="match-screen" class="screen">
+        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+        <div class="match-container">
+            <div class="match-column" id="match-arabic-list"></div>
+            <div class="match-column" id="match-turkish-list"></div>
+        </div>
+        <div id="match-complete-overlay" class="game-start-overlay hidden">
+            <button id="play-again-match-btn" class="icon-btn" title="لعبة جديدة">
+                <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg>
+            </button>
+        </div>
+    </div>
+    
+    <div id="typing-screen" class="screen">
+        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+        <div id="typing-main-container">
+            <div id="typing-status-panel">
+                <h2>الحالة</h2>
+                <ul id="typing-status-list"></ul>
+            </div>
+            <div id="typing-game-area">
+                <div id="typing-game-over" class="game-start-overlay hidden">
+                    <button class="icon-btn" id="play-again-typing-btn" title="العب مرة أخرى"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                </div>
+                <div id="typing-interactive-elements">
+                    <div class="typing-stats">
+                        <div id="timer-stat-item" class="stat-item">
+                            <svg viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" /></svg>
+                            <span id="timer-value">120</span>
+                        </div>
+                        <div id="score-stat-item" class="stat-item">
+                            <div class="score-effects-container-typing"></div>
+                            <svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>
+                            <span id="score-value">0</span>
+                        </div>
+                    </div>
+                    <div id="typing-progress-bar" class="progress-bar"></div>
+                    <div id="typing-prompt"></div>
+                    <div class="typing-input-area">
+                        <button id="typing-submit-btn"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg></button>
+                        <input type="text" id="typing-input" autocomplete="off" spellcheck="false"/>
+                    </div>
+                </div>
+                <div id="virtual-keyboard"></div>
+                <button id="typing-ready-btn" class="start-btn">أَنا مُسْتَعِدّ</button>
+            </div>
+        </div>
+
+        <div id="countdown-overlay" class="countdown-overlay"></div>
+    </div>
+
+    <div id="results-screen" class="screen results-screen">
+        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+        <h2 id="results-title">انتهت اللعبة!</h2><p id="results-score-text"></p>
+        <div id="results-details"></div>
+        <div class="win-buttons">
+            <button class="icon-btn" id="play-again-btn" title="العب مرة أخرى"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+            <button class="icon-btn" id="new-player-btn" title="لاعب جديد"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
+            <button class="icon-btn" id="main-menu-results-btn" title="القائمة الرئيسية"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+        </div>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+    // --- DATA MODULE ---
+    const Data = {
+        memory_game_unit1: {
+            lesson1: { 
+                words: [ 
+                    { id: 82, arabic: 'صَباح', turkish: 'Sabah' }, 
+                    { id: 83, arabic: 'الخَيْر', turkish: 'Hayır' }, 
+                    { id: 84, arabic: 'النّور', turkish: 'Nur' },
+                    { id: 85, arabic: 'مَساء', turkish: 'Akşam' }, 
+                    { id: 86, arabic: 'مَرْحَبًا', turkish: 'Merhaba' },
+                    { id: 87, arabic: 'مَع', turkish: 'İle' },
+                    { id: 88, arabic: 'اِقْرَأْ', turkish: 'Oku' },
+                    { id: 89, arabic: 'اُكْتُبْ', turkish: 'Yaz' },
+                    { id: 90, arabic: 'أَعِدْ', turkish: 'Tekrar et' },
+                    { id: 91, arabic: 'اِسْتَمِعْ', turkish: 'Dinle' }
+                ] 
+            },
+            lesson2: { 
+                words: [ 
+                    { id: 7, arabic: 'طالِب', turkish: 'Öğrenci' }, 
+                    { id: 8, arabic: 'مُدَرِّس', turkish: 'Öğretmen' }, 
+                    { id: 9, arabic: 'مُدير', turkish: 'Müdür' }, 
+                    { id: 10, arabic: 'صَديق', turkish: 'Arkadaş' }, 
+                    { id: 11, arabic: 'هَذا', turkish: 'Bu (e)' }, 
+                    { id: 12, arabic: 'هَذِهِ', turkish: 'Bu (k)' }, 
+                    { id: 53, arabic: 'هُوَ', turkish: 'O (e)' }, 
+                    { id: 54, arabic: 'هِيَ', turkish: 'O (k)' }, 
+                    { id: 55, arabic: 'أَنْتَ', turkish: 'Sen (e)' }, 
+                    { id: 56, arabic: 'أَنْتِ', turkish: 'Sen (k)' },
+                    { id: 92, arabic: 'أَنَا', turkish: 'Ben' },
+                    { id: 93, arabic: 'هَلْ', turkish: 'mı, mi?' },
+                    { id: 94, arabic: 'مَنْ', turkish: 'Kim?' },
+                    { id: 95, arabic: 'تَكَلَّمْ', turkish: 'Konuş' },
+                    { id: 96, arabic: 'اُسْكُتْ', turkish: 'Sus' },
+                    { id: 97, arabic: 'تَعَالَ', turkish: 'Gel' },
+                    { id: 98, arabic: 'اِذْهَبْ', turkish: 'Git' },
+                    { id: 99, arabic: 'تَشَرَّفْتُ', turkish: 'Memnun oldum' },
+                    { id: 100, arabic: 'شُكْرًا', turkish: 'Teşekkürler' },
+                    { id: 101, arabic: 'عَفْوًا', turkish: 'Rica ederim' }
+                ] 
+            }
+        },
+        grade9_words: {
+            unit1: {
+                title: "الوَحْدَة الأولى", description: "التَّحِيَّة وَالتَّعارُف", lessons: {
+                    lesson1: { title: "الدَّرْس الأَوَّل", description: "التَّحِيَّة", words: [ { id: 1, arabic: 'السَّلام عَلَيْكُم', turkish: 'Selamun Aleyküm' }, { id: 2, arabic: 'صَباح الخَيْر', turkish: 'Hayırlı Sabahlar' }, { id: 3, arabic: 'مَرْحَبًا', turkish: 'Merhaba' }, { id: 4, arabic: 'كَيْفَ حالُكَ؟', turkish: 'Nasılsın?' }, { id: 5, arabic: 'أَنا بِخَيْر', turkish: 'Ben iyiyim' }, { id: 6, arabic: 'إِلى اللِّقاء', turkish: 'Görüşmek üzere' }, { id: 49, arabic: 'وَعَلَيْكُم السَّلام', turkish: 'Ve Aleyküm Selam' }, { id: 50, arabic: 'مَساء النّور', turkish: 'Hayırlı Akşamlar' }, { id: 51, arabic: 'أَهْلًا وَسَهْلًا', turkish: 'Hoş geldiniz' }, { id: 52, arabic: 'مَع السَّلامَة', turkish: 'Selametle' } ] },
+                    lesson2: { title: "الدَّرْس الثّاني", description: "التَّعارُف", words: [ { id: 7, arabic: 'طالِب', turkish: 'Öğrenci' }, { id: 8, arabic: 'مُدَرِّس', turkish: 'Öğretmen' }, { id: 9, arabic: 'صَديق', turkish: 'Arkadaş' }, { id: 10, arabic: 'ما اسْمُكَ؟', turkish: 'Adın ne?' }, { id: 11, arabic: 'اِسْمي', turkish: 'Benim adım' }, { id: 12, arabic: 'تَشَرَّفْتُ', turkish: 'Memnun oldum' }, { id: 53, arabic: 'مُدِيرَة', turkish: 'Müdire' }, { id: 54, arabic: 'مِن أَيْنَ أَنْتَ؟', turkish: 'Nerelisin?' }, { id: 55, arabic: 'فُرْصَة سَعيدَة', turkish: 'İyi ki karşılaştık' }, { id: 56, arabic: 'عَفْوًا', turkish: 'Rica ederim' } ] }
+                }
+            },
+            unit2: {
+                title: "الوَحْدَة الثّانِيَة", description: "الحَياة المَدْرَسِيَّة", lessons: {
+                    lesson1: { title: "الدَّرْس الأَوَّل", description: "صَفّي", words: [ { id: 13, arabic: 'صَفّ', turkish: 'Sınıf' }, { id: 14, arabic: 'كِتاب', turkish: 'Kitap' }, { id: 15, arabic: 'قَلَم', turkish: 'Kalem' }, { id: 17, arabic: 'كُرْسِيّ', turkish: 'Sandalye' }, { id: 18, arabic: 'حَقيبَة', turkish: 'Çanta' }, { id: 57, arabic: 'طاوِلَة', turkish: 'Masa' }, { id: 58, arabic: 'دَفْتَر', turkish: 'Defter' }, { id: 59, arabic: 'سَبّورَة', turkish: 'Yazı tahtası' }, { id: 60, arabic: 'جَديد', turkish: 'Yeni' }, { id: 61, arabic: 'نَظيف', turkish: 'Temiz' } ] },
+                    lesson2: { title: "الدَّرْس الثّاني", description: "مَدْرَسَتي", words: [ { id: 19, arabic: 'مَدْرَسَة', turkish: 'Okul' }, { id: 20, arabic: 'مُدير', turkish: 'Müdür' }, { id: 21, arabic: 'مَكْتَبَة', turkish: 'Kütüphane' }, { id: 22, arabic: 'حَديقَة', turkish: 'Bahçe' }, { id: 23, arabic: 'أَدْرُسُ', turkish: 'Ders çalışıyorum' }, { id: 24, arabic: 'أُحِبُّ', turkish: 'Seviyorum' }, { id: 62, arabic: 'مَقْصِف', turkish: 'Kantin' }, { id: 63, arabic: 'مُخْتَبَر', turkish: 'Laboratuvar' }, { id: 64, arabic: 'نافِذَة', turkish: 'Pencere' }, { id: 65, arabic: 'باب', turkish: 'Kapı' } ] }
+                }
+            },
+            unit3: {
+                title: "الوَحْدَة الثّالِثَة", description: "الأُسْرَة وَالبَيْت", lessons: {
+                    lesson1: { title: "الدَّرْس الأَوَّل", description: "أُسْرَتي", words: [ { id: 25, arabic: 'أُسْرَة', turkish: 'Aile' }, { id: 26, arabic: 'أَب', turkish: 'Baba' }, { id: 27, arabic: 'أُمّ', turkish: 'Anne' }, { id: 28, arabic: 'أَخ', turkish: 'Erkek kardeş' }, { id: 29, arabic: 'أُخْت', turkish: 'Kız kardeş' }, { id: 30, arabic: 'طَبيب', turkish: 'Doktor' }, { id: 66, arabic: 'مُهَنْدِس', turkish: 'Mühendis' }, { id: 67, arabic: 'طَبّاخ', turkish: 'Aşçı' }, { id: 68, arabic: 'والِد', turkish: 'Baba' }, { id: 69, arabic: 'والِدَة', turkish: 'Anne' } ] },
+                    lesson2: { title: "الدَّرْس الثّاني", description: "بَيْتي", words: [ { id: 31, arabic: 'بَيْت', turkish: 'Ev' }, { id: 32, arabic: 'غُرْفَة', turkish: 'Oda' }, { id: 33, arabic: 'مَطْبَخ', turkish: 'Mutfak' }, { id: 34, arabic: 'سَرير', turkish: 'Yatak' }, { id: 35, arabic: 'باب', turkish: 'Kapı' }, { id: 36, arabic: 'أَعيشُ', turkish: 'Yaşıyorum' }, { id: 70, arabic: 'أَريكَة', turkish: 'Koltuk' }, { id: 71, arabic: 'تِلْفاز', turkish: 'Televizyon' }, { id: 72, arabic: 'ثَلّاجَة', turkish: 'Buzdolabı' }, { id: 73, arabic: 'سَجّادَة', turkish: 'Halı' } ] }
+                }
+            },
+            unit4: {
+                title: "الوَحْدَة الرّابِعَة", description: "الحَياة اليَوْمِيَّة", lessons: {
+                    lesson1: { title: "الدَّرْس الأَوَّل", description: "ماذا فَعَلْتُ اليَوْم؟", words: [ { id: 37, arabic: 'اِسْتَيْقَظْتُ', turkish: 'Uyandım' }, { id: 38, arabic: 'ذَهَبْتُ', turkish: 'Gittim' }, { id: 39, arabic: 'رَجَعْتُ', turkish: 'Döndüm' }, { id: 40, arabic: 'قَرَأْتُ', turkish: 'Okudum' }, { id: 41, arabic: 'كَتَبْتُ', turkish: 'Yazdım' }, { id: 42, arabic: 'السّاعَة', turkish: 'Saat' }, { id: 74, arabic: 'نِمْتُ', turkish: 'Uyudum' }, { id: 75, arabic: 'صَلَّيْتُ', turkish: 'Namaz kıldım' }, { id: 76, arabic: 'لَبِسْتُ', turkish: 'Giydim' }, { id: 77, arabic: 'لَعِبْتُ', turkish: 'Oynadım' } ] },
+                    lesson2: { title: "الدَّرْس الثّاني", description: "ماذا تَناوَلْتُ اليَوْم؟", words: [ { id: 43, arabic: 'أَكَلْتُ', turkish: 'Yedim' }, { id: 44, arabic: 'شَرِبْتُ', turkish: 'İçtim' }, { id: 45, arabic: 'خُبْز', turkish: 'Ekmek' }, { id: 46, arabic: 'ماء', turkish: 'Su' }, { id: 47, arabic: 'حَليب', turkish: 'Süt' }, { id: 48, arabic: 'لَذيذ', turkish: 'Lezzetli' }, { id: 78, arabic: 'دَجاج', turkish: 'Tavuk' }, { id: 79, arabic: 'لَحْم', turkish: 'Et' }, { id: 80, arabic: 'سَمَك', turkish: 'Balık' }, { id: 81, arabic: 'أُرْز', turkish: 'Pirinç' } ] }
+                }
+            }
+        }
+    };
+
+    // --- UTILS MODULE ---
+    const Utils = {
+        shuffleArray: (arr) => [...arr].sort(() => 0.5 - Math.random()),
+        stripHarakat: (text) => text.replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g, '').replace(/[؟?]/g, ''),
+        normalizeForTyping: (text) => text.replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي').replace(/[؟?]/g, '')
+    };
+
+    // --- APP MODULE ---
+    const App = {
+        state: {
+            currentUnitKey: null,
+            currentLessonKey: null,
+            isAudioInitialized: false,
+            audioCtx: null, // AudioContext'i tutmak için
+            currentActiveGame: null,
+            activeGameModule: null
+        },
+        dom: {
+            screens: document.querySelectorAll('.screen'),
+        },
+        init() {
+            this.populateUnits();
+            this.initNavigation();
+            MemoryGame.init();
+            QuizGame.init();
+            MatchGame.init();
+            TypingGame.init();
+        },
+        showScreen(screenId) {
+            this.dom.screens.forEach(screen => screen.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        },
+        initAudio() {
+            if (this.state.audioCtx) return;
+            try {
+                this.state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                this.state.isAudioInitialized = true;
+            } catch (e) {
+                console.error("Web Audio API bu tarayıcıda desteklenmiyor.");
+            }
+        },
+        playSound(soundKey) {
+            if (!this.state.audioCtx) return;
+            switch(soundKey) {
+                case 'correct':
+                case 'match':
+                    this.playCorrectSound();
+                    break;
+                case 'incorrect':
+                    this.playIncorrectSound();
+                    break;
+                case 'flip':
+                    this.playFlipSound();
+                    break;
+                case 'touch':
+                    this.playTouchSound();
+                    break;
+                case 'countdown':
+                    this.playCountdownSound();
+                    break;
+                case 'menuClick': // ARAYÜZ SESİ
+                    this.playMenuClickSound();
+                    break;
+            }
+        },
+        playCorrectSound() {
+            const audioCtx = this.state.audioCtx;
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(400, audioCtx.currentTime); // Düşürüldü
+            oscillator.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1); // Düşürüldü
+            
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        },
+        playIncorrectSound() {
+            const audioCtx = this.state.audioCtx;
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(200, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+            
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        },
+        playFlipSound() { // Kart sesi, dokunma sesiyle aynı ama daha kısık
+            const audioCtx = this.state.audioCtx;
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            // Ses seviyesini dokunma sesinden çok daha düşük ayarla
+            gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.01); 
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(250, audioCtx.currentTime);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.08);
+        },
+        playTouchSound() { // Oyun içi dokunma sesi (Daha pes)
+            const audioCtx = this.state.audioCtx;
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(250, audioCtx.currentTime); // Düşürüldü
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.08);
+        },
+        playMenuClickSound() { // Arayüz tıklama sesi (Daha kısık ve pes)
+            const audioCtx = this.state.audioCtx;
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 0.01); // Ses seviyesi düşürüldü
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
+
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(500, audioCtx.currentTime); // Frekans düşürüldü
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.08);
+        },
+        playCountdownSound() { // (Daha pes)
+            const audioCtx = this.state.audioCtx;
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
+
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(700, audioCtx.currentTime); // Düşürüldü
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.08);
+        },
+        getWords(combine = false) {
+            if (this.state.currentActiveGame === 'memory' && this.state.currentUnitKey === 'unit1' && Data.memory_game_unit1[this.state.currentLessonKey]) {
+                return Data.memory_game_unit1[this.state.currentLessonKey].words;
+            }
+
+            if (this.state.currentUnitKey === 'all') {
+                return Object.values(Data.grade9_words)
+                    .flatMap(unit => Object.values(unit.lessons))
+                    .flatMap(lesson => lesson.words || []);
+            }
+            
+            const lessons = Data.grade9_words[this.state.currentUnitKey]?.lessons;
+            if (!lessons) return [];
+            if (combine) {
+                return Object.values(lessons).flatMap(lesson => lesson.words || []);
+            }
+            return lessons[this.state.currentLessonKey]?.words || [];
+        },
+        initNavigation() {
+            document.querySelectorAll('.back-btn').forEach(button => {
+                button.onclick = (e) => {
+                    this.playSound('menuClick');
+                    const target = e.currentTarget.dataset.target;
+                    
+                    if (this.state.activeGameModule && typeof this.state.activeGameModule.stop === 'function') {
+                        this.state.activeGameModule.stop();
+                    }
+
+                    if (target === 'lesson-screen') {
+                        if (this.state.currentUnitKey === 'all') {
+                            this.showScreen('start-screen');
+                        } else {
+                            this.populateLessons(this.state.currentUnitKey);
+                            this.showScreen('lesson-screen');
+                        }
+                    } else {
+                        this.showScreen(target);
+                    }
+                };
+            });
+
+            document.getElementById('game-choice-container').onclick = (e) => {
+                const button = e.target.closest('.menu-btn');
+                if (!button || button.classList.contains('disabled')) return;
+                
+                this.playSound('menuClick');
+                const gameType = button.dataset.gameType;
+                this.state.currentActiveGame = gameType;
+
+                const gameModules = {
+                    memory: MemoryGame,
+                    quiz: QuizGame,
+                    match: MatchGame,
+                    typing: TypingGame
+                };
+
+                this.state.activeGameModule = gameModules[gameType];
+
+                if (this.state.activeGameModule) {
+                    this.showScreen(this.state.activeGameModule.screenId);
+                    this.state.activeGameModule.start();
+                }
+            };
+            
+            const restartGame = () => {
+                this.playSound('menuClick');
+                if (this.state.activeGameModule) {
+                    this.showScreen(this.state.activeGameModule.screenId);
+                    this.state.activeGameModule.start();
+                }
+            };
+            
+            document.getElementById('play-again-btn').onclick = restartGame;
+            document.getElementById('new-player-btn').onclick = restartGame;
+            document.getElementById('main-menu-results-btn').onclick = () => {
+                this.playSound('menuClick');
+                this.showScreen('start-screen');
+            };
+        },
+        populateUnits() {
+            const container = document.getElementById('unit-container');
+            container.innerHTML = '';
+            const arabicNumerals = ['١', '٢', '٣', '٤', '٥', '٦'];
+            let unitIndex = 0;
+            for (const key in Data.grade9_words) {
+                const unit = Data.grade9_words[key];
+                
+                const btn = document.createElement('button');
+                btn.className = 'menu-btn unit-btn';
+                btn.innerHTML = `
+                    <span class="unit-numeral">${arabicNumerals[unitIndex]}</span>
+                    <div>
+                        <span class="menu-title">${unit.description}</span>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    this.initAudio();
+                    this.playSound('menuClick');
+                    this.state.currentUnitKey = key;
+                    this.populateLessons(key);
+                    this.showScreen('lesson-screen');
+                };
+                container.appendChild(btn);
+                unitIndex++;
+            }
+
+            const overallBtn = document.createElement('button');
+            overallBtn.className = 'menu-btn';
+            overallBtn.style.gridColumn = '1 / -1'; // Span across all columns
+            overallBtn.innerHTML = `
+                <svg viewBox="0 0 24 24"><path d="M12,1L9,9L1,9.5L7.5,14.5L5,22L12,17L19,22L16.5,14.5L23,9.5L15,9L12,1Z"/></svg>
+                <div>
+                    <span class="menu-title">مُراجَعَة شامِلَة</span>
+                    <span class="description">اِلْعَبْ بِكَلِمات مِن جَميع الوَحَدات</span>
+                </div>
+            `;
+            overallBtn.onclick = () => {
+                this.initAudio();
+                this.playSound('menuClick');
+                this.state.currentUnitKey = 'all'; 
+                this.state.currentLessonKey = null;
+                document.getElementById('game-choice-title').textContent = `أَلْعاب المُراجَعَة الشّامِلَة`;
+                this.showScreen('game-choice-screen');
+            };
+            container.appendChild(overallBtn);
+        },
+        populateLessons(unitKey) {
+            const unit = Data.grade9_words[unitKey];
+            document.getElementById('lesson-title').textContent = unit.title;
+            const container = document.getElementById('lesson-container');
+            container.innerHTML = '';
+
+            const emojiMap = {
+                u1l1: '👋',
+                u1l2: '🤝',
+                u2l1: '🏫',
+                u2l2: '🎓',
+                u3l1: '👨‍👩‍👧‍👦',
+                u3l2: '🏡',
+                u4l1: '⏰',
+                u4l2: '🍽️'
+            };
+            
+            const lessonIconKeys = {
+                unit1: { lesson1: 'u1l1', lesson2: 'u1l2' },
+                unit2: { lesson1: 'u2l1', lesson2: 'u2l2' },
+                unit3: { lesson1: 'u3l1', lesson2: 'u3l2' },
+                unit4: { lesson1: 'u4l1', lesson2: 'u4l2' }
+            };
+            const defaultEmoji = '📖';
+
+            for (const key in unit.lessons) {
+                const lesson = unit.lessons[key];
+                const btn = document.createElement('button');
+                btn.className = 'menu-btn';
+                
+                const iconKey = lessonIconKeys[unitKey]?.[key];
+                const lessonEmoji = emojiMap[iconKey] || defaultEmoji;
+
+                btn.innerHTML = `
+                    <span class="lesson-emoji">${lessonEmoji}</span>
+                    <div>
+                        <span class="menu-title">${lesson.description}</span>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    this.playSound('menuClick');
+                    this.state.currentLessonKey = key;
+                    document.getElementById('game-choice-title').textContent = `${unit.title} - ${lesson.description}`;
+                    this.showScreen('game-choice-screen');
+                };
+                container.appendChild(btn);
+            }
+        },
+        showResults(gameType, score, details) {
+            const resultsScreen = document.getElementById('results-screen');
+            const resultsNav = resultsScreen.querySelector('.header-navigation');
+            const resultsDetailsContainer = document.getElementById('results-details');
+            resultsDetailsContainer.innerHTML = '';
+            resultsDetailsContainer.classList.remove('hidden');
+            let message = '';
+
+            const playAgainBtn = document.getElementById('play-again-btn');
+            const newPlayerBtn = document.getElementById('new-player-btn');
+            const mainMenuBtn = document.getElementById('main-menu-results-btn');
+            const resultsTitle = document.getElementById('results-title');
+
+            // --- Reset to default state ---
+            resultsScreen.classList.remove('match-complete');
+            resultsNav.classList.remove('hidden');
+            playAgainBtn.classList.remove('hidden');
+            newPlayerBtn.classList.remove('hidden');
+            mainMenuBtn.classList.remove('hidden');
+            resultsTitle.textContent = 'انتهت اللعبة!';
+            
+            newPlayerBtn.title = "لاعب جديد";
+            newPlayerBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+            const svgEl = newPlayerBtn.querySelector('svg');
+            if (svgEl) {
+                svgEl.style.width = '';
+                svgEl.style.height = '';
+                svgEl.style.animation = '';
+            }
+            // --- End Reset ---
+
+            if (gameType === 'match') {
+                resultsScreen.classList.add('match-complete');
+                resultsNav.classList.add('hidden');
+                message = ''; 
+                playAgainBtn.classList.add('hidden');
+                mainMenuBtn.classList.add('hidden');
+                resultsDetailsContainer.classList.add('hidden');
+                resultsTitle.textContent = "";
+                
+                newPlayerBtn.title = "لعبة جديدة";
+                const newIconSVG = `<svg viewBox="0 0 24 24"><path d="M12,6V9L16,5L12,1V4C7.58,4 4,7.58 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13.01 6,12C6,8.69 8.69,6 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,10.99 18,12C18,15.31 15.31,18 12,18V15L8,19L12,23V20C16.42,20 20,16.42 20,12C20,10.43 19.54,8.97 18.76,7.74Z"/></svg>`;
+                newPlayerBtn.innerHTML = newIconSVG;
+                const newSvgEl = newPlayerBtn.querySelector('svg');
+                if (newSvgEl) {
+                    newSvgEl.style.width = '100px';
+                    newSvgEl.style.height = '100px';
+                    newSvgEl.style.animation = 'pulse-glow 1.5s infinite ease-in-out';
+                }
+            } else if (gameType === 'quiz') {
+                message = `إِجابات صحيحَة ${score} من ${details}`;
+            } else if (gameType === 'typing') {
+                message = `انتهى الوقت! نتيجتك النهائية: ${score}`;
+                if (details && details.length > 0) {
+                    let listHTML = '<h3>الكلمات المكتوبة بشكل خاطئ:</h3><ul>';
+                    details.forEach(item => {
+                        listHTML += `<li><span class="prompt">${item.prompt}:</span> <span class="user-answer">${item.incorrect}</span> ➜ <span class="correct-answer">${item.correct}</span></li>`;
+                    });
+                    listHTML += '</ul>';
+                    resultsDetailsContainer.innerHTML = listHTML;
+                }
+            }
+            document.getElementById('results-score-text').textContent = message;
+            this.showScreen('results-screen');
+        }
+    };
+    
+    // --- MEMORY GAME MODULE ---
+    const MemoryGame = {
+        screenId: 'game-screen',
+        state: {},
+        dom: {},
+        init() {
+            this.dom.board = document.getElementById('game-board');
+            this.dom.p1Display = document.getElementById('player1-display');
+            this.dom.p2Display = document.getElementById('player2-display');
+            this.dom.score1 = document.getElementById('score1');
+            this.dom.score2 = document.getElementById('score2');
+            this.dom.gameOverContainer = document.getElementById('memory-game-over');
+            this.dom.winText = document.getElementById('memory-win-text');
+            this.dom.winnerIcon = document.getElementById('winner-icon-container');
+            
+            document.getElementById('play-again-memory-btn').onclick = () => { App.playSound('menuClick'); this.start(); };
+            document.getElementById('main-menu-memory-btn').onclick = () => {
+                App.playSound('menuClick');
+                App.showScreen('game-choice-screen');
+            };
+        },
+        start() {
+            this.state = { f: [], p: 0, l: false, c: 1, s1: 0, s2: 0, w: [], flipTimeout: null };
+            this.dom.score1.textContent = '0';
+            this.dom.score2.textContent = '0';
+            this.dom.gameOverContainer.classList.add('hidden');
+            this.updateTurnIndicator();
+            
+            let wordsForGame = App.getWords();
+            this.state.w = Utils.shuffleArray(wordsForGame).slice(0, 10);
+
+            const pairs = this.state.w.flatMap(w => [{ content: w.arabic, id: w.id, lang: 'ar' }, { content: w.turkish, id: w.id, lang: 'tr' }]);
+            this.populateBoard(Utils.shuffleArray(pairs));
+        },
+        stop() {
+            if (this.state.flipTimeout) clearTimeout(this.state.flipTimeout);
+        },
+        populateBoard(cards) {
+            this.dom.board.innerHTML = '';
+            cards.forEach(cardData => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card';
+                cardEl.dataset.id = cardData.id;
+                const formattedContent = cardData.content;
+                cardEl.innerHTML = `<div class="card-inner"><div class="card-face card-front"></div><div class="card-face card-back" dir="${cardData.lang === 'tr' ? 'ltr' : 'rtl'}">${formattedContent}</div></div>`;
+                cardEl.onclick = () => this.flipCard(cardEl);
+                this.dom.board.appendChild(cardEl);
+            });
+        },
+        flipCard(card) {
+            if (this.state.l || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+            App.playSound('flip');
+            card.classList.add('flipped');
+            card.classList.add(this.state.c === 1 ? 'p1-turn' : 'p2-turn');
+            this.state.f.push(card);
+
+            if (this.state.f.length === 2) {
+                this.state.l = true;
+                const [c1, c2] = this.state.f;
+
+                if (c1.dataset.id === c2.dataset.id) {
+                    App.playSound('match');
+                    const matchClass = this.state.c === 1 ? 'p1-match' : 'p2-match';
+                    if (this.state.c === 1) this.dom.score1.textContent = ++this.state.s1;
+                    else this.dom.score2.textContent = ++this.state.s2;
+                    
+                    this.state.f.forEach(c => {
+                        c.classList.remove('p1-turn', 'p2-turn');
+                        c.classList.add('matched', matchClass);
+                    });
+                    
+                    this.state.p++;
+                    this.state.f = [];
+                    this.state.l = false;
+
+                    if (this.state.p === this.state.w.length) {
+                        setTimeout(() => this.showEndUI(), 700);
+                    }
+                } else {
+                    this.state.flipTimeout = setTimeout(() => {
+                        this.state.f.forEach(c => {
+                            c.classList.remove('flipped', 'p1-turn', 'p2-turn');
+                        });
+                        this.state.f = [];
+                        this.state.c = this.state.c === 1 ? 2 : 1;
+                        this.updateTurnIndicator();
+                        this.state.l = false;
+                    }, 1200);
+                }
+            }
+        },
+        updateTurnIndicator() {
+            this.dom.p1Display.classList.toggle('active', this.state.c === 1);
+            this.dom.p2Display.classList.toggle('active', this.state.c !== 1);
+        },
+        showEndUI() {
+            let text;
+            let winner = 0; 
+            if (this.state.s1 > this.state.s2) { text = 'فاز!'; winner = 1; } 
+            else if (this.state.s2 > this.state.s1) { text = 'فاز!'; winner = 2; } 
+            else { text = 'تَعادُل!'; }
+            
+            this.dom.winText.innerText = text;
+            
+            this.dom.winText.className = '';
+            this.dom.winnerIcon.className = '';
+            this.dom.winnerIcon.innerHTML = '';
+
+            let winnerClass = '';
+            const iconSVG = `<svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>`;
+
+            if (winner === 1) winnerClass = 'p1-win';
+            else if (winner === 2) winnerClass = 'p2-win';
+            else winnerClass = 'draw';
+
+            this.dom.winText.classList.add(winnerClass);
+            this.dom.winnerIcon.classList.add('winner-icon', winnerClass);
+
+            if(winner > 0) {
+                this.dom.winnerIcon.innerHTML = iconSVG;
+            } else {
+                this.dom.winnerIcon.innerHTML = iconSVG + iconSVG;
+            }
+
+            this.dom.gameOverContainer.classList.remove('hidden');
+        }
+    };
+    
+    // --- QUIZ GAME MODULE ---
+    const QuizGame = {
+        screenId: 'quiz-screen',
+        state: {},
+        dom: {},
+        init() {
+            this.dom.p1 = {
+                area: document.querySelector('.quiz-player-area.p1'),
+                progress: document.getElementById('quiz-progress-p1'),
+                progressBar: document.getElementById('quiz-progress-bar-p1'),
+                question: document.getElementById('quiz-question-p1'),
+                options: document.getElementById('quiz-options-p1'),
+                content: document.querySelector('.quiz-player-area.p1 .quiz-game-content'),
+                effectsContainer: document.querySelector('.quiz-player-area.p1 .score-effects-container'),
+            };
+            this.dom.p2 = {
+                area: document.querySelector('.quiz-player-area.p2'),
+                progress: document.getElementById('quiz-progress-p2'),
+                progressBar: document.getElementById('quiz-progress-bar-p2'),
+                question: document.getElementById('quiz-question-p2'),
+                options: document.getElementById('quiz-options-p2'),
+                content: document.querySelector('.quiz-player-area.p2 .quiz-game-content'),
+                effectsContainer: document.querySelector('.quiz-player-area.p2 .score-effects-container'),
+            };
+            this.dom.startBtn = document.getElementById('quiz-start-btn');
+            this.dom.startOverlay = document.getElementById('quiz-start-overlay');
+            this.dom.gameOverContainer = document.getElementById('quiz-game-over');
+            this.dom.winText = document.getElementById('quiz-win-text');
+            this.dom.winnerIcon = document.getElementById('quiz-winner-icon-container');
+            this.dom.countdownOverlay = document.getElementById('quiz-countdown-overlay');
+            
+            this.dom.startBtn.onclick = () => {
+                App.playSound('menuClick');
+                this.dom.startOverlay.style.display = 'none';
+                this.startCountdown();
+            };
+            document.getElementById('new-round-quiz-btn').onclick = () => { App.playSound('menuClick'); this.start(true); };
+        },
+        start(isReplay = false) {
+            const commonQuestions = Utils.shuffleArray(App.getWords(true)).slice(0, 5);
+            
+            this.state = { 
+                p1Questions: [...commonQuestions],
+                p2Questions: [...commonQuestions],
+                p1Index: 0, p2Index: 0, p1Score: 0, p2Score: 0,
+                p1Finished: false, p2Finished: false,
+                p1StartTime: null, p2StartTime: null,
+                p1Timeout: null, p2Timeout: null,
+                questionsPerRound: commonQuestions.length,
+                answerLog: {} // Yanıt sürelerini ve doğruluğunu takip etmek için
+            };
+            
+            this.dom.gameOverContainer.classList.add('hidden');
+            this.createProgressBar(1);
+            this.createProgressBar(2);
+
+            if (isReplay) {
+                [this.dom.p1, this.dom.p2].forEach(p => {
+                     p.content.classList.add('hidden');
+                });
+                this.dom.startOverlay.style.display = 'flex';
+                this.dom.startBtn.classList.remove('hidden');
+            } else {
+                this.dom.startOverlay.style.display = 'flex';
+                this.dom.startBtn.classList.add('hidden');
+                 [this.dom.p1, this.dom.p2].forEach(p => {
+                    p.content.classList.remove('hidden');
+                    p.progress.innerHTML = '';
+                    p.question.innerHTML = '...';
+                    p.options.innerHTML = Array(5).fill('').map(() => `<button class="quiz-option-btn" disabled>...</button>`).join('');
+                });
+                
+                this.dom.startBtn.classList.remove('hidden');
+            }
+        },
+        stop() {
+            if (this.state.p1Timeout) clearTimeout(this.state.p1Timeout);
+            if (this.state.p2Timeout) clearTimeout(this.state.p2Timeout);
+        },
+        startCountdown() {
+            this.dom.countdownOverlay.style.display = 'flex';
+            let count = 3;
+            this.dom.countdownOverlay.textContent = count;
+            App.playSound('countdown');
+
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    this.dom.countdownOverlay.textContent = count;
+                    App.playSound('countdown');
+                } else {
+                    clearInterval(countdownInterval);
+                    this.dom.countdownOverlay.style.display = 'none';
+                    this.startGameLoop();
+                }
+            }, 1000);
+        },
+        startGameLoop() {
+            this.dom.p1.content.classList.remove('hidden');
+            this.dom.p2.content.classList.remove('hidden');
+            this.showQuestion(1);
+            this.showQuestion(2);
+        },
+        createProgressBar(playerNum) {
+            const playerDom = (playerNum === 1) ? this.dom.p1 : this.dom.p2;
+            playerDom.progressBar.innerHTML = '';
+            for (let i = 0; i < this.state.questionsPerRound; i++) {
+                const segment = document.createElement('div');
+                segment.className = 'progress-segment';
+                playerDom.progressBar.appendChild(segment);
+            }
+        },
+        showQuestion(playerNum) {
+            const playerState = (playerNum === 1) ? { q: this.state.p1Questions, i: this.state.p1Index, s: this.state.p1Score } : { q: this.state.p2Questions, i: this.state.p2Index, s: this.state.p2Score };
+            const playerDom = (playerNum === 1) ? this.dom.p1 : this.dom.p2;
+
+            if (playerState.i >= playerState.q.length) {
+                if (playerNum === 1) this.state.p1Finished = true; else this.state.p2Finished = true;
+                playerDom.question.textContent = 'انتهى!';
+                playerDom.options.innerHTML = '';
+                const scoreIcon = `<svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>`;
+                playerDom.progress.innerHTML = `<div class="quiz-score-display">${scoreIcon}<span>${playerState.s}</span></div>`;
+
+                if (this.state.p1Finished && this.state.p2Finished) this.endGame();
+                return;
+            }
+
+            const word = playerState.q[playerState.i];
+            
+            playerDom.options.classList.remove('answered');
+
+            const scoreIcon = `<svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>`;
+            playerDom.progress.innerHTML = `
+                <div class="quiz-score-display">${scoreIcon}<span>${playerState.s}</span></div>
+            `;
+            
+            const segments = playerDom.progressBar.children;
+            Array.from(segments).forEach(seg => seg.classList.remove('active'));
+            if(segments[playerState.i]) segments[playerState.i].classList.add('active');
+
+
+            playerDom.question.textContent = word.arabic;
+
+            const allAnswers = App.getWords(true).map(w => w.turkish);
+            const wrongAnswers = Utils.shuffleArray(allAnswers.filter(t => t !== word.turkish)).slice(0, 4);
+            const options = Utils.shuffleArray([word.turkish, ...wrongAnswers]);
+
+            playerDom.options.innerHTML = '';
+            
+            options.forEach((text) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option-btn';
+                btn.textContent = text; 
+                btn.onclick = (e) => this.checkAnswer(e.currentTarget, word.turkish, playerNum);
+                playerDom.options.appendChild(btn);
+            });
+            
+            if(playerNum === 1) this.state.p1StartTime = Date.now();
+            else this.state.p2StartTime = Date.now();
+        },
+        checkAnswer(button, correctAnswer, playerNum) {
+            App.playSound('touch');
+            const timeTaken = (playerNum === 1) ? (Date.now() - this.state.p1StartTime) : (Date.now() - this.state.p2StartTime);
+            const playerDom = (playerNum === 1) ? this.dom.p1 : this.dom.p2;
+            const playerIndex = (playerNum === 1) ? this.state.p1Index : this.state.p2Index;
+            
+            if (!this.state.answerLog[playerIndex]) {
+                this.state.answerLog[playerIndex] = {};
+            }
+
+            Array.from(playerDom.options.children).forEach(btn => {
+                btn.disabled = true;
+            });
+            button.classList.add('selected');
+
+            const isCorrect = button.textContent.trim() === correctAnswer;
+            this.state.answerLog[playerIndex][playerNum] = { isCorrect, timeTaken, button };
+
+            if (this.state.answerLog[playerIndex][1] && this.state.answerLog[playerIndex][2]) {
+                this.processRoundResults(playerIndex);
+            }
+        },
+        processRoundResults(roundIndex) {
+            const p1Answer = this.state.answerLog[roundIndex][1];
+            const p2Answer = this.state.answerLog[roundIndex][2];
+            const p1Dom = this.dom.p1;
+            const p2Dom = this.dom.p2;
+            
+            p1Answer.button.classList.remove('selected');
+            p2Answer.button.classList.remove('selected');
+            
+            const word = this.state.p1Questions[roundIndex];
+            const correctAnswerText = word.turkish;
+            
+            Array.from(p1Dom.options.children).forEach(btn => {
+                if (btn.textContent.trim() === correctAnswerText) btn.classList.add('correct');
+            });
+            Array.from(p2Dom.options.children).forEach(btn => {
+                if (btn.textContent.trim() === correctAnswerText) btn.classList.add('correct');
+            });
+            
+            p1Dom.options.classList.add('answered');
+            p2Dom.options.classList.add('answered');
+            if(!p1Answer.isCorrect) p1Answer.button.classList.add('incorrect', 'shake');
+            if(!p2Answer.isCorrect) p2Answer.button.classList.add('incorrect', 'shake');
+
+            if (p1Answer.isCorrect) {
+                this.state.p1Score += 10;
+                this.showScoreEffect(1, 10);
+            }
+            if (p2Answer.isCorrect) {
+                this.state.p2Score += 10;
+                this.showScoreEffect(2, 10);
+            }
+            
+            let bonusWinner = 0;
+            if (p1Answer.isCorrect && p2Answer.isCorrect) {
+                if (p1Answer.timeTaken < p2Answer.timeTaken) {
+                    bonusWinner = 1;
+                } else if (p2Answer.timeTaken < p1Answer.timeTaken) {
+                    bonusWinner = 2;
+                }
+            } else if (p1Answer.isCorrect) {
+                bonusWinner = 1;
+            } else if (p2Answer.isCorrect) {
+                bonusWinner = 2;
+            }
+
+            if (bonusWinner === 1) {
+                this.state.p1Score += 10;
+                setTimeout(() => this.showScoreEffect(1, 10, true), 400);
+            } else if (bonusWinner === 2) {
+                this.state.p2Score += 10;
+                setTimeout(() => this.showScoreEffect(2, 10, true), 400);
+            }
+            
+            if(p1Answer.isCorrect || p2Answer.isCorrect) App.playSound('correct');
+            if(!p1Answer.isCorrect || !p2Answer.isCorrect) App.playSound('incorrect');
+
+            const p1Segments = p1Dom.progressBar.children;
+            const p2Segments = p2Dom.progressBar.children;
+            if(p1Segments[roundIndex]) p1Segments[roundIndex].classList.add(p1Answer.isCorrect ? 'correct' : 'incorrect');
+            if(p2Segments[roundIndex]) p2Segments[roundIndex].classList.add(p2Answer.isCorrect ? 'correct' : 'incorrect');
+            
+            this.updateScoreDisplay(1);
+            this.updateScoreDisplay(2);
+
+            if(p1Segments[roundIndex]) p1Segments[roundIndex].classList.remove('active');
+            if(p2Segments[roundIndex]) p2Segments[roundIndex].classList.remove('active');
+
+            this.state.p1Timeout = setTimeout(() => { this.state.p1Index++; this.showQuestion(1); }, 2000);
+            this.state.p2Timeout = setTimeout(() => { this.state.p2Index++; this.showQuestion(2); }, 2000);
+        },
+        showScoreEffect(playerNum, points, isBonus = false) {
+            const container = (playerNum === 1) ? this.dom.p1.effectsContainer : this.dom.p2.effectsContainer;
+            const effectEl = document.createElement('div');
+            effectEl.className = 'score-effect';
+            
+            if (isBonus) {
+                effectEl.classList.add('bonus');
+                const lightningSVG = `<svg viewBox="0 0 24 24"><path d="M7,2V13H10V22L17,10H13L17,2H7Z" /></svg>`;
+                effectEl.innerHTML = `${lightningSVG} +${points}`;
+                effectEl.style.backgroundColor = 'var(--accent-color)';
+
+                const burstContainer = document.createElement('div');
+                burstContainer.className = 'burst-container';
+                for (let i = 0; i < 12; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    const angle = (i / 12) * 360;
+                    particle.style.setProperty('--angle', angle + 'deg');
+                    burstContainer.appendChild(particle);
+                }
+                effectEl.appendChild(burstContainer);
+            } else {
+                effectEl.innerHTML = `+${points}`;
+                effectEl.style.backgroundColor = 'var(--correct-color)';
+            }
+            
+            container.appendChild(effectEl);
+            
+            setTimeout(() => {
+                effectEl.remove();
+            }, 1950);
+        },
+        updateScoreDisplay(playerNum) {
+            const playerDom = (playerNum === 1) ? this.dom.p1 : this.dom.p2;
+            const score = (playerNum === 1) ? this.state.p1Score : this.state.p2Score;
+            const scoreIcon = `<svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>`;
+            playerDom.progress.innerHTML = `<div class="quiz-score-display">${scoreIcon}<span>${score}</span></div>`;
+        },
+        endGame() {
+            let winner = 0; 
+            if (this.state.p1Score > this.state.p2Score) { winner = 1; } 
+            else if (this.state.p2Score > this.state.p1Score) { winner = 2; } 
+            
+            this.dom.winText.className = '';
+            this.dom.winnerIcon.className = '';
+            this.dom.winnerIcon.innerHTML = '';
+
+            let winnerClass = '';
+            const iconSVG = `<svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>`;
+
+            if (winner === 1) {
+                winnerClass = 'p1-win';
+                this.dom.winText.textContent = `اللّاعِب 1 فاز!`;
+            }
+            else if (winner === 2) {
+                winnerClass = 'p2-win';
+                this.dom.winText.textContent = `اللّاعِب 2 فاز!`;
+            }
+            else {
+                winnerClass = 'draw';
+                this.dom.winText.textContent = `تَعَادُل!`;
+            }
+
+            this.dom.winText.classList.add(winnerClass);
+            this.dom.winnerIcon.classList.add('winner-icon', winnerClass);
+
+            if(winner > 0) {
+                this.dom.winnerIcon.innerHTML = iconSVG;
+            } else {
+                this.dom.winnerIcon.innerHTML = iconSVG + iconSVG;
+            }
+
+            this.dom.gameOverContainer.classList.remove('hidden');
+        }
+    };
+    
+    // --- MATCH GAME MODULE ---
+    const MatchGame = {
+        screenId: 'match-screen',
+        state: {},
+        dom: {},
+        init() {
+            this.dom.arabicList = document.getElementById('match-arabic-list');
+            this.dom.turkishList = document.getElementById('match-turkish-list');
+            this.dom.overlay = document.getElementById('match-complete-overlay');
+            this.dom.replayBtn = document.getElementById('play-again-match-btn');
+            this.dom.replayBtn.onclick = () => { App.playSound('menuClick'); this.start(); };
+        },
+        start() {
+            this.state = {
+                pool: Utils.shuffleArray(App.getWords(true)),
+                totalMatches: 0,
+                initialWordCount: 7,
+                gameOverTimeout: null
+            };
+            this.dom.overlay.classList.add('hidden');
+            this.dom.arabicList.innerHTML = '';
+            this.dom.turkishList.innerHTML = '';
+            
+            const wordsForGame = this.state.pool.splice(0, this.state.initialWordCount);
+            if (wordsForGame.length === 0) {
+                this.dom.overlay.classList.remove('hidden'); // Show if no words
+                return;
+            }
+            const turkishWords = Utils.shuffleArray([...wordsForGame]);
+
+            wordsForGame.forEach(word => this.createMatchItem('arabic', word));
+            turkishWords.forEach(word => this.createMatchItem('turkish', word));
+
+            this.addDragListeners();
+        },
+        stop() {
+            if (this.state.gameOverTimeout) clearTimeout(this.state.gameOverTimeout);
+        },
+        createMatchItem(type, word) {
+            const el = document.createElement('div');
+            el.dataset.id = word.id;
+            if (type === 'arabic') {
+                el.className = 'match-item';
+                el.textContent = word.arabic;
+                el.draggable = true;
+                this.dom.arabicList.appendChild(el);
+            } else {
+                el.className = 'match-target';
+                el.textContent = word.turkish;
+                this.dom.turkishList.appendChild(el);
+            }
+            return el;
+        },
+        addDragListeners() {
+            this.dom.arabicList.ondragstart = e => {
+                if (e.target.classList.contains('match-item')) {
+                    App.playSound('touch');
+                    e.dataTransfer.setData('id', e.target.dataset.id);
+                    e.target.classList.add('dragging');
+                }
+            };
+            this.dom.arabicList.ondragend = e => {
+                if (e.target.classList.contains('match-item')) e.target.classList.remove('dragging');
+            };
+            this.dom.turkishList.ondragover = e => {
+                e.preventDefault();
+                if (e.target.classList.contains('match-target') && !e.target.classList.contains('correct-match')) e.target.classList.add('drag-over');
+            };
+            this.dom.turkishList.ondragleave = e => {
+                if (e.target.classList.contains('match-target')) e.target.classList.remove('drag-over');
+            };
+            this.dom.turkishList.ondrop = e => {
+                e.preventDefault();
+                const target = e.target;
+                // Prevent dropping on already matched items
+                if (!target.classList.contains('match-target') || target.classList.contains('correct-match')) return;
+                
+                target.classList.remove('drag-over');
+                const id = e.dataTransfer.getData('id');
+                const item = this.dom.arabicList.querySelector(`.match-item[data-id='${id}']`);
+                
+                // Prevent dropping on itself if somehow possible, or if item is already matched
+                if (!item || item.classList.contains('correct-match')) return;
+
+                if (target.dataset.id === id) {
+                    // Correct match
+                    item.draggable = false;
+                    item.classList.add('correct-match');
+                    target.classList.add('correct-match');
+                    App.playSound('correct');
+                    this.state.totalMatches++;
+
+                    // Check if all pairs are matched
+                    if (this.state.totalMatches === this.state.initialWordCount) {
+                        this.state.gameOverTimeout = setTimeout(() => {
+                            this.dom.overlay.classList.remove('hidden');
+                        }, 800); // A bit of delay to see the last match
+                    }
+                } else {
+                    // Incorrect match
+                    App.playSound('incorrect');
+                    target.classList.add('incorrect-flash');
+                    setTimeout(() => target.classList.remove('incorrect-flash'), 500);
+                }
+            };
+        }
+    };
+    
+    // --- TYPING GAME MODULE ---
+    const TypingGame = {
+        screenId: 'typing-screen',
+        state: {},
+        dom: {},
+        init() {
+            this.dom.timer = document.getElementById('timer-value');
+            this.dom.score = document.getElementById('score-value');
+            this.dom.prompt = document.getElementById('typing-prompt');
+            this.dom.input = document.getElementById('typing-input');
+            this.dom.submit = document.getElementById('typing-submit-btn');
+            this.dom.progressBar = document.getElementById('typing-progress-bar');
+            this.dom.readyBtn = document.getElementById('typing-ready-btn');
+            this.dom.keyboard = document.getElementById('virtual-keyboard');
+            this.dom.countdownOverlay = document.getElementById('countdown-overlay');
+            this.dom.statusList = document.getElementById('typing-status-list');
+            this.dom.interactiveElements = document.getElementById('typing-interactive-elements');
+            this.dom.gameOverContainer = document.getElementById('typing-game-over');
+            this.dom.replayBtn = document.getElementById('play-again-typing-btn');
+            this.dom.effectsContainer = document.querySelector('#score-stat-item .score-effects-container-typing');
+
+            this.dom.replayBtn.onclick = () => { App.playSound('menuClick'); this.start(true); };
+            this.dom.readyBtn.onclick = () => {
+                App.playSound('menuClick');
+                this.dom.readyBtn.style.display = 'none';
+                this.startCountdown();
+            };
+            this.dom.input.onkeydown = e => { if (e.key === 'Enter') this.checkAnswer(); };
+            this.dom.submit.onclick = () => this.checkAnswer();
+        },
+        start(isReplay = false) {
+            let allWords = App.getWords(true);
+            const currentUnit = App.state.currentUnitKey;
+
+            let gameTime; 
+            switch (currentUnit) {
+                case 'unit1': gameTime = 150; break; 
+                case 'unit2': gameTime = 120; break; 
+                case 'unit3': gameTime = 100; break; 
+                case 'unit4': gameTime = 90;  break; 
+                case 'all':   gameTime = 120; break; // 2 minutes for combined game
+                default:      gameTime = 120; // Fallback
+            }
+
+            const wordsForGame = allWords;
+
+            const finalWordList = Utils.shuffleArray(wordsForGame).slice(0, 15);
+
+            this.state = { words: finalWordList, currentIndex: 0, score: 0, timeLeft: gameTime, timer: null, mistakes: [], nextWordTimeout: null, totalChars: 0 };
+            
+            this.state.totalChars = this.state.words.reduce((acc, word) => acc + word.arabic.replace(/\s/g, '').length, 0);
+            this.dom.statusList.innerHTML = '';
+            this.dom.gameOverContainer.classList.add('hidden');
+            this.dom.interactiveElements.style.display = 'flex';
+            this.dom.input.parentElement.style.display = 'flex';
+
+
+            this.dom.score.textContent = '0';
+            const minutes = Math.floor(gameTime / 60);
+            const seconds = gameTime % 60;
+            this.dom.timer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            this.dom.prompt.textContent = ''; 
+            
+            this.dom.readyBtn.classList.remove('hidden');
+            this.dom.readyBtn.style.display = 'flex';
+            
+            this.dom.input.disabled = true;
+            this.dom.input.value = '';
+
+            this.createKeyboard();
+            this.createProgressBar();
+
+            if (isReplay) {
+                this.dom.readyBtn.style.display = 'none';
+                this.startCountdown();
+            }
+        },
+        stop() {
+            if (this.state.timer) clearInterval(this.state.timer);
+            if (this.state.nextWordTimeout) clearTimeout(this.state.nextWordTimeout);
+        },
+        startCountdown() {
+            this.dom.countdownOverlay.style.display = 'flex';
+            let count = 3;
+            this.dom.countdownOverlay.textContent = count;
+            App.playSound('countdown');
+
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    this.dom.countdownOverlay.textContent = count;
+                    App.playSound('countdown');
+                } else {
+                    clearInterval(countdownInterval);
+                    this.dom.countdownOverlay.style.display = 'none';
+                    this.startGameLoop();
+                }
+            }, 1000);
+        },
+        startGameLoop() {
+            this.dom.input.disabled = false;
+            this.dom.input.focus();
+            this.showNextWord();
+
+            this.state.timer = setInterval(() => {
+                this.state.timeLeft--;
+                if (this.state.timeLeft < 0) {
+                    this.endGame();
+                    return;
+                }
+                const minutes = Math.floor(this.state.timeLeft / 60);
+                const seconds = this.state.timeLeft % 60;
+                this.dom.timer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        },
+        createProgressBar() {
+            this.dom.progressBar.innerHTML = '';
+            this.state.words.forEach(() => {
+                const segment = document.createElement('div');
+                segment.className = 'progress-segment';
+                this.dom.progressBar.appendChild(segment);
+            });
+        },
+        showNextWord() {
+            if (this.state.currentIndex >= this.state.words.length) { 
+                this.endGame();
+                return;
+            }
+            const word = this.state.words[this.state.currentIndex];
+            this.dom.prompt.textContent = Utils.stripHarakat(word.arabic);
+            this.dom.input.value = '';
+            this.dom.input.className = '';
+            if (!this.dom.input.disabled) this.dom.input.focus();
+
+            const segments = this.dom.progressBar.children;
+            Array.from(segments).forEach(seg => seg.classList.remove('active'));
+            if (segments[this.state.currentIndex]) segments[this.state.currentIndex].classList.add('active');
+        },
+        checkAnswer() {
+            if (this.dom.input.value.trim() === '' || this.dom.input.disabled) return;
+            this.dom.input.disabled = true;
+
+            const word = this.state.words[this.state.currentIndex];
+            const userAnswer = this.dom.input.value.trim();
+            const isCorrect = Utils.normalizeForTyping(userAnswer) === Utils.normalizeForTyping(word.arabic);
+            
+            const segments = this.dom.progressBar.children;
+            if (segments[this.state.currentIndex]) {
+                segments[this.state.currentIndex].classList.remove('active');
+                segments[this.state.currentIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
+            }
+            
+            const statusLi = document.createElement('li');
+            statusLi.classList.add(isCorrect ? 'correct' : 'incorrect');
+            let statusHTML = `
+                <div class="status-word">${word.arabic}</div>
+                <div class="status-translation">${word.turkish}</div>
+            `;
+            if (!isCorrect) {
+                statusHTML += `<div class="status-user-answer">${userAnswer}</div>`;
+            }
+            statusLi.innerHTML = statusHTML;
+            this.dom.statusList.prepend(statusLi);
+
+            if (isCorrect) {
+                App.playSound('correct');
+                let points = 0;
+                if (this.state.totalChars > 0) {
+                    points = (word.arabic.replace(/\s/g, '').length / this.state.totalChars) * 100;
+                    this.state.score += points;
+                }
+                this.showScoreEffect(Math.round(points));
+                this.dom.score.textContent = Math.round(this.state.score);
+                this.dom.input.classList.add('correct-input');
+            } else {
+                App.playSound('incorrect');
+                this.state.mistakes.push({ prompt: word.arabic, incorrect: userAnswer, correct: word.arabic });
+                this.dom.input.classList.add('incorrect-input');
+            }
+            
+            this.state.currentIndex++;
+            this.state.nextWordTimeout = setTimeout(() => {
+                this.dom.input.disabled = false;
+                this.showNextWord();
+            }, 1200);
+        },
+        endGame() {
+            if (this.state.timer) clearInterval(this.state.timer);
+            if (this.state.nextWordTimeout) clearTimeout(this.state.nextWordTimeout);
+            this.dom.input.disabled = true;
+            this.dom.interactiveElements.style.display = 'none'; // Oyun alanını gizle
+            this.dom.gameOverContainer.classList.remove('hidden'); // Oyun bitti ekranını göster
+        },
+        showScoreEffect(points) {
+            if (!this.dom.effectsContainer || points <= 0) return;
+            const effectEl = document.createElement('div');
+            effectEl.className = 'typing-score-effect';
+            effectEl.textContent = `+${points}`;
+            
+            this.dom.effectsContainer.appendChild(effectEl);
+            
+            setTimeout(() => {
+                effectEl.remove();
+            }, 1450);
+        },
+        createKeyboard() {
+            if(this.dom.keyboard.innerHTML !== '') return;
+            
+            const colorMap = {
+                'ب': '#a0c4ff', 'ت': '#a0c4ff', 'ث': '#a0c4ff', 'ن': '#a0c4ff', 'ي': '#a0c4ff',
+                'ج': '#caffbf', 'ح': '#caffbf', 'خ': '#caffbf',
+                'د': '#fdffb6', 'ذ': '#fdffb6',
+                'ر': '#ffd6a5', 'ز': '#ffd6a5',
+                'س': '#ffadad', 'ش': '#ffadad',
+                'ص': '#bdb2ff', 'ض': '#bdb2ff',
+                'ط': '#9bf6ff', 'ظ': '#9bf6ff',
+                'ع': '#ffc6ff', 'غ': '#ffc6ff',
+                'ف': '#b9f6ca', 'ق': '#b9f6ca',
+                'ه': '#b3e5fc', 'ة': '#b3e5fc',
+                'ء': '#ffccbc', 'ؤ': '#ffccbc', 'ئ': '#ffccbc',
+                'ا': '#e0e0e0', 'ل': '#e0e0e0',
+                'ك': '#d1c4e9', 
+                'م': '#f8bbd0', 
+                'و': '#c5cae9',  
+            };
+            const defaultColor = '#FFFFFF';
+
+            const keys = [
+                ["د", "ج", "ح", "خ", "ه", "ع", "غ", "ف", "ق", "ث", "ص", "ض"],
+                ["ط", "ك", "م", "ن", "ت", "ا", "ل", "ب", "ي", "س", "ش", "ذ"],
+                ["ظ", "ز", "و", "ة", "ى", "ر", "ؤ", "ء", "ئ"]
+            ];
+            keys.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'keyboard-row';
+                row.forEach(key => {
+                    const keyBtn = document.createElement('button');
+                    keyBtn.className = 'keyboard-key';
+                    keyBtn.textContent = key;
+                    
+                    const bgColor = colorMap[key] || defaultColor;
+                    const shadowColor = this.getDarkerColor(bgColor);
+                    keyBtn.style.backgroundColor = bgColor;
+                    keyBtn.style.boxShadow = `0 4px ${shadowColor}`;
+                    keyBtn.onmousedown = () => { keyBtn.style.transform = 'translateY(2px)'; keyBtn.style.boxShadow = `0 2px ${shadowColor}`; };
+                    keyBtn.onmouseup = () => { keyBtn.style.transform = ''; keyBtn.style.boxShadow = `0 4px ${shadowColor}`; };
+                    keyBtn.onmouseleave = () => { keyBtn.style.transform = ''; keyBtn.style.boxShadow = `0 4px ${shadowColor}`; };
+                    rowDiv.appendChild(keyBtn);
+                });
+                this.dom.keyboard.appendChild(rowDiv);
+            });
+            const specialRow = document.createElement('div');
+            specialRow.className = 'keyboard-row';
+            const spaceBtn = document.createElement('button');
+            spaceBtn.className = 'keyboard-key'; spaceBtn.textContent = 'مسافة'; spaceBtn.style.flexGrow = '8';
+            const spaceBg = '#CFD8DC';
+            const spaceShadow = this.getDarkerColor(spaceBg);
+            spaceBtn.style.backgroundColor = spaceBg;
+            spaceBtn.style.boxShadow = `0 4px ${spaceShadow}`;
+            spaceBtn.onmousedown = () => { spaceBtn.style.transform = 'translateY(2px)'; spaceBtn.style.boxShadow = `0 2px ${spaceShadow}`; };
+            spaceBtn.onmouseup = () => { spaceBtn.style.transform = ''; spaceBtn.style.boxShadow = `0 4px ${spaceShadow}`; };
+            
+            const backspaceBtn = document.createElement('button');
+            backspaceBtn.className = 'keyboard-key backspace'; backspaceBtn.style.flexGrow = '2';
+            backspaceBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M22,3H7C6.31,3 5.77,3.35 5.41,3.88L0,12L5.41,20.11C5.77,20.64 6.31,21 7,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12L19,15.59Z" /></svg>`;
+            const backspaceShadow = this.getDarkerColor('#FFCA28');
+            backspaceBtn.style.boxShadow = `0 4px ${backspaceShadow}`;
+                        backspaceBtn.onmousedown = () => { backspaceBtn.style.transform = 'translateY(2px)'; backspaceBtn.style.boxShadow = `0 2px ${backspaceShadow}`; };
+            backspaceBtn.onmouseup = () => { backspaceBtn.style.transform = ''; backspaceBtn.style.boxShadow = `0 4px ${backspaceShadow}`; };
+
+            specialRow.appendChild(backspaceBtn);
+            specialRow.appendChild(spaceBtn);
+            this.dom.keyboard.appendChild(specialRow);
+
+            this.dom.keyboard.onclick = (e) => {
+                if (this.dom.input.disabled) return;
+                const keyEl = e.target.closest('.keyboard-key');
+                if (!keyEl) return;
+                App.playSound('touch'); // Dokunma sesi eklendi
+                if (keyEl.classList.contains('backspace')) this.dom.input.value = this.dom.input.value.slice(0, -1);
+                else if (keyEl.textContent === 'مسافة') this.dom.input.value += ' ';
+                else this.dom.input.value += keyEl.textContent;
+                this.dom.input.focus();
+            };
+        },
+        getDarkerColor(hex) {
+            if(hex.length === 4) { // Handle shorthand like #F0C
+                hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+            }
+            let r = parseInt(hex.slice(1, 3), 16);
+            let g = parseInt(hex.slice(3, 5), 16);
+            let b = parseInt(hex.slice(5, 7), 16);
+            r = Math.max(0, Math.floor(r * 0.75));
+            g = Math.max(0, Math.floor(g * 0.75));
+            b = Math.max(0, Math.floor(b * 0.75));
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+    };
+
+    App.init();
+
+    });
+    </script>
+</body>
+</html>
+
