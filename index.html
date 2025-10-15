@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>9. Sınıf Arapça Kelime Oyunları</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,22 +32,35 @@
             --border-radius-md: 16px;
             --border-radius-lg: 24px;
         }
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        button, input {
-            font-family: 'Markazi Text', 'Tajawal', serif;
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
         body {
             font-family: 'Markazi Text', 'Tajawal', serif;
-            margin: 0;
             background-color: var(--bg-start);
             background-image: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
             color: var(--text-color);
             text-align: center;
-            overflow: hidden;
         }
-        .screen { display: none; width: 100%; height: 100vh; padding: 20px; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; transition: opacity 0.5s; overflow-y: auto; }
+
+        #game-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        button, input {
+            font-family: 'Markazi Text', 'Tajawal', serif;
+        }
+        
+        .screen { display: none; width: 100%; height: 100%; padding: 20px; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; transition: opacity 0.5s; overflow-y: auto; }
         .screen.active { display: flex; }
 
         #start-screen, #lesson-screen {
@@ -666,7 +679,7 @@
         .progress-segment.incorrect { background-color: var(--incorrect-color); }
         .progress-segment.active { background-color: var(--accent-color); transform: scaleY(1.5); }
         #typing-prompt { direction: rtl; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: bold; background-color: var(--surface-color); border-radius: var(--border-radius-lg); min-height: 150px; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 800px; box-shadow: 0 4px 15px var(--shadow-light);}
-        .typing-input-area { display: flex; align-items: stretch; gap: 10px; width: 100%; max-width: 800px; }
+        .typing-input-area { display: flex; align-items: stretch; gap: 10px; width: 100%; max-width: 800px; flex-direction: row-reverse; }
         #typing-input { font-size: 2rem; flex-grow: 1; padding: 15px; border-radius: var(--border-radius-md); border: 2px solid #d8dee9; background: var(--surface-color); color: var(--text-color); text-align: right; direction: rtl; transition: box-shadow 0.2s, border-color 0.2s; }
         #typing-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(94, 129, 172, 0.2); }
         #typing-input:disabled { background-color: #eceff4; cursor: not-allowed; }
@@ -708,6 +721,9 @@
         .keyboard-key:active { transform: translateY(2px); }
         .keyboard-key.backspace { background-color: var(--accent-color); }
         .keyboard-key svg { width: 24px; height: 24px; fill: var(--text-color); pointer-events: none;}
+        .keyboard-key.space-bar {
+            position: relative; /* Vurgu efekti için gerekli */
+        }
         
         #typing-game-over .icon-btn { animation: pulse-glow 1.5s infinite ease-in-out; }
         #typing-game-over .icon-btn svg { width: 80px; height: 80px;}
@@ -770,167 +786,237 @@
             }
         }
 
+        /* GÜNCELLEME: Boşluk tuşu vurgu animasyonu */
+        @keyframes pulse-red-border {
+            0% {
+                outline-color: rgba(242, 76, 76, 0.4);
+                outline-width: 2px;
+            }
+            50% {
+                outline-color: rgba(242, 76, 76, 1);
+                outline-width: 3px;
+            }
+            100% {
+                outline-color: rgba(242, 76, 76, 0.4);
+                outline-width: 2px;
+            }
+        }
+        
+        .keyboard-key.space-bar.highlight-space {
+            outline-style: solid;
+            outline-offset: 3px;
+            animation: pulse-red-border 1s infinite ease-in-out;
+        }
+
+        #orientation-warning {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-start);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+
+        #orientation-warning svg {
+            width: 80px;
+            height: 80px;
+            fill: var(--primary-color);
+            margin-bottom: 20px;
+            animation: rotate-anim 2s infinite ease-in-out;
+        }
+
+        #orientation-warning h2 {
+            font-size: 2rem;
+        }
+
+        @keyframes rotate-anim {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(-90deg); }
+        }
+
+        @media screen and (orientation: portrait) {
+            #game-wrapper {
+                display: none;
+            }
+            #orientation-warning {
+                display: flex;
+            }
+        }
+
+
         @media (max-width: 1200px) { #typing-main-container { flex-direction: column; height: auto; } #typing-status-panel { width: 100%; flex: none; height: 250px; } #typing-game-area { width: 100%; } #quiz-screen { flex-direction: column; } #quiz-screen::after { display: none; } }
         @media (max-width: 800px) { #start-screen .menu-container, #game-choice-screen .menu-container { grid-template-columns: 1fr; } #game-screen { flex-direction: column; padding-top: 20px; } .score-display { flex-direction: row; height: 80px; width: 100%; border-radius: var(--border-radius-lg); } #game-board { flex-grow: 1; margin: 10px 0; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr); } .quiz-player-area .quiz-options { grid-template-columns: 1fr; } .match-item, .match-target { font-size: 1.2rem; padding: 8px;} .keyboard-key { font-size: 1.1rem; padding: 8px 4px; } }
     </style>
 </head>
 
 <body>
-    <div id="start-screen" class="screen active">
-        <h1 class="main-title">9. Sınıf Arapça Kelime Oyunu</h1>
-        <div class="grade-numeral">٩</div>
-        <h2 class="sub-title">Ünite Seç</h2>
-        <div id="unit-container" class="menu-container"></div>
+    <div id="orientation-warning">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.89,15.5L18.31,16.92C19.21,15.75 19.76,14.43 19.93,13H17.91C17.77,13.89 17.42,14.73 16.89,15.5M16.92,18.31L15.5,16.89C14.73,17.42 13.89,17.77 13,17.91V19.93C14.43,19.76 15.75,19.21 16.92,18.31M19.93,11H17.91C17.77,10.11 17.42,9.27 16.89,8.5L18.31,7.08C19.21,8.25 19.76,9.57 19.93,11M13,4.07V6.09C12.11,6.23 11.27,6.58 10.5,7.11L9.08,5.69C10.25,4.79 11.57,4.24 13,4.07M2,4.27L3.28,3L21,20.72L19.73,22L16.03,18.33C14.9,18.75 13.68,19 12.39,19C8.36,19 5,15.64 5,11.61C5,10.32 5.25,9.1 5.67,7.97L2,4.27M7,9.39C6.56,10.05 6.26,10.81 6.13,11.61C6.13,15.03 8.97,17.87 12.39,17.87C13.19,17.87 13.95,17.57 14.61,17.13L7,9.39Z" /></svg>
+        <h2>Lütfen cihazınızı yatay konuma getirin.</h2>
     </div>
-    <div id="lesson-screen" class="screen"><div class="header-navigation"><button class="back-btn" data-target="start-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="lesson-title" class="sub-title">Ders Seç</h2><div id="lesson-container" class="menu-container"></div></div>
-    <div id="game-choice-screen" class="screen">
-        <div class="header-navigation"><button class="back-btn" data-target="lesson-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="game-choice-title" class="sub-title">Oyun Seç</h2>
-        <div id="game-choice-container" class="menu-container">
-            <button class="menu-btn" data-game-type="memory">
-                <svg viewBox="0 0 24 24"><path d="M7 3H17C18.1 3 19 3.9 19 5V15C19 16.1 18.1 17 17 17H7C5.9 17 5 16.1 5 15V5C5 3.9 5.9 3 7 3M3 7V19C3 20.1 3.9 21 5 21H15V19H5V7H3Z" /></svg>
-                <div>
-                    <span class="menu-title">Hafıza Kartı</span>
-                    <span class="description">Eşleşen kartları bul</span>
-                </div>
-            </button>
-            <button class="menu-btn" data-game-type="quiz">
-                <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M11,16H13V18H11V16Z" /></svg>
-                <div>
-                    <span class="menu-title">İkili Test</span>
-                    <span class="description">Doğru anlamı bul</span>
-                </div>
-            </button>
-            <button class="menu-btn" data-game-type="match">
-                <svg viewBox="0 0 24 24"><path d="M21,9L17,5V8H10V10H17V13M7,11V8L3,12L7,16V13H14V11H7Z" /></svg>
-                <div>
-                    <span class="menu-title">Eşleştirme</span>
-                    <span class="description">Sürükle ve bırak</span>
-                </div>
-            </button>
-            <button class="menu-btn" data-game-type="typing">
-                <svg viewBox="0 0 24 24"><path d="M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z" /></svg>
-                <div>
-                    <span class="menu-title">Klavye Oyunu</span>
-                    <span class="description">Kelimeyi doğru yaz</span>
-                </div>
-            </button>
+    <div id="game-wrapper">
+        <div id="start-screen" class="screen active">
+            <h1 class="main-title">9. Sınıf Arapça Kelime Oyunu</h1>
+            <div class="grade-numeral">٩</div>
+            <h2 class="sub-title">Ünite Seç</h2>
+            <div id="unit-container" class="menu-container"></div>
         </div>
-    </div>
-    
-    <div id="game-screen" class="screen">
-        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-        <div id="player1-display" class="score-display">
-            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
-            <span id="score1">0</span>
-        </div>
-        <div id="game-board"></div>
-        <div id="player2-display" class="score-display">
-            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
-            <span id="score2">0</span>
-        </div>
-        <div id="memory-game-over" class="game-over-overlay hidden">
-            <div id="winner-icon-container"></div>
-            <h2 id="memory-win-text"></h2>
-            <div class="win-buttons">
-                <button class="icon-btn" id="play-again-memory-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-                <button class="icon-btn" id="main-menu-memory-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+        <div id="lesson-screen" class="screen"><div class="header-navigation"><button class="back-btn" data-target="start-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="lesson-title" class="sub-title">Ders Seç</h2><div id="lesson-container" class="menu-container"></div></div>
+        <div id="game-choice-screen" class="screen">
+            <div class="header-navigation"><button class="back-btn" data-target="lesson-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="game-choice-title" class="sub-title">Oyun Seç</h2>
+            <div id="game-choice-container" class="menu-container">
+                <button class="menu-btn" data-game-type="memory">
+                    <svg viewBox="0 0 24 24"><path d="M7 3H17C18.1 3 19 3.9 19 5V15C19 16.1 18.1 17 17 17H7C5.9 17 5 16.1 5 15V5C5 3.9 5.9 3 7 3M3 7V19C3 20.1 3.9 21 5 21H15V19H5V7H3Z" /></svg>
+                    <div>
+                        <span class="menu-title">Hafıza Kartı</span>
+                        <span class="description">Eşleşen kartları bul</span>
+                    </div>
+                </button>
+                <button class="menu-btn" data-game-type="quiz">
+                    <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M11,16H13V18H11V16Z" /></svg>
+                    <div>
+                        <span class="menu-title">İkili Test</span>
+                        <span class="description">Doğru anlamı bul</span>
+                    </div>
+                </button>
+                <button class="menu-btn" data-game-type="match">
+                    <svg viewBox="0 0 24 24"><path d="M21,9L17,5V8H10V10H17V13M7,11V8L3,12L7,16V13H14V11H7Z" /></svg>
+                    <div>
+                        <span class="menu-title">Eşleştirme</span>
+                        <span class="description">Sürükle ve bırak</span>
+                    </div>
+                </button>
+                <button class="menu-btn" data-game-type="typing">
+                    <svg viewBox="0 0 24 24"><path d="M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z" /></svg>
+                    <div>
+                        <span class="menu-title">Klavye Oyunu</span>
+                        <span class="description">Kelimeyi doğru yaz</span>
+                    </div>
+                </button>
             </div>
         </div>
-    </div>
-    <div id="quiz-screen" class="screen">
-        <div id="quiz-countdown-overlay" class="countdown-overlay"></div>
-        <div id="quiz-start-overlay" class="game-start-overlay">
-            <button id="quiz-start-btn" class="start-btn">BAŞLA</button>
-        </div>
-        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-        <div class="quiz-player-area p1">
-            <div class="score-effects-container"></div>
-            <div class="quiz-game-content hidden">
-                <div class="quiz-top-bar">
-                    <div class="quiz-progress" id="quiz-progress-p1"></div>
-                    <div class="progress-bar" id="quiz-progress-bar-p1"></div>
+        
+        <div id="game-screen" class="screen">
+            <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+            <div id="player1-display" class="score-display">
+                <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+                <span id="score1">0</span>
+            </div>
+            <div id="game-board"></div>
+            <div id="player2-display" class="score-display">
+                <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+                <span id="score2">0</span>
+            </div>
+            <div id="memory-game-over" class="game-over-overlay hidden">
+                <div id="winner-icon-container"></div>
+                <h2 id="memory-win-text"></h2>
+                <div class="win-buttons">
+                    <button class="icon-btn" id="play-again-memory-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                    <button class="icon-btn" id="main-menu-memory-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
                 </div>
-                <div class="quiz-question" id="quiz-question-p1"></div>
-                <div class="quiz-options" id="quiz-options-p1"></div>
             </div>
         </div>
-        <div class="quiz-player-area p2">
-            <div class="score-effects-container"></div>
-            <div class="quiz-game-content hidden">
-                <div class="quiz-top-bar">
-                    <div class="quiz-progress" id="quiz-progress-p2"></div>
-                    <div class="progress-bar" id="quiz-progress-bar-p2"></div>
+        <div id="quiz-screen" class="screen">
+            <div id="quiz-countdown-overlay" class="countdown-overlay"></div>
+            <div id="quiz-start-overlay" class="game-start-overlay">
+                <button id="quiz-start-btn" class="start-btn">BAŞLA</button>
+            </div>
+            <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+            <div class="quiz-player-area p1">
+                <div class="score-effects-container"></div>
+                <div class="quiz-game-content hidden">
+                    <div class="quiz-top-bar">
+                        <div class="quiz-progress" id="quiz-progress-p1"></div>
+                        <div class="progress-bar" id="quiz-progress-bar-p1"></div>
+                    </div>
+                    <div class="quiz-question" id="quiz-question-p1"></div>
+                    <div class="quiz-options" id="quiz-options-p1"></div>
                 </div>
-                <div class="quiz-question" id="quiz-question-p2"></div>
-                <div class="quiz-options" id="quiz-options-p2"></div>
             </div>
-        </div>
-        <div id="quiz-game-over" class="game-over-overlay hidden">
-            <div id="quiz-winner-icon-container"></div>
-            <h2 id="quiz-win-text"></h2>
-            <div class="win-buttons">
-                <button class="icon-btn" id="new-round-quiz-btn" title="Yeni Tur"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-            </div>
-        </div>
-    </div>
-    <div id="match-screen" class="screen">
-        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-        <div class="match-container">
-            <div class="match-column" id="match-arabic-list"></div>
-            <div class="match-column" id="match-turkish-list"></div>
-        </div>
-        <div id="match-complete-overlay" class="game-start-overlay hidden">
-            <button id="play-again-match-btn" class="icon-btn" title="Yeni Oyun">
-                <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg>
-            </button>
-        </div>
-    </div>
-    
-    <div id="typing-screen" class="screen">
-        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-        <div id="typing-main-container">
-            <div id="typing-status-panel">
-                <h2>Durum</h2>
-                <ul id="typing-status-list"></ul>
-            </div>
-            <div id="typing-game-area">
-                <div id="typing-game-over" class="game-start-overlay hidden">
-                    <button class="icon-btn" id="play-again-typing-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+            <div class="quiz-player-area p2">
+                <div class="score-effects-container"></div>
+                <div class="quiz-game-content hidden">
+                    <div class="quiz-top-bar">
+                        <div class="quiz-progress" id="quiz-progress-p2"></div>
+                        <div class="progress-bar" id="quiz-progress-bar-p2"></div>
+                    </div>
+                    <div class="quiz-question" id="quiz-question-p2"></div>
+                    <div class="quiz-options" id="quiz-options-p2"></div>
                 </div>
-                <div id="typing-interactive-elements">
-                    <div class="typing-stats">
-                        <div id="timer-stat-item" class="stat-item">
-                            <svg viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" /></svg>
-                            <span id="timer-value">120</span>
+            </div>
+            <div id="quiz-game-over" class="game-over-overlay hidden">
+                <div id="quiz-winner-icon-container"></div>
+                <h2 id="quiz-win-text"></h2>
+                <div class="win-buttons">
+                    <button class="icon-btn" id="new-round-quiz-btn" title="Yeni Tur"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                </div>
+            </div>
+        </div>
+        <div id="match-screen" class="screen">
+            <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+            <div class="match-container">
+                <div class="match-column" id="match-arabic-list"></div>
+                <div class="match-column" id="match-turkish-list"></div>
+            </div>
+            <div id="match-complete-overlay" class="game-start-overlay hidden">
+                <button id="play-again-match-btn" class="icon-btn" title="Yeni Oyun">
+                    <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="typing-screen" class="screen">
+            <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+            <div id="typing-main-container">
+                <div id="typing-status-panel">
+                    <h2>Durum</h2>
+                    <ul id="typing-status-list"></ul>
+                </div>
+                <div id="typing-game-area">
+                    <div id="typing-game-over" class="game-start-overlay hidden">
+                        <button class="icon-btn" id="play-again-typing-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                    </div>
+                    <div id="typing-interactive-elements">
+                        <div class="typing-stats">
+                            <div id="timer-stat-item" class="stat-item">
+                                <svg viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" /></svg>
+                                <span id="timer-value">120</span>
+                            </div>
+                            <div id="score-stat-item" class="stat-item">
+                                <div class="score-effects-container-typing"></div>
+                                <svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>
+                                <span id="score-value">0</span>
+                            </div>
                         </div>
-                        <div id="score-stat-item" class="stat-item">
-                            <div class="score-effects-container-typing"></div>
-                            <svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>
-                            <span id="score-value">0</span>
+                        <div id="typing-progress-bar" class="progress-bar"></div>
+                        <div id="typing-prompt"></div>
+                        <div class="typing-input-area">
+                            <input type="text" id="typing-input" autocomplete="off" spellcheck="false"/>
+                            <button id="typing-submit-btn"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg></button>
                         </div>
                     </div>
-                    <div id="typing-progress-bar" class="progress-bar"></div>
-                    <div id="typing-prompt"></div>
-                    <div class="typing-input-area">
-                        <input type="text" id="typing-input" autocomplete="off" spellcheck="false"/>
-                        <button id="typing-submit-btn"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg></button>
-                    </div>
+                    <div id="virtual-keyboard"></div>
                 </div>
-                <div id="virtual-keyboard"></div>
             </div>
+    
+            <div id="countdown-overlay" class="countdown-overlay"></div>
         </div>
-
-        <div id="countdown-overlay" class="countdown-overlay"></div>
-    </div>
-
-    <div id="results-screen" class="screen results-screen">
-        <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-        <h2 id="results-title">Oyun Bitti!</h2><p id="results-score-text"></p>
-        <div id="results-details"></div>
-        <div class="win-buttons">
-            <button class="icon-btn" id="play-again-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-            <button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
-            <button class="icon-btn" id="main-menu-results-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+    
+        <div id="results-screen" class="screen results-screen">
+            <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
+            <h2 id="results-title">Oyun Bitti!</h2><p id="results-score-text"></p>
+            <div id="results-details"></div>
+            <div class="win-buttons">
+                <button class="icon-btn" id="play-again-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                <button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
+                <button class="icon-btn" id="main-menu-results-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+            </div>
         </div>
     </div>
     
@@ -2063,8 +2149,8 @@
             this.dom.effectsContainer = document.querySelector('#score-stat-item .score-effects-container-typing');
 
             this.dom.replayBtn.onclick = () => { App.playSound('menuClick'); this.start(); };
-            // Başlangıç tıklaması `start` fonksiyonu içinde `prompt` elementine atanacak
             this.dom.input.onkeydown = e => { if (e.key === 'Enter') this.checkAnswer(); };
+            this.dom.input.oninput = () => this.handleTyping();
             this.dom.submit.onclick = () => this.checkAnswer();
         },
         start() {
@@ -2106,15 +2192,16 @@
             const seconds = gameTime % 60;
             this.dom.timer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             
-            // Prompt'u başlangıç butonuna dönüştür
             this.dom.prompt.textContent = 'ابْدَأْ';
-            this.dom.prompt.className = 'start-mode'; // Sınıfı temizle ve sadece start-mode ekle
+            this.dom.prompt.className = 'start-mode'; 
             this.dom.prompt.onclick = () => this.handleStartClick();
             
             this.dom.input.disabled = true;
+            this.dom.input.readOnly = true; // Mobil klavyeyi engellemek için
             this.dom.input.value = '';
 
             this.createKeyboard();
+            this.dom.spaceBar = this.dom.keyboard.querySelector('.space-bar');
             this.createProgressBar();
         },
         handleStartClick() {
@@ -2123,6 +2210,39 @@
                 this.dom.prompt.classList.remove('start-mode');
                 this.dom.prompt.onclick = null;
                 this.startCountdown();
+            }
+        },
+        handleTyping() {
+            if (!this.state.words || this.state.currentIndex >= this.state.words.length || !this.dom.spaceBar) return;
+
+            const currentWordData = this.state.words[this.state.currentIndex];
+            const targetPhrase = Utils.stripHarakat(currentWordData.arabic);
+            const targetWords = targetPhrase.split(' ');
+
+            if (targetWords.length < 2) {
+                this.dom.spaceBar.classList.remove('highlight-space');
+                return;
+            }
+
+            const userInput = this.dom.input.value;
+            const typedWords = userInput.split(' ');
+            const currentWordIndex = typedWords.length - 1;
+
+            if (currentWordIndex < targetWords.length - 1) {
+                const currentTargetWord = targetWords[currentWordIndex];
+                const currentTypedWord = typedWords[currentWordIndex];
+                
+                if (Utils.normalizeForTyping(currentTypedWord) === Utils.normalizeForTyping(currentTargetWord) && !userInput.endsWith(' ')) {
+                    this.dom.spaceBar.classList.add('highlight-space');
+                } else {
+                    this.dom.spaceBar.classList.remove('highlight-space');
+                }
+            } else {
+                this.dom.spaceBar.classList.remove('highlight-space');
+            }
+
+            if (userInput.endsWith(' ')) {
+                this.dom.spaceBar.classList.remove('highlight-space');
             }
         },
         stop() {
@@ -2173,6 +2293,7 @@
             });
         },
         showNextWord() {
+            if (this.dom.spaceBar) this.dom.spaceBar.classList.remove('highlight-space');
             if (this.state.currentIndex >= this.state.words.length) { 
                 this.endGame();
                 return;
@@ -2188,6 +2309,7 @@
             if (segments[this.state.currentIndex]) segments[this.state.currentIndex].classList.add('active');
         },
         checkAnswer() {
+            if (this.dom.spaceBar) this.dom.spaceBar.classList.remove('highlight-space');
             if (this.dom.input.value.trim() === '' || this.dom.input.disabled) return;
             this.dom.input.disabled = true;
 
@@ -2236,6 +2358,7 @@
             }, 1200);
         },
         endGame() {
+            if (this.dom.spaceBar) this.dom.spaceBar.classList.remove('highlight-space');
             if (this.state.timer) clearInterval(this.state.timer);
             if (this.state.nextWordTimeout) clearTimeout(this.state.nextWordTimeout);
             this.dom.input.disabled = true;
@@ -2305,7 +2428,9 @@
             const specialRow = document.createElement('div');
             specialRow.className = 'keyboard-row';
             const spaceBtn = document.createElement('button');
-            spaceBtn.className = 'keyboard-key'; spaceBtn.textContent = 'مسافة'; spaceBtn.style.flexGrow = '8';
+            spaceBtn.className = 'keyboard-key space-bar'; 
+            spaceBtn.textContent = 'مسافة'; 
+            spaceBtn.style.flexGrow = '8';
             const spaceBg = '#CFD8DC';
             const spaceShadow = this.getDarkerColor(spaceBg);
             spaceBtn.style.backgroundColor = spaceBg;
@@ -2318,7 +2443,7 @@
             backspaceBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M22,3H7C6.31,3 5.77,3.35 5.41,3.88L0,12L5.41,20.11C5.77,20.64 6.31,21 7,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12L19,15.59Z" /></svg>`;
             const backspaceShadow = this.getDarkerColor('#FFCA28');
             backspaceBtn.style.boxShadow = `0 4px ${backspaceShadow}`;
-                                backspaceBtn.onmousedown = () => { backspaceBtn.style.transform = 'translateY(2px)'; backspaceBtn.style.boxShadow = `0 2px ${backspaceShadow}`; };
+            backspaceBtn.onmousedown = () => { backspaceBtn.style.transform = 'translateY(2px)'; backspaceBtn.style.boxShadow = `0 2px ${backspaceShadow}`; };
             backspaceBtn.onmouseup = () => { backspaceBtn.style.transform = ''; backspaceBtn.style.boxShadow = `0 4px ${backspaceShadow}`; };
 
             specialRow.appendChild(backspaceBtn);
@@ -2331,9 +2456,10 @@
                 if (!keyEl) return;
                 App.playSound('touch'); 
                 if (keyEl.classList.contains('backspace')) this.dom.input.value = this.dom.input.value.slice(0, -1);
-                else if (keyEl.textContent === 'مسافة') this.dom.input.value += ' ';
+                else if (keyEl.classList.contains('space-bar')) this.dom.input.value += ' ';
                 else this.dom.input.value += keyEl.textContent;
                 this.dom.input.focus();
+                this.handleTyping();
             };
         },
         getDarkerColor(hex) {
@@ -2356,6 +2482,5 @@
     </script>
 </body>
 </html>
-
 
 
