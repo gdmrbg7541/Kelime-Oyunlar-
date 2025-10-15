@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أَلْعاب كَلِمَات اللُّغَة العَرَبِيَّة لِلصَّفّ ٩</title>
+    <title>9. Sınıf Arapça Kelime Oyunları</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,19 +11,26 @@
 
     <style>
         :root {
-            --bg-color: #F0F4F8;
-            --card-color: #4DB6AC;
-            --accent-color: #FFCA28;
-            --text-color: #37474F;
+            --bg-start: #f7f9fc;
+            --bg-end: #e8eef5;
+            --primary-color: #5E81AC; /* Yumuşak mavi */
+            --accent-color: #f7b733; /* Yumuşak sarı */
+            --surface-color: #FFFFFF;
+            --text-color: #2e3440; /* Daha koyu ve net metin rengi */
             --text-light-color: #FFFFFF;
-            --card-back-color: #FFFFFF;
-            --card-back-light: #E8F5E9;
-            --player1-color: #42A5F5;
-            --player2-color: #EF5350;
-            --disabled-color: #B0BEC5;
-            --correct-color: #4CAF50;
-            --incorrect-color: #F44336;
-            --shadow-color: #B0BEC5;
+            
+            --player1-color: #64a7fa; /* Daha canlı oyuncu 1 rengi */
+            --player2-color: #f77d7d; /* Daha canlı oyuncu 2 rengi */
+            
+            --correct-color: #2ddc73; /* Süper Canlı Yeşil */
+            --incorrect-color: #f24c4c; /* Süper Canlı Kırmızı */
+            
+            --shadow-light: rgba(46, 52, 64, 0.07);
+            --shadow-medium: rgba(46, 52, 64, 0.12);
+
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px;
+            --border-radius-lg: 24px;
         }
         * { box-sizing: border-box; }
 
@@ -34,7 +41,8 @@
         body {
             font-family: 'Markazi Text', 'Tajawal', serif;
             margin: 0;
-            background-color: var(--bg-color);
+            background-color: var(--bg-start);
+            background-image: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
             color: var(--text-color);
             text-align: center;
             overflow: hidden;
@@ -42,25 +50,68 @@
         .screen { display: none; width: 100%; height: 100vh; padding: 20px; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; transition: opacity 0.5s; overflow-y: auto; }
         .screen.active { display: flex; }
 
+        #start-screen, #lesson-screen {
+            position: relative;
+            z-index: 1;
+            overflow: hidden; /* Efektlerin taşmasını önler */
+        }
+        #start-screen::before, #start-screen::after,
+        #lesson-screen::before {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            z-index: -1;
+        }
+
+        #start-screen::before {
+            width: 35vw;
+            height: 35vw;
+            min-width: 350px;
+            min-height: 350px;
+            background-color: rgba(100, 167, 250, 0.3); /* Pastel Mavi */
+            top: -15%;
+            left: -15%;
+        }
+        #start-screen::after {
+            width: 45vw;
+            height: 45vw;
+            min-width: 450px;
+            min-height: 450px;
+            background-color: rgba(247, 125, 125, 0.25); /* Pastel Pembe */
+            bottom: -25%;
+            right: -20%;
+        }
+        #lesson-screen::before {
+            width: 50vw;
+            height: 50vw;
+            min-width: 500px;
+            min-height: 500px;
+            background-color: rgba(143, 188, 143, 0.35); /* Pastel Yeşil */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .main-title, .sub-title, .menu-title, .unit-numeral, .description, .card-face {
             font-family: 'Markazi Text', 'Tajawal', serif;
         }
         
         #typing-prompt {
-             font-family: 'Markazi Text', 'Tajawal', serif;
+            font-family: 'Markazi Text', 'Tajawal', serif;
         }
 
-        .main-title { font-size: clamp(2.5rem, 7vw, 4.5rem); color: var(--text-color); text-shadow: 2px 2px 4px rgba(0,0,0,0.1); margin-bottom: 0; }
+        .main-title { font-size: clamp(2.5rem, 7vw, 4.5rem); color: var(--text-color); text-shadow: none; margin-bottom: 0; }
         .grade-numeral {
             font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 700;
-            color: var(--card-color);
+            color: var(--primary-color);
             line-height: 1;
             margin-bottom: 10px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+            text-shadow: 2px 2px 8px var(--shadow-light);
         }
 
-        .sub-title { font-size: clamp(1.5rem, 4vw, 2.2rem); color: #00796B; margin-bottom: 30px; }
+        .sub-title { font-size: clamp(1.5rem, 4vw, 2.2rem); color: #4c566a; margin-bottom: 40px; }
         .menu-container { display: grid; gap: 25px; width: 90%; max-width: 1200px; }
         
         #start-screen .menu-container {
@@ -75,14 +126,13 @@
         }
 
         .menu-btn {
-            background-color: var(--card-back-color);
+            background-color: var(--surface-color);
             color: var(--text-color);
-            border: 1px solid #CFD8DC;
-            border-bottom: 8px solid var(--shadow-color);
-            padding: 15px;
-            border-radius: 20px;
+            border: none;
+            padding: 20px;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
-            transition: all 0.1s ease-out;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -90,15 +140,52 @@
             min-height: 160px;
             position: relative;
             gap: 10px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            overflow: hidden; /* Tematik arkaplan için eklendi */
         }
         .menu-btn:hover {
-            background-color: #ECEFF1;
-            transform: translateY(-3px);
-            border-bottom-width: 10px;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-medium);
         }
         .menu-btn:active {
-            transform: translateY(4px);
-            border-bottom-width: 4px;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--shadow-light);
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.04;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: scale(1.1);
+        }
+        .menu-btn:hover::before {
+            opacity: 0.08;
+            transform: scale(1);
+        }
+        .menu-btn[data-game-type="memory"]::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%232e3440'%3E%3Cpath d='M7 3H17C18.1 3 19 3.9 19 5V15C19 16.1 18.1 17 17 17H7C5.9 17 5 16.1 5 15V5C5 3.9 5.9 3 7 3M3 7V19C3 20.1 3.9 21 5 21H15V19H5V7H3Z'/%3E%3C/svg%3E");
+            background-size: 50%;
+        }
+        .menu-btn[data-game-type="quiz"]::before {
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%232e3440'%3E%3Cpath d='M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M11,16H13V18H11V16Z'/%3E%3C/svg%3E");
+            background-size: 50%;
+        }
+        .menu-btn[data-game-type="match"]::before {
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%232e3440'%3E%3Cpath d='M21,9L17,5V8H10V10H17V13M7,11V8L3,12L7,16V13H14V11H7Z'/%3E%3C/svg%3E");
+            background-size: 60%;
+        }
+        .menu-btn[data-game-type="typing"]::before {
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%232e3440'%3E%3Cpath d='M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z'/%3E%3C/svg%3E");
+            background-size: 50%;
+        }
+
+        .menu-btn > div, .menu-btn > svg {
+            z-index: 1; /* Buton içeriğini temanın üzerine çıkar */
         }
         
         .menu-btn > div {
@@ -111,14 +198,14 @@
             font-weight: bold;
             line-height: 1.2;
         }
-        .menu-btn .description { font-size: 1.2rem; font-weight: normal; color: #546E7A; opacity: 0.8; margin-top: 0; }
+        .menu-btn .description { font-size: 1.2rem; font-weight: normal; color: #4c566a; opacity: 0.9; margin-top: 0; }
         .menu-btn.unit-btn {
             padding-top: 50px;
             padding-bottom: 15px;
         }
         .unit-numeral {
             position: absolute;
-            top: 10px;
+            top: 15px;
             left: 0; right: 0;
             font-size: 2.5rem;
             font-weight: 700;
@@ -140,7 +227,7 @@
             transition: fill 0.2s;
         }
         .menu-btn:hover svg {
-            fill: var(--card-color);
+            fill: var(--primary-color);
         }
         
         #lesson-screen .menu-btn {
@@ -160,24 +247,24 @@
             font-family: inherit;
             font-size: 2rem; 
             padding: 15px 50px; 
-            border-radius: 20px; 
-            background-color: var(--card-color); 
+            border-radius: var(--border-radius-lg); 
+            background-color: var(--primary-color); 
             color: var(--text-light-color); 
             border: none; 
             cursor: pointer; 
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 5px 0 #26A69A;
+            box-shadow: 0 5px 15px rgba(94, 129, 172, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .start-btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 7px 0 #26A69A;
+            transform: translateY(-3px); 
+            box-shadow: 0 8px 20px rgba(94, 129, 172, 0.5);
         }
         .start-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 3px 0 #26A69A;
+            transform: translateY(1px);
+            box-shadow: 0 4px 12px rgba(94, 129, 172, 0.4);
         }
         #quiz-start-btn {
             padding: 25px 50px;
@@ -186,7 +273,7 @@
         }
         .header-navigation { position: absolute; top: 20px; left: 20px; z-index: 200; }
         .back-btn { background: none; border: none; cursor: pointer; padding: 5px; }
-        .back-btn svg { width: 40px; height: 40px; fill: #000; transition: all 0.2s; opacity: 0.8; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); }
+        .back-btn svg { width: 40px; height: 40px; fill: #4c566a; transition: all 0.2s; opacity: 0.8; filter: drop-shadow(0 1px 2px var(--shadow-light)); }
         .back-btn:hover svg { fill: var(--accent-color); opacity: 1; transform: scale(1.1); }
         .hidden { display: none !important; }
 
@@ -196,8 +283,9 @@
         }
         
         #game-screen { flex-direction: row; justify-content: space-between; padding: 20px; align-items: center; overflow: hidden; }
+        
         .score-display { 
-            flex: 0 0 90px;
+            flex: 0 0 120px;
             height: calc(100vh - 40px);
             display: flex;
             flex-direction: column;
@@ -208,30 +296,29 @@
             font-weight: bold;
             transition: all 0.4s ease;
             opacity: 0.9;
-            border-radius: 25px;
-            color: rgba(255,255,255,0.9);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
-            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: var(--border-radius-lg);
+            color: var(--text-light-color);
+            border: none;
         }
-        #player1-display { background: linear-gradient(180deg, #42A5F5, #1E88E5); }
-        #player2-display { background: linear-gradient(180deg, #EF5350, #E53935); }
-        .score-display svg { width: 80px; height: 80px; fill: rgba(255,255,255,0.8); }
+        #player1-display { background: linear-gradient(180deg, var(--player1-color), #4e8dff); }
+        #player2-display { background: linear-gradient(180deg, var(--player2-color), #f55a5a); }
+        .score-display svg { width: 80px; height: 80px; fill: rgba(255,255,255,0.9); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));}
         
         .score-display.active { 
             opacity: 1; 
             transform: scale(1.05);
-            border-color: rgba(255,255,255,0.9);
+            box-shadow: 0 0 35px -5px var(--shadow-color);
         }
-        #player1-display.active { box-shadow: inset 0 0 20px rgba(0,0,0,0.4), 0 0 30px 8px var(--player1-color); }
-        #player2-display.active { box-shadow: inset 0 0 20px rgba(0,0,0,0.4), 0 0 30px 8px var(--player2-color); }
-
+        #player1-display.active { box-shadow: 0 0 35px -5px var(--player1-color); }
+        #player2-display.active { box-shadow: 0 0 35px -5px var(--player2-color); }
+        
         #game-board { 
             flex-grow: 1; 
-            width: auto; 
-            max-width: 1200px; 
-            margin: 0 20px; 
+            width: 100%; 
+            margin: 0;
+            padding: 0 15px; 
             display: grid; 
-            gap: 10px; 
+            gap: clamp(8px, 1vw, 15px); 
             perspective: 1200px; 
             grid-template-columns: repeat(5, 1fr); 
             grid-template-rows: repeat(4, 1fr); 
@@ -246,7 +333,7 @@
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-            border-radius: 10px;
+            border-radius: var(--border-radius-md); /* Yuvarlaklık güncellendi */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -256,8 +343,8 @@
             text-align: center;
             line-height: 1.1;
         }
-        .card-front { background-color: #B2DFDB; }
-        .card-back { color: var(--text-light-color); transform: rotateY(180deg); background-color: var(--card-color);}
+        .card-front { background-color: var(--surface-color); box-shadow: 0 2px 8px var(--shadow-light); }
+        .card-back { color: var(--text-light-color); transform: rotateY(180deg); background-color: var(--primary-color);}
         .card.p1-turn .card-back { background-color: var(--player1-color); }
         .card.p2-turn .card-back { background-color: var(--player2-color); }
         .card.p1-match .card-face.card-back { background-color: var(--player1-color); }
@@ -268,22 +355,22 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--card-back-color);
+            background-color: var(--surface-color);
             padding: 30px 50px;
-            border-radius: 20px;
-            border: 3px solid var(--accent-color);
+            border-radius: var(--border-radius-lg);
+            border: none;
             z-index: 200;
             display: flex; 
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         .game-start-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background-color: rgba(46, 52, 64, 0.7); /* Daha modern bir overlay rengi */
+            backdrop-filter: blur(5px);
             z-index: 150;
             display: flex;
             justify-content: center;
@@ -305,12 +392,13 @@
         .win-buttons { display: flex; gap: 40px; margin-top: 20px; }
         .win-buttons .icon-btn { background-color: transparent; border: none; cursor: pointer; transition: all 0.3s ease; }
         .win-buttons .icon-btn:hover { transform: scale(1.1); }
-        .win-buttons .icon-btn svg { width: 56px; height: 56px; fill: var(--accent-color); }
+        .win-buttons .icon-btn svg { width: 56px; height: 56px; fill: var(--primary-color); }
+        .win-buttons .icon-btn:hover svg { fill: var(--accent-color); }
         
-        #quiz-screen { flex-direction: row; padding: 20px; gap: 10px; align-items: stretch; position: relative; justify-content: center;}
-        #quiz-screen::after { content: ''; position: absolute; top: 10%; bottom: 10%; left: 50%; transform: translateX(-50%); width: 4px; background-color: rgba(0,0,0,0.1); border-radius: 2px; }
-        .quiz-player-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; gap: 15px; border-radius: 20px; transition: transform 0.5s; position: relative; }
-        .score-effects-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: hidden; border-radius: 20px; }
+        #quiz-screen { flex-direction: row; padding: 20px; gap: 20px; align-items: stretch; position: relative; justify-content: center;}
+        #quiz-screen::after { content: ''; position: absolute; top: 10%; bottom: 10%; left: 50%; transform: translateX(-50%); width: 2px; background-color: rgba(0,0,0,0.08); border-radius: 2px; }
+        .quiz-player-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; gap: 15px; border-radius: var(--border-radius-lg); transition: transform 0.5s, box-shadow 0.5s; position: relative; }
+        .score-effects-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: hidden; border-radius: var(--border-radius-lg); }
         .score-effect {
             position: absolute;
             top: 50%;
@@ -321,7 +409,7 @@
             color: var(--text-light-color);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             padding: 5px 15px;
-            border-radius: 10px;
+            border-radius: var(--border-radius-sm);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -392,33 +480,34 @@
         .quiz-player-area .quiz-question { 
             font-size: clamp(1.8rem, 15cqw, 3.5rem); 
             font-weight: bold; 
-            padding: 15px; 
-            background-color: var(--card-back-color); 
-            border-radius: 20px; 
+            padding: 20px; 
+            background-color: var(--surface-color); 
+            border-radius: var(--border-radius-md); 
             min-height: 120px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             width: 100%; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 15px var(--shadow-light); 
             margin-bottom: 15px; 
             direction: rtl; 
             container-type: inline-size;
         }
         .quiz-player-area .quiz-options { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; flex-grow: 1; transition: opacity 0.3s; }
         .quiz-options.answered .quiz-option-btn:not(.correct):not(.incorrect) {
+             /* İSTEK: Cevap sonrası diğer şıkların soluklaşması kaldırıldı */
         }
         .quiz-player-area .quiz-option-btn {
             font-family: inherit;
-            border: 3px solid;
+            border: 2px solid;
             color: var(--text-color);
             font-size: clamp(1.5rem, 4vw, 2.2rem);
             font-weight: bold;
             padding: 15px;
-            border-radius: 15px;
+            border-radius: var(--border-radius-md);
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 8px var(--shadow-light);
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -428,8 +517,8 @@
             direction: ltr;
         }
         .quiz-option-btn.selected { transform: scale(1.02); }
-        .p1 .quiz-option-btn.selected { border-color: var(--player1-color); box-shadow: 0 4px 10px rgba(66, 165, 245, 0.3); }
-        .p2 .quiz-option-btn.selected { border-color: var(--player2-color); box-shadow: 0 4px 10px rgba(239, 83, 80, 0.3); }
+        .p1 .quiz-option-btn.selected { border-color: var(--player1-color); box-shadow: 0 4px 10px rgba(100, 167, 250, 0.4); }
+        .p2 .quiz-option-btn.selected { border-color: var(--player2-color); box-shadow: 0 4px 10px rgba(247, 125, 125, 0.4); }
 
         .quiz-option-btn.correct {
             background-color: var(--correct-color) !important;
@@ -444,27 +533,33 @@
             transform: scale(1.03);
         }
 
-        .quiz-option-btn:disabled { cursor: not-allowed; }
+        .quiz-option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
         
-        .quiz-player-area.p1 { background-color: rgba(66, 165, 245, 0.1); }
+        /* --- YENİ: Soluklaşma efektini doğru/yanlış cevaplar için kaldır --- */
+        .quiz-option-btn.correct:disabled,
+        .quiz-option-btn.incorrect:disabled {
+            opacity: 1;
+        }
+
+        .quiz-player-area.p1 { background-color: rgba(100, 167, 250, 0.1); }
         .quiz-player-area.p1 .quiz-option-btn {
-            background-color: #E3F2FD;
-            border-color: #90CAF9;
+            background-color: #f0f6ff;
+            border-color: #d1e3ff;
         }
         .quiz-player-area.p1 .quiz-option-btn:hover:not(:disabled) {
-            background-color: #BBDEFB;
+            background-color: #e2eeff;
             border-color: var(--player1-color);
             transform: translateY(-2px);
         }
         .quiz-player-area.p1 .quiz-option-btn-icon { fill: var(--player1-color); }
         
-        .quiz-player-area.p2 { background-color: rgba(239, 83, 80, 0.1); }
+        .quiz-player-area.p2 { background-color: rgba(247, 125, 125, 0.1); }
         .quiz-player-area.p2 .quiz-option-btn {
-            background-color: #FFEBEE;
-            border-color: #EF9A9A;
+            background-color: #fff0f0;
+            border-color: #ffd6d6;
         }
         .quiz-player-area.p2 .quiz-option-btn:hover:not(:disabled) {
-            background-color: #FFCDD2;
+            background-color: #ffe4e4;
             border-color: var(--player2-color);
             transform: translateY(-2px);
         }
@@ -476,16 +571,17 @@
         .match-item, .match-target { 
             font-family: inherit;
             font-size: clamp(1.2rem, 3vw, 2.2rem);
-            padding: 10px; 
-            border-radius: 10px; 
+            padding: 12px; 
+            border-radius: var(--border-radius-md); 
             display: flex; 
             justify-content: center; 
             align-items: center; 
+            min-height: 70px;
         }
-        .match-item { background: var(--card-back-color); border: 2px solid #CFD8DC; cursor: grab; box-shadow: 0 4px 6px rgba(0,0,0,0.1); direction: rtl; }
-        .match-target { background: rgba(255,255,255,0.2); border: 2px dashed var(--text-color); direction: ltr; }
-        .match-item.dragging { opacity: 0.5; }
-        .match-target.drag-over { border-color: var(--accent-color); background-color: rgba(255, 202, 40, 0.2); }
+        .match-item { background: var(--surface-color); border: none; cursor: grab; box-shadow: 0 4px 15px var(--shadow-light); direction: rtl; transition: opacity 0.2s ease, box-shadow 0.2s ease;}
+        .match-target { background: rgba(0,0,0,0.02); border: 2px dashed #d8dee9; direction: ltr; transition: all 0.2s ease; }
+        .match-item.dragging { opacity: 0.5; box-shadow: 0 8px 25px var(--shadow-medium); }
+        .match-target.drag-over { border-color: var(--accent-color); border-style: solid; background-color: rgba(247, 183, 51, 0.1); }
         .match-item.correct-match, .match-target.correct-match {
             background-color: var(--correct-color);
             border-color: var(--correct-color);
@@ -497,53 +593,54 @@
         }
         .match-item.correct-match { box-shadow: none; }
         .match-target.incorrect-flash { animation: flash-red 0.5s; }
-        @keyframes flash-red { from, to { background-color: rgba(255,255,255,0.2); } 50% { background-color: var(--incorrect-color); } }
+        @keyframes flash-red { from, to { background-color: rgba(0,0,0,0.02); } 50% { background-color: var(--incorrect-color); } }
         #match-complete-overlay .icon-btn { background-color: transparent; border: none; cursor: pointer; transition: transform 0.3s ease; }
         #match-complete-overlay .icon-btn:hover { transform: scale(1.1); }
-        #match-complete-overlay .icon-btn svg { width: 120px; height: 120px; fill: var(--accent-color); animation: pulse-glow 1.5s infinite ease-in-out; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+        #match-complete-overlay .icon-btn svg { width: 120px; height: 120px; fill: var(--primary-color); animation: pulse-glow 1.5s infinite ease-in-out; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
         
         #typing-screen { flex-direction: row; align-items: center; justify-content: center; padding: 20px; gap: 20px; position: relative;}
         
-        #typing-main-container { display: flex; flex-direction: row-reverse; width: 100%; max-width: 1400px; gap: 20px; align-items: stretch; }
+        #typing-main-container { display: flex; width: 100%; max-width: 1400px; gap: 20px; align-items: stretch; }
         #typing-status-panel { 
             flex: 1; 
-            background-color: var(--card-back-color); 
-            border-radius: 15px; 
+            background-color: var(--surface-color); 
+            border-radius: var(--border-radius-md); 
             padding: 20px; 
             align-self: stretch; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 15px var(--shadow-light); 
             display: flex;
             flex-direction: column;
             max-height: calc(100vh - 40px);
         }
         #typing-status-panel h2 { 
             margin-top: 0; 
-            color: var(--card-color); 
-            border-bottom: 2px solid #CFD8DC; 
+            color: var(--primary-color); 
+            border-bottom: 2px solid #e5e9f0; 
             padding-bottom: 10px; 
             flex-shrink: 0;
+            text-align: center;
         }
         #typing-status-list { 
             list-style: none; 
             padding: 0; 
             margin: 0; 
-            text-align: right; 
+            text-align: left; 
             flex-grow: 1;
             overflow-y: auto;
         }
-        #typing-status-list li { padding: 10px; margin-bottom: 10px; border-radius: 8px; border-right-width: 5px; border-right-style: solid; transition: background-color 0.3s; }
-        #typing-status-list li.correct { background-color: #E8F5E9; border-right-color: var(--correct-color); }
-        #typing-status-list li.incorrect { background-color: #FFEBEE; border-right-color: var(--incorrect-color); }
-        .status-word { font-weight: bold; font-size: 1.4rem; }
-        .status-translation { color: #546E7A; margin-bottom: 5px; }
-        .status-user-answer { font-style: italic; color: var(--incorrect-color); }
-        .status-user-answer::before { content: "جوابك: "; font-style: normal; }
+        #typing-status-list li { padding: 10px; margin-bottom: 10px; border-radius: var(--border-radius-sm); border-left-width: 5px; border-left-style: solid; transition: background-color 0.3s; }
+        #typing-status-list li.correct { background-color: rgba(143, 188, 143, 0.1); border-left-color: var(--correct-color); }
+        #typing-status-list li.incorrect { background-color: rgba(240, 128, 128, 0.1); border-left-color: var(--incorrect-color); }
+        .status-word { font-weight: bold; font-size: 1.4rem; direction: rtl; text-align: right; }
+        .status-translation { color: #4c566a; margin-bottom: 5px; }
+        .status-user-answer { font-style: italic; color: var(--incorrect-color); direction: rtl; text-align: right;}
+        .status-user-answer::before { content: "Cevabın: "; font-style: normal; }
 
-        #typing-game-area { flex: 2; display: flex; flex-direction: column; align-items: center; gap: 15px; justify-content: center; position: relative;}
-        #typing-interactive-elements { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .countdown-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(44, 62, 80, 0.85); z-index: 200; display: none; justify-content: center; align-items: center; font-size: clamp(8rem, 30vw, 15rem); font-weight: bold; color: var(--accent-color); -webkit-text-stroke: 2px var(--bg-color); }
+        #typing-game-area { flex: 2; display: flex; flex-direction: column; align-items: center; gap: 20px; justify-content: center; position: relative;}
+        #typing-interactive-elements { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .countdown-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(46, 52, 64, 0.85); z-index: 200; display: none; justify-content: center; align-items: center; font-size: clamp(8rem, 30vw, 15rem); font-weight: bold; color: var(--accent-color); text-shadow: 0 0 15px rgba(247, 183, 51, 0.5);}
         .typing-stats { display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 800px; font-size: 1.8rem; gap: 20px; }
-        .stat-item { position: relative; display: flex; align-items: center; gap: 10px; background-color: var(--card-back-color); padding: 8px 15px; border-radius: 10px; transition: all 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .stat-item { position: relative; display: flex; align-items: center; gap: 10px; background-color: var(--surface-color); padding: 8px 15px; border-radius: var(--border-radius-md); transition: all 0.3s; box-shadow: 0 2px 8px var(--shadow-light); }
         .score-effects-container-typing { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: visible; }
         .typing-score-effect {
             position: absolute;
@@ -561,32 +658,44 @@
             50% { transform: translate(-50%, -60px) scale(1.2); opacity: 1; }
             100% { transform: translate(-50%, -80px) scale(0.8); opacity: 0; }
         }
-        .stat-item svg { width: 32px; height: 32px; fill: var(--accent-color); }
-        .progress-bar { display: flex; gap: 4px; width: 100%; max-width: 800px; height: 8px; }
-        .progress-segment { flex: 1; background-color: #CFD8DC; border-radius: 4px; transition: all 0.3s ease; }
+        .stat-item svg { width: 32px; height: 32px; fill: var(--primary-color); }
+        .progress-bar { display: flex; gap: 4px; width: 100%; max-width: 800px; height: 10px; }
+        #typing-progress-bar { flex-direction: row-reverse; } /* GÜNCELLEME: İlerleme çubuğu yönü sağdan sola */
+        .progress-segment { flex: 1; background-color: #e5e9f0; border-radius: 5px; transition: all 0.3s ease; }
         .progress-segment.correct { background-color: var(--correct-color); }
         .progress-segment.incorrect { background-color: var(--incorrect-color); }
         .progress-segment.active { background-color: var(--accent-color); transform: scaleY(1.5); }
-        #typing-prompt { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: bold; background-color: var(--card-back-color); border-radius: 20px; min-height: 150px; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 800px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        #typing-prompt { direction: rtl; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: bold; background-color: var(--surface-color); border-radius: var(--border-radius-lg); min-height: 150px; display: flex; align-items: center; justify-content: center; width: 100%; max-width: 800px; box-shadow: 0 4px 15px var(--shadow-light);}
         .typing-input-area { display: flex; align-items: stretch; gap: 10px; width: 100%; max-width: 800px; }
-        #typing-input { font-size: 2rem; flex-grow: 1; padding: 15px; border-radius: 10px; border: 3px solid #CFD8DC; background: var(--card-back-color); color: var(--text-color); text-align: right; direction: rtl; transition: box-shadow 0.2s, border-color 0.2s; }
-        #typing-input:focus { outline: none; border-color: var(--accent-color); }
-        #typing-input:disabled { background-color: #ECEFF1; cursor: not-allowed; }
-        #typing-input.correct-input { border-color: var(--correct-color); animation: flash-green 0.5s; }
+        #typing-input { font-size: 2rem; flex-grow: 1; padding: 15px; border-radius: var(--border-radius-md); border: 2px solid #d8dee9; background: var(--surface-color); color: var(--text-color); text-align: right; direction: rtl; transition: box-shadow 0.2s, border-color 0.2s; }
+        #typing-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(94, 129, 172, 0.2); }
+        #typing-input:disabled { background-color: #eceff4; cursor: not-allowed; }
+        #typing-input.correct-input { border-color: var(--correct-color); }
         #typing-input.incorrect-input { border-color: var(--incorrect-color); animation: shake 0.5s; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
-        @keyframes flash-green { 50% { box-shadow: 0 0 12px var(--correct-color); } }
-        #typing-submit-btn { border: none; background-color: var(--correct-color); color: var(--text-light-color); border-radius: 10px; padding: 0 25px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 0 #388E3C; }
-        #typing-submit-btn:hover { background-color: #4CAF50; }
-        #typing-submit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #388E3C; }
+        
+        #typing-submit-btn { 
+            border: none; 
+            background-color: var(--correct-color); 
+            color: var(--text-light-color); 
+            border-radius: var(--border-radius-md); 
+            padding: 0 25px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 0 #6e9b6e;
+            animation: flash-confirm 1.2s infinite ease-in-out;
+        }
+        #typing-submit-btn:hover { background-color: #8fbc8f; }
+        #typing-submit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #6e9b6e; }
         #typing-submit-btn svg { width: 32px; height: 32px; fill: white; pointer-events: none; }
-        #virtual-keyboard { direction: rtl; padding: 10px; display: flex; flex-direction: column; gap: 8px; background-color: rgba(0,0,0,0.1); border-radius: 10px; width: 100%; max-width: 800px; transition: all 0.3s; }
+        
+        #virtual-keyboard { direction: rtl; padding: 10px; display: flex; flex-direction: column; gap: 8px; background-color: rgba(0,0,0,0.03); border-radius: var(--border-radius-md); width: 100%; max-width: 800px; transition: all 0.3s; }
         .keyboard-row { display: flex; justify-content: center; gap: 8px; }
         .keyboard-key {
             font-family: 'Markazi Text', 'Tajawal', serif;
             color: var(--text-color);
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius-sm);
             font-size: 1.8rem;
             padding: 12px 6px;
             cursor: pointer;
@@ -599,10 +708,19 @@
         .keyboard-key:active { transform: translateY(2px); }
         .keyboard-key.backspace { background-color: var(--accent-color); }
         .keyboard-key svg { width: 24px; height: 24px; fill: var(--text-color); pointer-events: none;}
-        #typing-ready-btn { width: 90%; max-width: 600px; padding: 20px; font-size: clamp(1.8rem, 5vw, 2.5rem); z-index: 5; }
-        #typing-ready-btn:not(.hidden) { animation: pulse-glow 1.5s infinite ease-in-out; }
+        
         #typing-game-over .icon-btn { animation: pulse-glow 1.5s infinite ease-in-out; }
         #typing-game-over .icon-btn svg { width: 80px; height: 80px;}
+
+        #typing-prompt.start-mode {
+            background-color: var(--incorrect-color);
+            color: var(--text-light-color);
+            cursor: pointer;
+            animation: wave-pulse 2s infinite ease-in-out;
+            font-family: 'Markazi Text', 'Tajawal', serif;
+            font-weight: 700;
+            font-size: clamp(3rem, 7vw, 4.5rem);
+        }
 
         .results-screen { padding-top: 80px; }
         .results-screen.match-complete {
@@ -619,61 +737,81 @@
         .results-screen h2 { font-size: 4rem; margin-bottom: 25px; }
         .results-screen p { font-size: 2.5rem; color: var(--accent-color); margin-top: 0; }
         
-        #results-details { text-align: right; direction:rtl; width: 90%; max-width: 800px; max-height: 45vh; overflow-y: auto; background: var(--card-back-color); padding: 30px; border-radius: 15px; }
+        #results-details { text-align: left; width: 90%; max-width: 800px; max-height: 45vh; overflow-y: auto; background: var(--surface-color); padding: 30px; border-radius: var(--border-radius-md); }
         #results-details h3 { font-size: 2.2rem; margin-bottom: 20px; }
         #results-details ul { list-style: none; padding: 0; margin: 0; }
-        #results-details li { margin-bottom: 25px; font-size: 2.2rem; line-height: 1.7; padding-bottom: 20px; border-bottom: 2px solid var(--card-back-light); }
+        #results-details li { margin-bottom: 25px; font-size: 2.2rem; line-height: 1.7; padding-bottom: 20px; border-bottom: 1px solid #e5e9f0; }
         #results-details li:last-child { border-bottom: none; }
-        #results-details .prompt { font-weight: bold; }
-        #results-details .user-answer { color: var(--incorrect-color); text-decoration: line-through; background-color: rgba(239, 83, 80, 0.2); padding: 5px 10px; border-radius: 8px; }
-        #results-details .correct-answer { color: var(--correct-color); background-color: rgba(102, 187, 106, 0.2); padding: 5px 10px; border-radius: 8px; }
+        #results-details .prompt { font-weight: bold; direction: rtl; display: inline-block; }
+        #results-details .user-answer { color: var(--incorrect-color); text-decoration: line-through; background-color: rgba(240, 128, 128, 0.2); padding: 5px 10px; border-radius: var(--border-radius-sm); direction: rtl; display: inline-block; }
+        #results-details .correct-answer { color: var(--correct-color); background-color: rgba(143, 188, 143, 0.2); padding: 5px 10px; border-radius: var(--border-radius-sm); direction: rtl; display: inline-block; }
         
-        @keyframes pulse-glow { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(77, 182, 172, 0.2)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(77, 182, 172, 0.6));} }
+        @keyframes pulse-glow { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(94, 129, 172, 0.2)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(94, 129, 172, 0.6));} }
         
-        @media (max-width: 1200px) { #typing-main-container { flex-direction: column-reverse; height: auto; } #typing-status-panel { width: 100%; flex: none; height: 250px; } #typing-game-area { width: 100%; } #quiz-screen { flex-direction: column; } #quiz-screen::after { display: none; } }
-        @media (max-width: 800px) { #start-screen .menu-container, #game-choice-screen .menu-container { grid-template-columns: 1fr; } #game-screen { flex-direction: column; padding-top: 20px; } .score-display { flex-direction: row; height: 80px; width: 100%; } #game-board { flex-grow: 1; margin: 10px 0; } .quiz-player-area .quiz-options { grid-template-columns: 1fr; } .match-item, .match-target { font-size: 1.2rem; padding: 8px;} .keyboard-key { font-size: 1.1rem; padding: 8px 4px; } }
+        @keyframes wave-pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px var(--shadow-light);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 8px 30px rgba(242, 76, 76, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 15px var(--shadow-light);
+            }
+        }
+
+        @keyframes flash-confirm {
+            50% {
+                background-color: #28a745; /* Slightly darker green */
+                transform: scale(1.02);
+            }
+        }
+
+        @media (max-width: 1200px) { #typing-main-container { flex-direction: column; height: auto; } #typing-status-panel { width: 100%; flex: none; height: 250px; } #typing-game-area { width: 100%; } #quiz-screen { flex-direction: column; } #quiz-screen::after { display: none; } }
+        @media (max-width: 800px) { #start-screen .menu-container, #game-choice-screen .menu-container { grid-template-columns: 1fr; } #game-screen { flex-direction: column; padding-top: 20px; } .score-display { flex-direction: row; height: 80px; width: 100%; border-radius: var(--border-radius-lg); } #game-board { flex-grow: 1; margin: 10px 0; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr); } .quiz-player-area .quiz-options { grid-template-columns: 1fr; } .match-item, .match-target { font-size: 1.2rem; padding: 8px;} .keyboard-key { font-size: 1.1rem; padding: 8px 4px; } }
     </style>
 </head>
 
 <body>
-    <!-- Not: Audio etiketleri kaldırıldı çünkü sesler artık Web Audio API ile dinamik olarak üretiliyor. -->
-
     <div id="start-screen" class="screen active">
-        <h1 class="main-title">أَلْعاب الكَلِمات لِلصَّفّ</h1>
+        <h1 class="main-title">9. Sınıf Arapça Kelime Oyunu</h1>
         <div class="grade-numeral">٩</div>
-        <h2 class="sub-title">اِخْتَرْ وَحْدَة</h2>
+        <h2 class="sub-title">Ünite Seç</h2>
         <div id="unit-container" class="menu-container"></div>
     </div>
-    <div id="lesson-screen" class="screen"><div class="header-navigation"><button class="back-btn" data-target="start-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="lesson-title" class="sub-title">اختر درسًا</h2><div id="lesson-container" class="menu-container"></div></div>
+    <div id="lesson-screen" class="screen"><div class="header-navigation"><button class="back-btn" data-target="start-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="lesson-title" class="sub-title">Ders Seç</h2><div id="lesson-container" class="menu-container"></div></div>
     <div id="game-choice-screen" class="screen">
-        <div class="header-navigation"><button class="back-btn" data-target="lesson-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="game-choice-title" class="sub-title">اِخْتَرْ لُعْبَة</h2>
+        <div class="header-navigation"><button class="back-btn" data-target="lesson-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div><h2 id="game-choice-title" class="sub-title">Oyun Seç</h2>
         <div id="game-choice-container" class="menu-container">
             <button class="menu-btn" data-game-type="memory">
                 <svg viewBox="0 0 24 24"><path d="M7 3H17C18.1 3 19 3.9 19 5V15C19 16.1 18.1 17 17 17H7C5.9 17 5 16.1 5 15V5C5 3.9 5.9 3 7 3M3 7V19C3 20.1 3.9 21 5 21H15V19H5V7H3Z" /></svg>
                 <div>
-                    <span class="menu-title">بِطاقات الذّاكِرَة</span>
-                    <span class="description">اِبْحَثْ عَن الكَلِمات المُتَطابِقَة</span>
+                    <span class="menu-title">Hafıza Kartı</span>
+                    <span class="description">Eşleşen kartları bul</span>
                 </div>
             </button>
             <button class="menu-btn" data-game-type="quiz">
                 <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M11,16H13V18H11V16Z" /></svg>
                 <div>
-                    <span class="menu-title">اِخْتِبار الاِخْتِيار مِنْ مُتَعَدِّد</span>
-                    <span class="description">اِبْحَثْ عَن المَعْنى الصَّحيح</span>
+                    <span class="menu-title">İkili Test</span>
+                    <span class="description">Doğru anlamı bul</span>
                 </div>
             </button>
             <button class="menu-btn" data-game-type="match">
                 <svg viewBox="0 0 24 24"><path d="M21,9L17,5V8H10V10H17V13M7,11V8L3,12L7,16V13H14V11H7Z" /></svg>
                 <div>
-                    <span class="menu-title">مُطابَقَة الكَلِمات</span>
-                    <span class="description">اِسْحَبْ وَأَفْلِتْ</span>
+                    <span class="menu-title">Eşleştirme</span>
+                    <span class="description">Sürükle ve bırak</span>
                 </div>
             </button>
             <button class="menu-btn" data-game-type="typing">
                 <svg viewBox="0 0 24 24"><path d="M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z" /></svg>
                 <div>
-                    <span class="menu-title">الكِتابَة السَّريعَة</span>
-                    <span class="description">اُكْتُبْ الكَلِمَة بِشَكْل صَحيح</span>
+                    <span class="menu-title">Klavye Oyunu</span>
+                    <span class="description">Kelimeyi doğru yaz</span>
                 </div>
             </button>
         </div>
@@ -682,27 +820,27 @@
     <div id="game-screen" class="screen">
         <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
         <div id="player1-display" class="score-display">
-            <svg viewBox="0 0 24 24" style="fill:var(--text-light-color);"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
             <span id="score1">0</span>
         </div>
         <div id="game-board"></div>
         <div id="player2-display" class="score-display">
-            <svg viewBox="0 0 24 24" style="fill:var(--text-light-color);"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
             <span id="score2">0</span>
         </div>
         <div id="memory-game-over" class="game-over-overlay hidden">
             <div id="winner-icon-container"></div>
             <h2 id="memory-win-text"></h2>
             <div class="win-buttons">
-                <button class="icon-btn" id="play-again-memory-btn" title="العب مرة أخرى"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-                <button class="icon-btn" id="main-menu-memory-btn" title="القائمة الرئيسية"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+                <button class="icon-btn" id="play-again-memory-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                <button class="icon-btn" id="main-menu-memory-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
             </div>
         </div>
     </div>
     <div id="quiz-screen" class="screen">
         <div id="quiz-countdown-overlay" class="countdown-overlay"></div>
         <div id="quiz-start-overlay" class="game-start-overlay">
-            <button id="quiz-start-btn" class="start-btn">اِبْدَأْ</button>
+            <button id="quiz-start-btn" class="start-btn">BAŞLA</button>
         </div>
         <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
         <div class="quiz-player-area p1">
@@ -731,7 +869,7 @@
             <div id="quiz-winner-icon-container"></div>
             <h2 id="quiz-win-text"></h2>
             <div class="win-buttons">
-                <button class="icon-btn" id="new-round-quiz-btn" title="جولة جديدة"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                <button class="icon-btn" id="new-round-quiz-btn" title="Yeni Tur"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
             </div>
         </div>
     </div>
@@ -742,7 +880,7 @@
             <div class="match-column" id="match-turkish-list"></div>
         </div>
         <div id="match-complete-overlay" class="game-start-overlay hidden">
-            <button id="play-again-match-btn" class="icon-btn" title="لعبة جديدة">
+            <button id="play-again-match-btn" class="icon-btn" title="Yeni Oyun">
                 <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg>
             </button>
         </div>
@@ -752,12 +890,12 @@
         <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
         <div id="typing-main-container">
             <div id="typing-status-panel">
-                <h2>الحالة</h2>
+                <h2>Durum</h2>
                 <ul id="typing-status-list"></ul>
             </div>
             <div id="typing-game-area">
                 <div id="typing-game-over" class="game-start-overlay hidden">
-                    <button class="icon-btn" id="play-again-typing-btn" title="العب مرة أخرى"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+                    <button class="icon-btn" id="play-again-typing-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
                 </div>
                 <div id="typing-interactive-elements">
                     <div class="typing-stats">
@@ -774,12 +912,11 @@
                     <div id="typing-progress-bar" class="progress-bar"></div>
                     <div id="typing-prompt"></div>
                     <div class="typing-input-area">
-                        <button id="typing-submit-btn"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg></button>
                         <input type="text" id="typing-input" autocomplete="off" spellcheck="false"/>
+                        <button id="typing-submit-btn"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg></button>
                     </div>
                 </div>
                 <div id="virtual-keyboard"></div>
-                <button id="typing-ready-btn" class="start-btn">أَنا مُسْتَعِدّ</button>
             </div>
         </div>
 
@@ -788,12 +925,12 @@
 
     <div id="results-screen" class="screen results-screen">
         <div class="header-navigation"><button class="back-btn" data-target="game-choice-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-        <h2 id="results-title">انتهت اللعبة!</h2><p id="results-score-text"></p>
+        <h2 id="results-title">Oyun Bitti!</h2><p id="results-score-text"></p>
         <div id="results-details"></div>
         <div class="win-buttons">
-            <button class="icon-btn" id="play-again-btn" title="العب مرة أخرى"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-            <button class="icon-btn" id="new-player-btn" title="لاعب جديد"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
-            <button class="icon-btn" id="main-menu-results-btn" title="القائمة الرئيسية"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
+            <button class="icon-btn" id="play-again-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
+            <button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
+            <button class="icon-btn" id="main-menu-results-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
         </div>
     </div>
     
@@ -802,69 +939,111 @@
 
     // --- DATA MODULE ---
     const Data = {
-        memory_game_unit1: {
-            lesson1: { 
-                words: [ 
-                    { id: 82, arabic: 'صَباح', turkish: 'Sabah' }, 
-                    { id: 83, arabic: 'الخَيْر', turkish: 'Hayır' }, 
-                    { id: 84, arabic: 'النّور', turkish: 'Nur' },
-                    { id: 85, arabic: 'مَساء', turkish: 'Akşam' }, 
-                    { id: 86, arabic: 'مَرْحَبًا', turkish: 'Merhaba' },
-                    { id: 87, arabic: 'مَع', turkish: 'İle' },
-                    { id: 88, arabic: 'اِقْرَأْ', turkish: 'Oku' },
-                    { id: 89, arabic: 'اُكْتُبْ', turkish: 'Yaz' },
-                    { id: 90, arabic: 'أَعِدْ', turkish: 'Tekrar et' },
-                    { id: 91, arabic: 'اِسْتَمِعْ', turkish: 'Dinle' }
-                ] 
-            },
-            lesson2: { 
-                words: [ 
-                    { id: 7, arabic: 'طالِب', turkish: 'Öğrenci' }, 
-                    { id: 8, arabic: 'مُدَرِّس', turkish: 'Öğretmen' }, 
-                    { id: 9, arabic: 'مُدير', turkish: 'Müdür' }, 
-                    { id: 10, arabic: 'صَديق', turkish: 'Arkadaş' }, 
-                    { id: 11, arabic: 'هَذا', turkish: 'Bu (e)' }, 
-                    { id: 12, arabic: 'هَذِهِ', turkish: 'Bu (k)' }, 
-                    { id: 53, arabic: 'هُوَ', turkish: 'O (e)' }, 
-                    { id: 54, arabic: 'هِيَ', turkish: 'O (k)' }, 
-                    { id: 55, arabic: 'أَنْتَ', turkish: 'Sen (e)' }, 
-                    { id: 56, arabic: 'أَنْتِ', turkish: 'Sen (k)' },
-                    { id: 92, arabic: 'أَنَا', turkish: 'Ben' },
-                    { id: 93, arabic: 'هَلْ', turkish: 'mı, mi?' },
-                    { id: 94, arabic: 'مَنْ', turkish: 'Kim?' },
-                    { id: 95, arabic: 'تَكَلَّمْ', turkish: 'Konuş' },
-                    { id: 96, arabic: 'اُسْكُتْ', turkish: 'Sus' },
-                    { id: 97, arabic: 'تَعَالَ', turkish: 'Gel' },
-                    { id: 98, arabic: 'اِذْهَبْ', turkish: 'Git' },
-                    { id: 99, arabic: 'تَشَرَّفْتُ', turkish: 'Memnun oldum' },
-                    { id: 100, arabic: 'شُكْرًا', turkish: 'Teşekkürler' },
-                    { id: 101, arabic: 'عَفْوًا', turkish: 'Rica ederim' }
-                ] 
-            }
-        },
         grade9_words: {
             unit1: {
-                title: "الوَحْدَة الأولى", description: "التَّحِيَّة وَالتَّعارُف", lessons: {
-                    lesson1: { title: "الدَّرْس الأَوَّل", description: "التَّحِيَّة", words: [ { id: 1, arabic: 'السَّلام عَلَيْكُم', turkish: 'Selamun Aleyküm' }, { id: 2, arabic: 'صَباح الخَيْر', turkish: 'Hayırlı Sabahlar' }, { id: 3, arabic: 'مَرْحَبًا', turkish: 'Merhaba' }, { id: 4, arabic: 'كَيْفَ حالُكَ؟', turkish: 'Nasılsın?' }, { id: 5, arabic: 'أَنا بِخَيْر', turkish: 'Ben iyiyim' }, { id: 6, arabic: 'إِلى اللِّقاء', turkish: 'Görüşmek üzere' }, { id: 49, arabic: 'وَعَلَيْكُم السَّلام', turkish: 'Ve Aleyküm Selam' }, { id: 50, arabic: 'مَساء النّور', turkish: 'Hayırlı Akşamlar' }, { id: 51, arabic: 'أَهْلًا وَسَهْلًا', turkish: 'Hoş geldiniz' }, { id: 52, arabic: 'مَع السَّلامَة', turkish: 'Selametle' } ] },
-                    lesson2: { title: "الدَّرْس الثّاني", description: "التَّعارُف", words: [ { id: 7, arabic: 'طالِب', turkish: 'Öğrenci' }, { id: 8, arabic: 'مُدَرِّس', turkish: 'Öğretmen' }, { id: 9, arabic: 'صَديق', turkish: 'Arkadaş' }, { id: 10, arabic: 'ما اسْمُكَ؟', turkish: 'Adın ne?' }, { id: 11, arabic: 'اِسْمي', turkish: 'Benim adım' }, { id: 12, arabic: 'تَشَرَّفْتُ', turkish: 'Memnun oldum' }, { id: 53, arabic: 'مُدِيرَة', turkish: 'Müdire' }, { id: 54, arabic: 'مِن أَيْنَ أَنْتَ؟', turkish: 'Nerelisin?' }, { id: 55, arabic: 'فُرْصَة سَعيدَة', turkish: 'İyi ki karşılaştık' }, { id: 56, arabic: 'عَفْوًا', turkish: 'Rica ederim' } ] }
+                title: { ar: "الوَحْدَة الأولى", tr: "1. Ünite" },
+                description: { ar: "التَّحِيَّة وَالتَّعارُف", tr: "Selamlaşma ve Tanışma" },
+                lessons: {
+                    lesson1: { 
+                        title: { ar: "الدَّرْس الأَوَّل", tr: "1. Ders" },
+                        description: { ar: "التَّحِيَّة", tr: "Selamlaşma" },
+                        words: [
+                            { id: 1, arabic: 'السَّلام عَلَيْكُم', turkish: 'Selam üzerinize olsun!' },
+                            { id: 2, arabic: 'وَعَلَيْكُم السَّلام', turkish: 'Selam sizin de üzerinize olsun!' },
+                            { id: 3, arabic: 'صَباح الخَيْر', turkish: 'Günaydın!' },
+                            { id: 5, arabic: 'مَساء الخَيْر', turkish: 'Hayırlı akşamlar!' },
+                            { id: 7, arabic: 'مَرْحَبًا', turkish: 'Merhaba!' },
+                            { id: 8, arabic: 'أَهْلًا وَسَهْلًا', turkish: 'Hoş geldiniz!' },
+                            { id: 9, arabic: 'أَهْلًا بِك', turkish: 'Hoş bulduk!' },
+                            { id: 10, arabic: 'كَيْفَ حالُك؟', turkish: 'Nasılsın?' },
+                            { id: 11, arabic: 'أَنا بِخَيْر', turkish: 'İyiyim!' },
+                            { id: 42, arabic: 'الحَمْد لِله', turkish: 'Allah\'a hamdolsun!' },
+                            { id: 12, arabic: 'إِلى اللِّقاء', turkish: 'Görüşmek üzere!' },
+                            { id: 13, arabic: 'مَع السَّلامَة', turkish: 'Selametle!' },
+                            { id: 14, arabic: 'في أَمان الله', turkish: 'Allah\'a emanet ol!' },
+                            { id: 15, arabic: 'اِقْرَأْ', turkish: 'Oku!' },
+                            { id: 16, arabic: 'اُكْتُبْ', turkish: 'Yaz!' },
+                            { id: 17, arabic: 'أَعِدْ', turkish: 'Tekrar et!' },
+                            { id: 18, arabic: 'اِسْتَمِعْ', turkish: 'Dinle!' }
+                        ]
+                    },
+                    lesson2: { 
+                        title: { ar: "الدَّرْس الثّاني", tr: "2. Ders" },
+                        description: { ar: "التَّعارُف", tr: "Tanışma" },
+                        words: [
+                            { id: 19, arabic: 'طالِب', turkish: 'Erkek öğrenci' },
+                            { id: 20, arabic: 'طالِبَة', turkish: 'Kız öğrenci' },
+                            { id: 21, arabic: 'مُدَرِّس', turkish: 'Erkek öğretmen' },
+                            { id: 22, arabic: 'مُدَرِّسَة', turkish: 'Kadın öğretmen' },
+                            { id: 23, arabic: 'مُدير', turkish: 'Müdür' },
+                            { id: 24, arabic: 'مُديرَة', turkish: 'Müdire' },
+                            { id: 25, arabic: 'صَديق', turkish: 'Erkek arkadaş' },
+                            { id: 26, arabic: 'صَديقَة', turkish: 'Kız arkadaş' },
+                            { id: 27, arabic: 'ما اسْمُكَ؟', turkish: 'Adın ne? (erkeğe)' },
+                            { id: 28, arabic: 'ما اسْمُكِ؟', turkish: 'Adın ne? (kadına)' },
+                            { id: 29, arabic: 'اِسْمي', turkish: 'Benim adım' },
+                            { id: 30, arabic: 'مِن أَيْن أَنْتَ؟', turkish: 'Nerelisin? (e)' },
+                            { id: 31, arabic: 'مِن أَيْن أَنْتِ؟', turkish: 'Nerelisin? (k)' },
+                            { id: 32, arabic: 'أَنا مِنْ', turkish: 'Ben ...lıyım' },
+                            { id: 33, arabic: 'تَشَرَّفْتُ', turkish: 'Memnun oldum!' },
+                            { id: 34, arabic: 'فُرْصَة سَعيدَة', turkish: 'Memnun oldum!' },
+                            { id: 35, arabic: 'شُكْرًا', turkish: 'Teşekkürler!' },
+                            { id: 36, arabic: 'عَفْوًا', turkish: 'Rica ederim!' },
+                            { id: 37, arabic: 'وَأَنا أَيْضًا', turkish: 'Ben de' },
+                            { id: 38, arabic: 'تَكَلَّمْ', turkish: 'Konuş!' },
+                            { id: 39, arabic: 'اُسْكُتْ', turkish: 'Sus!' },
+                            { id: 40, arabic: 'تَعَالَ', turkish: 'Gel!' },
+                            { id: 41, arabic: 'اِذْهَبْ', turkish: 'Git!' }
+                        ]
+                    }
                 }
             },
             unit2: {
-                title: "الوَحْدَة الثّانِيَة", description: "الحَياة المَدْرَسِيَّة", lessons: {
-                    lesson1: { title: "الدَّرْس الأَوَّل", description: "صَفّي", words: [ { id: 13, arabic: 'صَفّ', turkish: 'Sınıf' }, { id: 14, arabic: 'كِتاب', turkish: 'Kitap' }, { id: 15, arabic: 'قَلَم', turkish: 'Kalem' }, { id: 17, arabic: 'كُرْسِيّ', turkish: 'Sandalye' }, { id: 18, arabic: 'حَقيبَة', turkish: 'Çanta' }, { id: 57, arabic: 'طاوِلَة', turkish: 'Masa' }, { id: 58, arabic: 'دَفْتَر', turkish: 'Defter' }, { id: 59, arabic: 'سَبّورَة', turkish: 'Yazı tahtası' }, { id: 60, arabic: 'جَديد', turkish: 'Yeni' }, { id: 61, arabic: 'نَظيف', turkish: 'Temiz' } ] },
-                    lesson2: { title: "الدَّرْس الثّاني", description: "مَدْرَسَتي", words: [ { id: 19, arabic: 'مَدْرَسَة', turkish: 'Okul' }, { id: 20, arabic: 'مُدير', turkish: 'Müdür' }, { id: 21, arabic: 'مَكْتَبَة', turkish: 'Kütüphane' }, { id: 22, arabic: 'حَديقَة', turkish: 'Bahçe' }, { id: 23, arabic: 'أَدْرُسُ', turkish: 'Ders çalışıyorum' }, { id: 24, arabic: 'أُحِبُّ', turkish: 'Seviyorum' }, { id: 62, arabic: 'مَقْصِف', turkish: 'Kantin' }, { id: 63, arabic: 'مُخْتَبَر', turkish: 'Laboratuvar' }, { id: 64, arabic: 'نافِذَة', turkish: 'Pencere' }, { id: 65, arabic: 'باب', turkish: 'Kapı' } ] }
+                title: { ar: "الوَحْدَة الثّانِيَة", tr: "2. Ünite" },
+                description: { ar: "الحَياة المَدْرَسِيَّة", tr: "Okul Hayatı" },
+                lessons: {
+                    lesson1: { 
+                        title: { ar: "الدَّرْس الأَوَّل", tr: "1. Ders" },
+                        description: { ar: "صَفّي", tr: "Sınıfım" },
+                        words: [ { id: 13, arabic: 'صَفّ', turkish: 'Sınıf' }, { id: 14, arabic: 'كِتاب', turkish: 'Kitap' }, { id: 15, arabic: 'قَلَم', turkish: 'Kalem' }, { id: 17, arabic: 'كُرْسِيّ', turkish: 'Sandalye' }, { id: 18, arabic: 'حَقيبَة', turkish: 'Çanta' }, { id: 57, arabic: 'طاوِلَة', turkish: 'Masa' }, { id: 58, arabic: 'دَفْتَر', turkish: 'Defter' }, { id: 59, arabic: 'سَبّورَة', turkish: 'Yazı tahtası' }, { id: 60, arabic: 'جَديد', turkish: 'Yeni' }, { id: 61, arabic: 'نَظيف', turkish: 'Temiz' } ] 
+                    },
+                    lesson2: { 
+                        title: { ar: "الدَّرْس الثّاني", tr: "2. Ders" },
+                        description: { ar: "مَدْرَسَتي", tr: "Okulum" },
+                        words: [ { id: 19, arabic: 'مَدْرَسَة', turkish: 'Okul' }, { id: 20, arabic: 'مُدير', turkish: 'Müdür' }, { id: 21, arabic: 'مَكْتَبَة', turkish: 'Kütüphane' }, { id: 22, arabic: 'حَديقَة', turkish: 'Bahçe' }, { id: 23, arabic: 'أَدْرُسُ', turkish: 'Ders çalışıyorum' }, { id: 24, arabic: 'أُحِبُّ', turkish: 'Seviyorum' }, { id: 62, arabic: 'مَقْصِف', turkish: 'Kantin' }, { id: 63, arabic: 'مُخْتَبَر', turkish: 'Laboratuvar' }, { id: 64, arabic: 'نافِذَة', turkish: 'Pencere' }, { id: 65, arabic: 'باب', turkish: 'Kapı' } ] 
+                    }
                 }
             },
             unit3: {
-                title: "الوَحْدَة الثّالِثَة", description: "الأُسْرَة وَالبَيْت", lessons: {
-                    lesson1: { title: "الدَّرْس الأَوَّل", description: "أُسْرَتي", words: [ { id: 25, arabic: 'أُسْرَة', turkish: 'Aile' }, { id: 26, arabic: 'أَب', turkish: 'Baba' }, { id: 27, arabic: 'أُمّ', turkish: 'Anne' }, { id: 28, arabic: 'أَخ', turkish: 'Erkek kardeş' }, { id: 29, arabic: 'أُخْت', turkish: 'Kız kardeş' }, { id: 30, arabic: 'طَبيب', turkish: 'Doktor' }, { id: 66, arabic: 'مُهَنْدِس', turkish: 'Mühendis' }, { id: 67, arabic: 'طَبّاخ', turkish: 'Aşçı' }, { id: 68, arabic: 'والِد', turkish: 'Baba' }, { id: 69, arabic: 'والِدَة', turkish: 'Anne' } ] },
-                    lesson2: { title: "الدَّرْس الثّاني", description: "بَيْتي", words: [ { id: 31, arabic: 'بَيْت', turkish: 'Ev' }, { id: 32, arabic: 'غُرْفَة', turkish: 'Oda' }, { id: 33, arabic: 'مَطْبَخ', turkish: 'Mutfak' }, { id: 34, arabic: 'سَرير', turkish: 'Yatak' }, { id: 35, arabic: 'باب', turkish: 'Kapı' }, { id: 36, arabic: 'أَعيشُ', turkish: 'Yaşıyorum' }, { id: 70, arabic: 'أَريكَة', turkish: 'Koltuk' }, { id: 71, arabic: 'تِلْفاز', turkish: 'Televizyon' }, { id: 72, arabic: 'ثَلّاجَة', turkish: 'Buzdolabı' }, { id: 73, arabic: 'سَجّادَة', turkish: 'Halı' } ] }
+                title: { ar: "الوَحْدَة الثّالِثَة", tr: "3. Ünite" },
+                description: { ar: "الأُسْرَة وَالبَيْت", tr: "Aile ve Ev" },
+                lessons: {
+                    lesson1: { 
+                        title: { ar: "الدَّرْس الأَوَّل", tr: "1. Ders" },
+                        description: { ar: "أُسْرَتي", tr: "Ailem" },
+                        words: [ { id: 25, arabic: 'أُسْرَة', turkish: 'Aile' }, { id: 26, arabic: 'أَب', turkish: 'Baba' }, { id: 27, arabic: 'أُمّ', turkish: 'Anne' }, { id: 28, arabic: 'أَخ', turkish: 'Erkek kardeş' }, { id: 29, arabic: 'أُخْت', turkish: 'Kız kardeş' }, { id: 30, arabic: 'طَبيب', turkish: 'Doktor' }, { id: 66, arabic: 'مُهَنْدِس', turkish: 'Mühendis' }, { id: 67, arabic: 'طَبّاخ', turkish: 'Aşçı' }, { id: 68, arabic: 'والِد', turkish: 'Baba' }, { id: 69, arabic: 'والِدَة', turkish: 'Anne' } ] 
+                    },
+                    lesson2: { 
+                        title: { ar: "الدَّرْس الثّاني", tr: "2. Ders" },
+                        description: { ar: "بَيْتي", tr: "Evim" },
+                        words: [ { id: 31, arabic: 'بَيْت', turkish: 'Ev' }, { id: 32, arabic: 'غُرْفَة', turkish: 'Oda' }, { id: 33, arabic: 'مَطْبَخ', turkish: 'Mutfak' }, { id: 34, arabic: 'سَرير', turkish: 'Yatak' }, { id: 35, arabic: 'باب', turkish: 'Kapı' }, { id: 36, arabic: 'أَعيشُ', turkish: 'Yaşıyorum' }, { id: 70, arabic: 'أَريكَة', turkish: 'Koltuk' }, { id: 71, arabic: 'تِلْفاز', turkish: 'Televizyon' }, { id: 72, arabic: 'ثَلّاجَة', turkish: 'Buzdolabı' }, { id: 73, arabic: 'سَجّادَة', turkish: 'Halı' } ] 
+                    }
                 }
             },
             unit4: {
-                title: "الوَحْدَة الرّابِعَة", description: "الحَياة اليَوْمِيَّة", lessons: {
-                    lesson1: { title: "الدَّرْس الأَوَّل", description: "ماذا فَعَلْتُ اليَوْم؟", words: [ { id: 37, arabic: 'اِسْتَيْقَظْتُ', turkish: 'Uyandım' }, { id: 38, arabic: 'ذَهَبْتُ', turkish: 'Gittim' }, { id: 39, arabic: 'رَجَعْتُ', turkish: 'Döndüm' }, { id: 40, arabic: 'قَرَأْتُ', turkish: 'Okudum' }, { id: 41, arabic: 'كَتَبْتُ', turkish: 'Yazdım' }, { id: 42, arabic: 'السّاعَة', turkish: 'Saat' }, { id: 74, arabic: 'نِمْتُ', turkish: 'Uyudum' }, { id: 75, arabic: 'صَلَّيْتُ', turkish: 'Namaz kıldım' }, { id: 76, arabic: 'لَبِسْتُ', turkish: 'Giydim' }, { id: 77, arabic: 'لَعِبْتُ', turkish: 'Oynadım' } ] },
-                    lesson2: { title: "الدَّرْس الثّاني", description: "ماذا تَناوَلْتُ اليَوْم؟", words: [ { id: 43, arabic: 'أَكَلْتُ', turkish: 'Yedim' }, { id: 44, arabic: 'شَرِبْتُ', turkish: 'İçtim' }, { id: 45, arabic: 'خُبْز', turkish: 'Ekmek' }, { id: 46, arabic: 'ماء', turkish: 'Su' }, { id: 47, arabic: 'حَليب', turkish: 'Süt' }, { id: 48, arabic: 'لَذيذ', turkish: 'Lezzetli' }, { id: 78, arabic: 'دَجاج', turkish: 'Tavuk' }, { id: 79, arabic: 'لَحْم', turkish: 'Et' }, { id: 80, arabic: 'سَمَك', turkish: 'Balık' }, { id: 81, arabic: 'أُرْز', turkish: 'Pirinç' } ] }
+                title: { ar: "الوَحْدَة الرّابِعَة", tr: "4. Ünite" },
+                description: { ar: "الحَياة اليَوْمِيَّة", tr: "Günlük Hayat" },
+                lessons: {
+                    lesson1: { 
+                        title: { ar: "الدَّرْس الأَوَّل", tr: "1. Ders" },
+                        description: { ar: "ماذا فَعَلْتُ اليَوْم؟", tr: "Bugün Ne Yaptım?" },
+                        words: [ { id: 37, arabic: 'اِسْتَيْقَظْتُ', turkish: 'Uyandım' }, { id: 38, arabic: 'ذَهَبْتُ', turkish: 'Gittim' }, { id: 39, arabic: 'رَجَعْتُ', turkish: 'Döndüm' }, { id: 40, arabic: 'قَرَأْتُ', turkish: 'Okudum' }, { id: 41, arabic: 'كَتَبْتُ', turkish: 'Yazdım' }, { id: 42, arabic: 'السّاعَة', turkish: 'Saat' }, { id: 74, arabic: 'نِمْتُ', turkish: 'Uyudum' }, { id: 75, arabic: 'صَلَّيْتُ', turkish: 'Namaz kıldım' }, { id: 76, arabic: 'لَبِسْتُ', turkish: 'Giydim' }, { id: 77, arabic: 'لَعِبْتُ', turkish: 'Oynadım' } ] 
+                    },
+                    lesson2: { 
+                        title: { ar: "الدَّرْس الثّاني", tr: "2. Ders" },
+                        description: { ar: "ماذا تَناوَلْتُ اليَوْم؟", tr: "Bugün Ne Yedim?" },
+                        words: [ { id: 43, arabic: 'أَكَلْتُ', turkish: 'Yedim' }, { id: 44, arabic: 'شَرِبْتُ', turkish: 'İçtim' }, { id: 45, arabic: 'خُبْز', turkish: 'Ekmek' }, { id: 46, arabic: 'ماء', turkish: 'Su' }, { id: 47, arabic: 'حَليب', turkish: 'Süt' }, { id: 48, arabic: 'لَذيذ', turkish: 'Lezzetli' }, { id: 78, arabic: 'دَجاج', turkish: 'Tavuk' }, { id: 79, arabic: 'لَحْم', turkish: 'Et' }, { id: 80, arabic: 'سَمَك', turkish: 'Balık' }, { id: 81, arabic: 'أُرْز', turkish: 'Pirinç' } ] 
+                    }
                 }
             }
         }
@@ -948,8 +1127,8 @@
             gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
 
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(400, audioCtx.currentTime); // Düşürüldü
-            oscillator.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1); // Düşürüldü
+            oscillator.frequency.setValueAtTime(400, audioCtx.currentTime); 
+            oscillator.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1); 
             
             gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
 
@@ -977,7 +1156,7 @@
             oscillator.start(audioCtx.currentTime);
             oscillator.stop(audioCtx.currentTime + 0.2);
         },
-        playFlipSound() { // Kart sesi, dokunma sesiyle aynı ama daha kısık
+        playFlipSound() { 
             const audioCtx = this.state.audioCtx;
             if (!audioCtx) return;
 
@@ -987,7 +1166,6 @@
             gainNode.connect(audioCtx.destination);
 
             gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-            // Ses seviyesini dokunma sesinden çok daha düşük ayarla
             gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.01); 
             gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
 
@@ -997,7 +1175,7 @@
             oscillator.start(audioCtx.currentTime);
             oscillator.stop(audioCtx.currentTime + 0.08);
         },
-        playTouchSound() { // Oyun içi dokunma sesi (Daha pes)
+        playTouchSound() { 
             const audioCtx = this.state.audioCtx;
             if (!audioCtx) return;
 
@@ -1011,12 +1189,12 @@
             gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
 
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(250, audioCtx.currentTime); // Düşürüldü
+            oscillator.frequency.setValueAtTime(250, audioCtx.currentTime); 
 
             oscillator.start(audioCtx.currentTime);
             oscillator.stop(audioCtx.currentTime + 0.08);
         },
-        playMenuClickSound() { // Arayüz tıklama sesi (Daha kısık ve pes)
+        playMenuClickSound() { 
             const audioCtx = this.state.audioCtx;
             if (!audioCtx) return;
 
@@ -1026,16 +1204,16 @@
             gainNode.connect(audioCtx.destination);
 
             gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 0.01); // Ses seviyesi düşürüldü
+            gainNode.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + 0.01);
             gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
 
             oscillator.type = 'triangle';
-            oscillator.frequency.setValueAtTime(500, audioCtx.currentTime); // Frekans düşürüldü
+            oscillator.frequency.setValueAtTime(500, audioCtx.currentTime); 
 
             oscillator.start(audioCtx.currentTime);
             oscillator.stop(audioCtx.currentTime + 0.08);
         },
-        playCountdownSound() { // (Daha pes)
+        playCountdownSound() { 
             const audioCtx = this.state.audioCtx;
             if (!audioCtx) return;
 
@@ -1049,18 +1227,14 @@
             gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.08);
 
             oscillator.type = 'triangle';
-            oscillator.frequency.setValueAtTime(700, audioCtx.currentTime); // Düşürüldü
+            oscillator.frequency.setValueAtTime(700, audioCtx.currentTime); 
 
             oscillator.start(audioCtx.currentTime);
             oscillator.stop(audioCtx.currentTime + 0.08);
         },
         getWords(combine = false) {
-            if (this.state.currentActiveGame === 'memory' && this.state.currentUnitKey === 'unit1' && Data.memory_game_unit1[this.state.currentLessonKey]) {
-                return Data.memory_game_unit1[this.state.currentLessonKey].words;
-            }
-
             if (this.state.currentUnitKey === 'all') {
-                return Object.values(Data.grade9_words)
+                return Object.values(Data.grade9_words) 
                     .flatMap(unit => Object.values(unit.lessons))
                     .flatMap(lesson => lesson.words || []);
             }
@@ -1136,17 +1310,15 @@
         populateUnits() {
             const container = document.getElementById('unit-container');
             container.innerHTML = '';
-            const arabicNumerals = ['١', '٢', '٣', '٤', '٥', '٦'];
-            let unitIndex = 0;
             for (const key in Data.grade9_words) {
                 const unit = Data.grade9_words[key];
                 
                 const btn = document.createElement('button');
                 btn.className = 'menu-btn unit-btn';
                 btn.innerHTML = `
-                    <span class="unit-numeral">${arabicNumerals[unitIndex]}</span>
+                    <span class="unit-numeral">${unit.title.tr.split('.')[0]}</span>
                     <div>
-                        <span class="menu-title">${unit.description}</span>
+                        <span class="menu-title">${unit.description.tr}</span>
                     </div>
                 `;
                 btn.onclick = () => {
@@ -1157,7 +1329,6 @@
                     this.showScreen('lesson-screen');
                 };
                 container.appendChild(btn);
-                unitIndex++;
             }
 
             const overallBtn = document.createElement('button');
@@ -1166,8 +1337,8 @@
             overallBtn.innerHTML = `
                 <svg viewBox="0 0 24 24"><path d="M12,1L9,9L1,9.5L7.5,14.5L5,22L12,17L19,22L16.5,14.5L23,9.5L15,9L12,1Z"/></svg>
                 <div>
-                    <span class="menu-title">مُراجَعَة شامِلَة</span>
-                    <span class="description">اِلْعَبْ بِكَلِمات مِن جَميع الوَحَدات</span>
+                    <span class="menu-title">Genel Tekrar</span>
+                    <span class="description">Tüm ünitelerdeki kelimelerle oyna</span>
                 </div>
             `;
             overallBtn.onclick = () => {
@@ -1175,14 +1346,14 @@
                 this.playSound('menuClick');
                 this.state.currentUnitKey = 'all'; 
                 this.state.currentLessonKey = null;
-                document.getElementById('game-choice-title').textContent = `أَلْعاب المُراجَعَة الشّامِلَة`;
+                document.getElementById('game-choice-title').textContent = `Genel Tekrar Oyunları`;
                 this.showScreen('game-choice-screen');
             };
             container.appendChild(overallBtn);
         },
         populateLessons(unitKey) {
             const unit = Data.grade9_words[unitKey];
-            document.getElementById('lesson-title').textContent = unit.title;
+            document.getElementById('lesson-title').textContent = unit.title.tr;
             const container = document.getElementById('lesson-container');
             container.innerHTML = '';
 
@@ -1216,13 +1387,13 @@
                 btn.innerHTML = `
                     <span class="lesson-emoji">${lessonEmoji}</span>
                     <div>
-                        <span class="menu-title">${lesson.description}</span>
+                        <span class="menu-title">${lesson.description.tr}</span>
                     </div>
                 `;
                 btn.onclick = () => {
                     this.playSound('menuClick');
                     this.state.currentLessonKey = key;
-                    document.getElementById('game-choice-title').textContent = `${unit.title} - ${lesson.description}`;
+                    document.getElementById('game-choice-title').textContent = `${unit.title.tr} - ${lesson.description.tr}`;
                     this.showScreen('game-choice-screen');
                 };
                 container.appendChild(btn);
@@ -1247,9 +1418,9 @@
             playAgainBtn.classList.remove('hidden');
             newPlayerBtn.classList.remove('hidden');
             mainMenuBtn.classList.remove('hidden');
-            resultsTitle.textContent = 'انتهت اللعبة!';
+            resultsTitle.textContent = 'Oyun Bitti!';
             
-            newPlayerBtn.title = "لاعب جديد";
+            newPlayerBtn.title = "Yeni Oyun";
             newPlayerBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
             const svgEl = newPlayerBtn.querySelector('svg');
             if (svgEl) {
@@ -1268,7 +1439,7 @@
                 resultsDetailsContainer.classList.add('hidden');
                 resultsTitle.textContent = "";
                 
-                newPlayerBtn.title = "لعبة جديدة";
+                newPlayerBtn.title = "Yeni Oyun";
                 const newIconSVG = `<svg viewBox="0 0 24 24"><path d="M12,6V9L16,5L12,1V4C7.58,4 4,7.58 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13.01 6,12C6,8.69 8.69,6 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,10.99 18,12C18,15.31 15.31,18 12,18V15L8,19L12,23V20C16.42,20 20,16.42 20,12C20,10.43 19.54,8.97 18.76,7.74Z"/></svg>`;
                 newPlayerBtn.innerHTML = newIconSVG;
                 const newSvgEl = newPlayerBtn.querySelector('svg');
@@ -1278,11 +1449,11 @@
                     newSvgEl.style.animation = 'pulse-glow 1.5s infinite ease-in-out';
                 }
             } else if (gameType === 'quiz') {
-                message = `إِجابات صحيحَة ${score} من ${details}`;
+                message = `${details} sorudan ${score} doğru!`;
             } else if (gameType === 'typing') {
-                message = `انتهى الوقت! نتيجتك النهائية: ${score}`;
+                message = `Süre doldu! Final skorun: ${score}`;
                 if (details && details.length > 0) {
-                    let listHTML = '<h3>الكلمات المكتوبة بشكل خاطئ:</h3><ul>';
+                    let listHTML = '<h3>Yanlış yazdığın kelimeler:</h3><ul>';
                     details.forEach(item => {
                         listHTML += `<li><span class="prompt">${item.prompt}:</span> <span class="user-answer">${item.incorrect}</span> ➜ <span class="correct-answer">${item.correct}</span></li>`;
                     });
@@ -1394,9 +1565,9 @@
         showEndUI() {
             let text;
             let winner = 0; 
-            if (this.state.s1 > this.state.s2) { text = 'فاز!'; winner = 1; } 
-            else if (this.state.s2 > this.state.s1) { text = 'فاز!'; winner = 2; } 
-            else { text = 'تَعادُل!'; }
+            if (this.state.s1 > this.state.s2) { text = '1. Oyuncu Kazandı!'; winner = 1; } 
+            else if (this.state.s2 > this.state.s1) { text = '2. Oyuncu Kazandı!'; winner = 2; } 
+            else { text = 'Berabere!'; }
             
             this.dom.winText.innerText = text;
             
@@ -1463,17 +1634,32 @@
             document.getElementById('new-round-quiz-btn').onclick = () => { App.playSound('menuClick'); this.start(true); };
         },
         start(isReplay = false) {
-            const commonQuestions = Utils.shuffleArray(App.getWords(true)).slice(0, 5);
+            const questionsPool = Utils.shuffleArray(App.getWords(true)).slice(0, 5);
             
+            const p1Questions = [...questionsPool];
+            let p2Questions = Utils.shuffleArray([...questionsPool]);
+
+            let needsReshuffle = true;
+            while(needsReshuffle) {
+                needsReshuffle = false;
+                for (let i = 0; i < p1Questions.length; i++) {
+                    if (p1Questions[i].id === p2Questions[i].id) {
+                        needsReshuffle = true;
+                        p2Questions = Utils.shuffleArray([...questionsPool]);
+                        break; 
+                    }
+                }
+            }
+
             this.state = { 
-                p1Questions: [...commonQuestions],
-                p2Questions: [...commonQuestions],
+                p1Questions: p1Questions,
+                p2Questions: p2Questions,
                 p1Index: 0, p2Index: 0, p1Score: 0, p2Score: 0,
                 p1Finished: false, p2Finished: false,
                 p1StartTime: null, p2StartTime: null,
                 p1Timeout: null, p2Timeout: null,
-                questionsPerRound: commonQuestions.length,
-                answerLog: {} // Yanıt sürelerini ve doğruluğunu takip etmek için
+                questionsPerRound: questionsPool.length,
+                answerLog: {} 
             };
             
             this.dom.gameOverContainer.classList.add('hidden');
@@ -1542,7 +1728,7 @@
 
             if (playerState.i >= playerState.q.length) {
                 if (playerNum === 1) this.state.p1Finished = true; else this.state.p2Finished = true;
-                playerDom.question.textContent = 'انتهى!';
+                playerDom.question.textContent = 'Bitti!';
                 playerDom.options.innerHTML = '';
                 const scoreIcon = `<svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>`;
                 playerDom.progress.innerHTML = `<div class="quiz-score-display">${scoreIcon}<span>${playerState.s}</span></div>`;
@@ -1729,15 +1915,15 @@
 
             if (winner === 1) {
                 winnerClass = 'p1-win';
-                this.dom.winText.textContent = `اللّاعِب 1 فاز!`;
+                this.dom.winText.textContent = `1. Oyuncu Kazandı!`;
             }
             else if (winner === 2) {
                 winnerClass = 'p2-win';
-                this.dom.winText.textContent = `اللّاعِب 2 فاز!`;
+                this.dom.winText.textContent = `2. Oyuncu Kazandı!`;
             }
             else {
                 winnerClass = 'draw';
-                this.dom.winText.textContent = `تَعَادُل!`;
+                this.dom.winText.textContent = `Berabere!`;
             }
 
             this.dom.winText.classList.add(winnerClass);
@@ -1778,7 +1964,7 @@
             
             const wordsForGame = this.state.pool.splice(0, this.state.initialWordCount);
             if (wordsForGame.length === 0) {
-                this.dom.overlay.classList.remove('hidden'); // Show if no words
+                this.dom.overlay.classList.remove('hidden'); 
                 return;
             }
             const turkishWords = Utils.shuffleArray([...wordsForGame]);
@@ -1827,32 +2013,27 @@
             this.dom.turkishList.ondrop = e => {
                 e.preventDefault();
                 const target = e.target;
-                // Prevent dropping on already matched items
                 if (!target.classList.contains('match-target') || target.classList.contains('correct-match')) return;
                 
                 target.classList.remove('drag-over');
                 const id = e.dataTransfer.getData('id');
                 const item = this.dom.arabicList.querySelector(`.match-item[data-id='${id}']`);
                 
-                // Prevent dropping on itself if somehow possible, or if item is already matched
                 if (!item || item.classList.contains('correct-match')) return;
 
                 if (target.dataset.id === id) {
-                    // Correct match
                     item.draggable = false;
                     item.classList.add('correct-match');
                     target.classList.add('correct-match');
                     App.playSound('correct');
                     this.state.totalMatches++;
 
-                    // Check if all pairs are matched
                     if (this.state.totalMatches === this.state.initialWordCount) {
                         this.state.gameOverTimeout = setTimeout(() => {
                             this.dom.overlay.classList.remove('hidden');
-                        }, 800); // A bit of delay to see the last match
+                        }, 800); 
                     }
                 } else {
-                    // Incorrect match
                     App.playSound('incorrect');
                     target.classList.add('incorrect-flash');
                     setTimeout(() => target.classList.remove('incorrect-flash'), 500);
@@ -1861,8 +2042,7 @@
         }
     };
     
-    // --- TYPING GAME MODULE ---
-    const TypingGame = {
+        const TypingGame = {
         screenId: 'typing-screen',
         state: {},
         dom: {},
@@ -1873,25 +2053,21 @@
             this.dom.input = document.getElementById('typing-input');
             this.dom.submit = document.getElementById('typing-submit-btn');
             this.dom.progressBar = document.getElementById('typing-progress-bar');
-            this.dom.readyBtn = document.getElementById('typing-ready-btn');
             this.dom.keyboard = document.getElementById('virtual-keyboard');
             this.dom.countdownOverlay = document.getElementById('countdown-overlay');
+            this.dom.statusPanel = document.getElementById('typing-status-panel');
             this.dom.statusList = document.getElementById('typing-status-list');
             this.dom.interactiveElements = document.getElementById('typing-interactive-elements');
             this.dom.gameOverContainer = document.getElementById('typing-game-over');
             this.dom.replayBtn = document.getElementById('play-again-typing-btn');
             this.dom.effectsContainer = document.querySelector('#score-stat-item .score-effects-container-typing');
 
-            this.dom.replayBtn.onclick = () => { App.playSound('menuClick'); this.start(true); };
-            this.dom.readyBtn.onclick = () => {
-                App.playSound('menuClick');
-                this.dom.readyBtn.style.display = 'none';
-                this.startCountdown();
-            };
+            this.dom.replayBtn.onclick = () => { App.playSound('menuClick'); this.start(); };
+            // Başlangıç tıklaması `start` fonksiyonu içinde `prompt` elementine atanacak
             this.dom.input.onkeydown = e => { if (e.key === 'Enter') this.checkAnswer(); };
             this.dom.submit.onclick = () => this.checkAnswer();
         },
-        start(isReplay = false) {
+        start() {
             let allWords = App.getWords(true);
             const currentUnit = App.state.currentUnitKey;
 
@@ -1901,40 +2077,51 @@
                 case 'unit2': gameTime = 120; break; 
                 case 'unit3': gameTime = 100; break; 
                 case 'unit4': gameTime = 90;  break; 
-                case 'all':   gameTime = 120; break; // 2 minutes for combined game
-                default:      gameTime = 120; // Fallback
+                case 'all':   gameTime = 120; break; 
+                default:      gameTime = 120; 
             }
 
             const wordsForGame = allWords;
+            
+            let wordCount = 15;
+            if (App.state.currentUnitKey === 'unit1' && App.state.currentLessonKey === 'lesson1') {
+                wordCount = 10;
+            }
 
-            const finalWordList = Utils.shuffleArray(wordsForGame).slice(0, 15);
+            const finalWordList = Utils.shuffleArray(wordsForGame).slice(0, wordCount);
 
             this.state = { words: finalWordList, currentIndex: 0, score: 0, timeLeft: gameTime, timer: null, mistakes: [], nextWordTimeout: null, totalChars: 0 };
             
             this.state.totalChars = this.state.words.reduce((acc, word) => acc + word.arabic.replace(/\s/g, '').length, 0);
+            
+            this.dom.interactiveElements.style.visibility = 'visible';
+            this.dom.keyboard.style.visibility = 'visible';
+            this.dom.statusPanel.style.visibility = 'visible';
+
             this.dom.statusList.innerHTML = '';
             this.dom.gameOverContainer.classList.add('hidden');
-            this.dom.interactiveElements.style.display = 'flex';
-            this.dom.input.parentElement.style.display = 'flex';
-
 
             this.dom.score.textContent = '0';
             const minutes = Math.floor(gameTime / 60);
             const seconds = gameTime % 60;
             this.dom.timer.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            this.dom.prompt.textContent = ''; 
             
-            this.dom.readyBtn.classList.remove('hidden');
-            this.dom.readyBtn.style.display = 'flex';
+            // Prompt'u başlangıç butonuna dönüştür
+            this.dom.prompt.textContent = 'ابْدَأْ';
+            this.dom.prompt.className = 'start-mode'; // Sınıfı temizle ve sadece start-mode ekle
+            this.dom.prompt.onclick = () => this.handleStartClick();
             
             this.dom.input.disabled = true;
             this.dom.input.value = '';
 
             this.createKeyboard();
             this.createProgressBar();
-
-            if (isReplay) {
-                this.dom.readyBtn.style.display = 'none';
+        },
+        handleStartClick() {
+            if (this.dom.prompt.classList.contains('start-mode')) {
+                App.playSound('menuClick');
+                this.dom.prompt.classList.remove('start-mode');
+                this.dom.prompt.onclick = null;
                 this.startCountdown();
             }
         },
@@ -1947,6 +2134,7 @@
             let count = 3;
             this.dom.countdownOverlay.textContent = count;
             App.playSound('countdown');
+            this.dom.prompt.textContent = ''; // Geri sayım başlarken metni temizle
 
             const countdownInterval = setInterval(() => {
                 count--;
@@ -2051,8 +2239,10 @@
             if (this.state.timer) clearInterval(this.state.timer);
             if (this.state.nextWordTimeout) clearTimeout(this.state.nextWordTimeout);
             this.dom.input.disabled = true;
-            this.dom.interactiveElements.style.display = 'none'; // Oyun alanını gizle
-            this.dom.gameOverContainer.classList.remove('hidden'); // Oyun bitti ekranını göster
+            this.dom.interactiveElements.style.visibility = 'hidden';
+            this.dom.keyboard.style.visibility = 'hidden';
+            this.dom.statusPanel.style.visibility = 'hidden';
+            this.dom.gameOverContainer.classList.remove('hidden'); 
         },
         showScoreEffect(points) {
             if (!this.dom.effectsContainer || points <= 0) return;
@@ -2128,7 +2318,7 @@
             backspaceBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M22,3H7C6.31,3 5.77,3.35 5.41,3.88L0,12L5.41,20.11C5.77,20.64 6.31,21 7,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M19,15.59L17.59,17L14,13.41L10.41,17L9,15.59L12.59,12L9,8.41L10.41,7L14,10.59L17.59,7L19,8.41L15.41,12L19,15.59Z" /></svg>`;
             const backspaceShadow = this.getDarkerColor('#FFCA28');
             backspaceBtn.style.boxShadow = `0 4px ${backspaceShadow}`;
-                        backspaceBtn.onmousedown = () => { backspaceBtn.style.transform = 'translateY(2px)'; backspaceBtn.style.boxShadow = `0 2px ${backspaceShadow}`; };
+                                backspaceBtn.onmousedown = () => { backspaceBtn.style.transform = 'translateY(2px)'; backspaceBtn.style.boxShadow = `0 2px ${backspaceShadow}`; };
             backspaceBtn.onmouseup = () => { backspaceBtn.style.transform = ''; backspaceBtn.style.boxShadow = `0 4px ${backspaceShadow}`; };
 
             specialRow.appendChild(backspaceBtn);
@@ -2139,7 +2329,7 @@
                 if (this.dom.input.disabled) return;
                 const keyEl = e.target.closest('.keyboard-key');
                 if (!keyEl) return;
-                App.playSound('touch'); // Dokunma sesi eklendi
+                App.playSound('touch'); 
                 if (keyEl.classList.contains('backspace')) this.dom.input.value = this.dom.input.value.slice(0, -1);
                 else if (keyEl.textContent === 'مسافة') this.dom.input.value += ' ';
                 else this.dom.input.value += keyEl.textContent;
@@ -2147,15 +2337,15 @@
             };
         },
         getDarkerColor(hex) {
-            if(hex.length === 4) { // Handle shorthand like #F0C
+            if(hex.length === 4) { 
                 hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
             }
             let r = parseInt(hex.slice(1, 3), 16);
             let g = parseInt(hex.slice(3, 5), 16);
             let b = parseInt(hex.slice(5, 7), 16);
-            r = Math.max(0, Math.floor(r * 0.75));
-            g = Math.max(0, Math.floor(g * 0.75));
-            b = Math.max(0, Math.floor(b * 0.75));
+            r = Math.max(0, Math.floor(r * 0.85));
+            g = Math.max(0, Math.floor(g * 0.85));
+            b = Math.max(0, Math.floor(b * 0.85));
             return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
         }
     };
@@ -2166,4 +2356,6 @@
     </script>
 </body>
 </html>
+
+
 
