@@ -1,15 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Arapça Kelime Oyunları</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Arapça Kelime Oyunları</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&amp;family=Harmattan:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&display=swap" rel="stylesheet">
+<style>
         :root {
             --bg-start: #f7f9fc;
             --bg-end: #e8eef5;
@@ -49,7 +49,7 @@
         }
 
         body {
-            font-family: 'Markazi Text', serif;
+            font-family: 'Marhey';
             background-color: var(--bg-start);
             background-image: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
             color: var(--text-color);
@@ -64,13 +64,10 @@
         }
 
         button, input {
-            font-family: 'Markazi Text', serif;
+            font-family: 'Marhey';
         }
         
-        /* Arapça metinler için özel font ataması */
-        .card-back, .quiz-question, .match-item, .status-word, #typing-prompt, #typing-input, .keyboard-key, .lp-word, .lp-option {
-            font-family: 'Noto Naskh Arabic', serif;
-        }
+        
 
         .screen { display: none; width: 100%; height: 100%; padding: 15px; flex-direction: column; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; transition: opacity 0.5s; }
         .screen.active { display: flex; }
@@ -97,7 +94,7 @@
             bottom: -25%; right: -20%;
         }
 
-        .main-title { font-size: clamp(2.2rem, 5vw, 3rem); color: var(--text-color); margin: 0 0 15px 0; flex-shrink: 0; }
+        .main-title { font-size: clamp(2.2rem, 5vw, 3rem); color: var(--text-color); margin: 0 0 1px 0; flex-shrink: 0; }
         
         .main-content-grid {
             display: grid;
@@ -151,15 +148,15 @@
             border-bottom: 2px solid #e5e9f0;
             flex-shrink: 0;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
         }
 
         .units-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 2px;
             flex-grow: 1;
-            padding: 5px;
+            padding: 1px;
         }
         .unit-panel {
             padding: 0;
@@ -170,7 +167,7 @@
             font-weight: 600;
             margin-bottom: 0;
             text-align: left;
-            padding: 10px;
+            padding: 1px;
             border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
             color: var(--text-color);
         }
@@ -178,16 +175,16 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 8px; /* Dersler arası boşluk eklendi */
-            width: 300px; /* Sabit genişlik */
+            width: 350px; /* Sabit genişlik */
             background-color: transparent;
             border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
             overflow: visible; /* Efektlerin görünmesi için değiştirildi */
             box-shadow: none;
-            padding: 5px; /* İç boşluk eklendi */
+            padding: 3px; /* İç boşluk eklendi */
         }
         
         .lesson-btn {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             padding: 10px 15px;
             border: none;
             /* border-left kaldırıldı */
@@ -196,7 +193,7 @@
             transition: all 0.15s ease-out;
             text-align: left; /* Metin sola yaslandı */
             height: auto;
-            min-height: 50px;
+            min-height: 25px;
             display: flex;
             justify-content: flex-start; /* Metin sola yaslandı */
             align-items: center;
@@ -274,16 +271,16 @@
             font-weight: bold;
             color: var(--primary-color);
             padding-bottom: 10px;
-            border-bottom: 2px solid #e5e9f0;
+            border-bottom: 3px solid #e5e9f0;
             flex-shrink: 0;
             text-align: center;
-            margin: 0 0 15px 0;
+            margin: 0 0 10px 0;
         }
 
         #game-selector-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* 5 sütunlu yeni düzen */
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr); /* 4 sütunlu yeni düzen */
+            gap: 10px;
             flex-grow: 1;
         }
         
@@ -299,13 +296,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80px; /* Kısaltıldı */
+            min-height: 50px; /* Kısaltıldı */
             position: relative;
             gap: 5px; /* Azaltıldı */
             box-shadow: 0 4px 15px var(--shadow-light);
         }
         .menu-btn:hover {
-            transform: translateY(-5px);
+            transform: translateY(-1px);
             box-shadow: 0 8px 25px var(--shadow-medium);
         }
         .menu-btn:active {
@@ -315,7 +312,7 @@
         .menu-btn.selected {
             border: 3px solid var(--correct-color);
             box-shadow: 0 0 15px rgba(45, 220, 115, 0.5);
-            transform: scale(1.05);
+            transform: scale(0.9);
         }
         .menu-btn svg {
             width: 32px; /* Küçültüldü */
@@ -325,19 +322,18 @@
         .menu-btn .menu-title {
             font-size: 1.3rem; /* Küçültüldü */
             font-weight: bold;
-            line-height: 1.2;
+            line-height: 1.4;
         }
         
         #start-game-btn {
-             grid-column: span 2; /* İki sütun kapla */
+             grid-column: 1 / -1; /* Tüm sütunları kapla */
              font-size: 1.8rem;
              font-weight: bold;
-             padding: 5px;
-             min-height: 80px; /* Diğer düğmelerle aynı yükseklik */
+             padding: 10px;
+             min-height: auto;
              width: 100%;
-             margin: 0;
+             margin-top: 1px; /* Üstten boşluk */
              border: none;
-             writing-mode: initial; /* Dikey yazı kaldırıldı */
              text-orientation: initial; /* Dikey yazı kaldırıldı */
              border-radius: var(--border-radius-md);
         }
@@ -420,7 +416,7 @@
             align-items: center;
             padding: 8px;
             word-break: break-word;
-            font-size: clamp(1.5rem, 20cqw, 5rem);
+            font-size: clamp(1.8rem, 20cqw, 5rem);
             text-align: center;
             line-height: 1.1;
         }
@@ -594,7 +590,7 @@
         }
 
         .quiz-player-area .quiz-question { 
-            font-size: clamp(1.8rem, 15cqw, 3.5rem); 
+            font-size: clamp( 2.8rem, 15cqw, 3.8rem); 
             font-weight: bold; 
             padding: 20px; 
             background-color: var(--surface-color); 
@@ -615,7 +611,7 @@
             font-family: inherit;
             border: 2px solid;
             color: var(--text-color);
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-size: clamp(1.7rem, 4vw, 2.4rem);
             font-weight: bold;
             padding: 15px;
             border-radius: var(--border-radius-md);
@@ -683,7 +679,7 @@
         .match-column { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: space-around; }
         .match-item, .match-target { 
             font-family: inherit;
-            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            font-size: clamp(1.5rem, 3vw, 2.4rem);
             padding: 12px; 
             border-radius: var(--border-radius-md); 
             display: flex; 
@@ -744,7 +740,7 @@
         #typing-status-list li { padding: 15px; margin-bottom: 10px; border-radius: var(--border-radius-sm); border-left-width: 5px; border-left-style: solid; transition: background-color 0.3s; }
         #typing-status-list li.correct { background-color: rgba(143, 188, 143, 0.1); border-left-color: var(--correct-color); }
         #typing-status-list li.incorrect { background-color: rgba(240, 128, 128, 0.1); border-left-color: var(--incorrect-color); }
-        .status-word { font-weight: bold; font-size: 1.9rem; direction: rtl; text-align: right; }
+        .status-word { font-weight: bold; font-size: 2.1rem; direction: rtl; text-align: right; }
         .status-translation { color: #4c566a; margin-bottom: 5px; font-size: 1.5rem;}
         .status-user-answer { font-style: italic; color: var(--incorrect-color); direction: rtl; text-align: right; font-size: 1.7rem;}
         .status-user-answer::before { content: "Cevabın: "; font-style: normal; font-size: 1.5rem; }
@@ -785,25 +781,30 @@
         .progress-segment.correct { background-color: var(--correct-color); }
         .progress-segment.incorrect { background-color: var(--incorrect-color); }
         .progress-segment.active { background-color: var(--accent-color); transform: scaleY(1.5); }
-        #typing-prompt { direction: rtl; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: bold; background-color: var(--surface-color); border-radius: var(--border-radius-lg); min-height: 150px; display: flex; align-items: center; justify-content: center; width: 100%; box-shadow: 0 4px 15px var(--shadow-light);}
+        #typing-prompt { direction: rtl; font-size: clamp(3rem, 8vw, 5.5rem); font-weight: bold; background-color: var(--surface-color); border-radius: var(--border-radius-lg); min-height: 150px; display: flex; align-items: center; justify-content: center; width: 100%; box-shadow: 0 4px 15px var(--shadow-light);}
         .typing-input-area { display: flex; align-items: stretch; gap: 10px; width: 100%; flex-direction: row; }
-        #typing-input { font-size: 2rem; flex-grow: 1; padding: 15px; border-radius: var(--border-radius-md); border: 2px solid #d8dee9; background: var(--surface-color); color: var(--text-color); text-align: right; direction: rtl; transition: box-shadow 0.2s, border-color 0.2s; }
+        #typing-input { font-size: 2.2rem; flex-grow: 1; padding: 15px; border-radius: var(--border-radius-md); border: 2px solid #d8dee9; background: var(--surface-color); color: var(--text-color); text-align: right; direction: rtl; transition: box-shadow 0.2s, border-color 0.2s; }
         #typing-input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(94, 129, 172, 0.2); }
         #typing-input:disabled { background-color: #eceff4; cursor: not-allowed; }
         #typing-input.correct-input { border-color: var(--correct-color); }
         #typing-input.incorrect-input { border-color: var(--incorrect-color); animation: shake 0.5s; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
         
-        #typing-submit-btn { 
-            border: none; 
-            background-color: var(--correct-color); 
-            color: var(--text-light-color); 
-            border-radius: var(--border-radius-md); 
-            padding: 0 25px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
+        #typing-submit-btn {
+            border: none;
+            background-color: var(--correct-color);
+            color: var(--text-light-color);
+            border-radius: var(--border-radius-md);
+            padding: 0;
+            flex-basis: 100px; /* Dengelemek için temel genişlik ayarlandı */
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s;
             box-shadow: 0 4px 0 #6e9b6e;
             animation: flash-confirm 1.2s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         #typing-submit-btn:hover { background-color: #8fbc8f; }
         #typing-submit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #6e9b6e; }
@@ -812,11 +813,11 @@
         #virtual-keyboard { direction: rtl; padding: 10px; display: flex; flex-direction: column; gap: 8px; background-color: rgba(0,0,0,0.03); border-radius: var(--border-radius-md); width: 100%; max-width: 800px; transition: all 0.3s; }
         .keyboard-row { display: flex; justify-content: center; gap: 8px; }
         .keyboard-key {
-            font-family: 'Markazi Text', 'Tajawal', serif;
+            font-family: 'Harmattan';
             color: var(--text-color);
             border: none;
             border-radius: var(--border-radius-sm);
-            font-size: 1.8rem;
+            font-size: 2.0rem;
             padding: 12px 6px;
             cursor: pointer;
             transition: all 0.1s ease;
@@ -840,7 +841,7 @@
             color: var(--text-light-color);
             cursor: pointer;
             animation: wave-pulse 2s infinite ease-in-out;
-            font-family: 'Markazi Text', 'Tajawal', serif;
+            font-family: 'Harmattan';
             font-weight: 700;
             font-size: clamp(3rem, 7vw, 4.5rem);
         }
@@ -869,20 +870,21 @@
         #results-details .user-answer { color: var(--incorrect-color); text-decoration: line-through; background-color: rgba(240, 128, 128, 0.2); padding: 5px 10px; border-radius: var(--border-radius-sm); direction: rtl; display: inline-block; }
         #results-details .correct-answer { color: var(--correct-color); background-color: rgba(143, 188, 143, 0.2); padding: 5px 10px; border-radius: var(--border-radius-sm); direction: rtl; display: inline-block; }
         
-        @keyframes pulse-glow { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(94, 129, 172, 0.2)); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(94, 129, 172, 0.6));} }
+        @keyframes pulse-glow { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(94, 129, 172, 0.2)); } 
+                                     50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(94, 129, 172, 0.6));} }
         
         @keyframes wave-pulse {
             0% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px var(--shadow-light);
+                transform: scale(0.5);
+                box-shadow: 0 5px 5px var(--shadow-light);
             }
             50% {
-                transform: scale(1.05);
-                box-shadow: 0 8px 30px rgba(242, 76, 76, 0.5);
+                transform: scale(0.5);
+                box-shadow: 0 5px 5px rgba(242, 76, 76, 0.5);
             }
             100% {
-                transform: scale(1);
-                box-shadow: 0 4px 15px var(--shadow-light);
+                transform: scale(0.5);
+                box-shadow: 0 5px 5px var(--shadow-light);
             }
         }
 
@@ -939,8 +941,9 @@
         }
 
         @keyframes breathing-effect {
-             0%, 100% { transform: scale(1); }
-             50% { transform: scale(1.05); }
+             0%, { transform: scale(0.7); }
+             50% { transform: scale(0.8); }
+             100% { transform: scale(0.9); }
         }
 
         .game-selection-panel.highlight .menu-btn {
@@ -959,11 +962,66 @@
 
         @media (max-width: 1200px) { #typing-main-container { flex-direction: column; height: auto; } #typing-status-panel { width: 100%; flex: none; height: 250px; } #typing-game-area { width: 100%; } #quiz-screen { flex-direction: column; } #quiz-container { flex-direction: column; gap: 10px; height: 95%; } #quiz-container::after { display: none; } .main-content-grid { grid-template-columns: 1fr; } .actions-column { flex-direction: row; align-items: stretch; } }
         @media (max-width: 800px) { #game-screen { flex-direction: column; padding-top: 20px; } .score-display { flex-direction: row; height: 80px; width: 100%; max-width: none; } #game-board { flex-grow: 1; margin: 10px 0; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr); } .quiz-player-area .quiz-options { grid-template-columns: 1fr; } .match-item, .match-target { font-size: 1.2rem; padding: 8px;} .keyboard-key { font-size: 1.1rem; padding: 8px 4px; } #game-selector-container { grid-template-columns: 1fr 1fr; } }
-    </style>
+    
+          /* === Oyun butonlarını küçült === */
+          .menu-btn {
+          transform: scale(0.9);      /* Butonu %10 küçültür */
+          font-size: 1rem;            /* Yazı boyutunu azaltır */
+          padding: 5px 7px;         /* Kutu iç boşluğunu azaltır */
+          }
 
-<!-- ✅ Spacing fix injected by ChatGPT (units 1–2 and 3–4) -->
-<!-- Bu ve sonraki 4 stil bloğu kaldırıldı -->
-<!-- ✅ Tek satır metin stili eklendi -->
+          .menu-btn .menu-title {
+          font-size: 1rem;            /* Oyun adını küçültür */
+          }
+          /* === Oyun kutuları arası boşluğu azalt === */
+          #main-menu-screen {
+          gap: 4px; /* kutular arası genel boşluk (önce 15'ti) */
+          }
+
+          .selection-wrapper {
+          gap: 3px; /* dikey boşluğu yarıya indirir */
+          }
+          
+           .game-selection-panel h3 {
+  background: linear-gradient(90deg, #ff66c4, #ffde59, #81d45e, #00c9ff, #7b53cb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  animation: rainbow-shift 5s linear infinite;
+}
+
+@keyframes rainbow-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+/* 🎨 Eşleştirme Oyunu Yazı Tipi */
+.match-item,
+.match-target,
+#match-game,
+#match-game * {
+  font-family: 'Marhey', sans-serif !important;
+}
+
+/* Başta kilitli */
+.menu-btn.locked{
+  opacity:.5;
+  pointer-events:none !important;
+  color:rgba(0,0,0,.4);
+  filter:grayscale(.2);
+  transition:opacity .25s ease, color .25s ease;
+}
+
+/* Ders seçilince aç */
+.menu-btn.unlocked{
+  opacity:1;
+  pointer-events:auto !important;
+  color:#000;
+}
+
+
+          
+</style>
+
 <style>
     .unit-title,
     .lesson-btn,
@@ -982,165 +1040,203 @@
     .menu-btn > div {
         min-width: 0;
     }
+
 </style>
+<style>
+/* === Font system override injected by ChatGPT === */
+html, body {
+  font-family: 'Marhey', sans-serif !important;
+}
 
+/* Arabic blocks use Harmattan */
+[dir="rtl"],
+.arabic-text,
+.quiz-question,
+#typing-prompt,
+.status-word,
+.match-item,
+.match-target,
+.keyboard-key {
+  font-family: 'Harmattan', sans-serif !important;
+}
 
-</head>
+/* Common UI — Turkish labels, buttons, headers use Marhey */
+button, input,
+.lesson-btn,
+.menu-btn .menu-title,
+.grade-header,
+.unit-title,
+#start-game-btn,
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Marhey', sans-serif !important;
+}
+</style><style>
+/* === Font size adjustment === */
+body, html {
+  font-size: 0.92em !important;
+}
+button, input, .lesson-btn, .menu-btn .menu-title, .grade-header, .unit-title {
+  font-size: 1.3em !important;
+}
+/* Oyun içi metinleri küçülten kural kaldırıldı. */
+/* 🎨 Eşleştirme Oyunu Türkçe Yazı Tipi: Marhey */
+[data-game="match"],
+[data-game="match"] *,
+#match-game,
+#match-game * {
+  font-family: 'Marhey', sans-serif !important;
+}
 
+</style></head>
 <body>
-    <div id="orientation-warning">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.89,15.5L18.31,16.92C19.21,15.75 19.76,14.43 19.93,13H17.91C17.77,13.89 17.42,14.73 16.89,15.5M16.92,18.31L15.5,16.89C14.73,17.42 13.89,17.77 13,17.91V19.93C14.43,19.76 15.75,19.21 16.92,18.31M19.93,11H17.91C17.77,10.11 17.42,9.27 16.89,8.5L18.31,7.08C19.21,8.25 19.76,9.57 19.93,11M13,4.07V6.09C12.11,6.23 11.27,6.58 10.5,7.11L9.08,5.69C10.25,4.79 11.57,4.24 13,4.07M2,4.27L3.28,3L21,20.72L19.73,22L16.03,18.33C14.9,18.75 13.68,19 12.39,19C8.36,19 5,15.64 5,11.61C5,10.32 5.25,9.1 5.67,7.97L2,4.27M7,9.39C6.56,10.05 6.26,10.81 6.13,11.61C6.13,15.03 8.97,17.87 12.39,17.87C13.19,17.87 13.95,17.57 14.61,17.13L7,9.39Z" /></svg>
-        <h2>Lütfen cihazınızı yatay konuma getirin.</h2>
-    </div>
-    <div id="game-wrapper">
-        <div id="main-menu-screen" class="screen active">
-             <h1 class="main-title">Arapça Kelime Oyunları</h1>
-             <div class="main-content-grid">
-                <div class="selection-wrapper">
-                    <div class="grades-container">
-                        <div class="grade-column grade-9">
-                            <div class="grade-header">9. Sınıf</div>
-                            <div id="grade9-container" class="units-container"></div>
-                        </div>
-                        <div class="grade-column grade-10">
-                            <div class="grade-header">10. Sınıf</div>
-                            <div id="grade10-container" class="units-container"></div>
-                        </div>
-                    </div>
-                    <div class="actions-column">
-                        <div class="game-selection-panel">
-                            <h3>Oyun Seç</h3>
-                            <div id="game-selector-container"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="start-action-wrapper">
-                    <button id="start-game-btn" class="start-btn" disabled>Başla</button>
-                </div>
-             </div>
-        </div>
-
-        <div id="game-screen" class="screen">
-            <div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-            <div id="player1-display" class="score-display">
-                <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
-                <span id="score1">0</span>
-            </div>
-            <div id="game-board"></div>
-            <div id="player2-display" class="score-display">
-                <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
-                <span id="score2">0</span>
-            </div>
-            <div id="memory-game-over" class="game-over-overlay hidden">
-                <div id="winner-icon-container"></div>
-                <h2 id="memory-win-text"></h2>
-                <div class="win-buttons">
-                    <button class="icon-btn" id="play-again-memory-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-                    <button class="icon-btn" id="main-menu-memory-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
-                </div>
-            </div>
-        </div>
-        <div id="quiz-screen" class="screen">
-            <div id="quiz-countdown-overlay" class="countdown-overlay"></div>
-            <div id="quiz-start-overlay" class="game-start-overlay">
-                <button id="quiz-start-btn">BAŞLA</button>
-            </div>
-            <div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-            <div id="quiz-container">
-                <div class="quiz-player-area p1">
-                    <div class="score-effects-container"></div>
-                    <div class="quiz-game-content hidden">
-                        <div class="quiz-top-bar">
-                            <div class="quiz-progress" id="quiz-progress-p1"></div>
-                            <div class="progress-bar" id="quiz-progress-bar-p1"></div>
-                        </div>
-                        <div class="quiz-question" id="quiz-question-p1"></div>
-                        <div class="quiz-options" id="quiz-options-p1"></div>
-                    </div>
-                </div>
-                <div class="quiz-player-area p2">
-                    <div class="score-effects-container"></div>
-                    <div class="quiz-game-content hidden">
-                        <div class="quiz-top-bar">
-                            <div class="quiz-progress" id="quiz-progress-p2"></div>
-                            <div class="progress-bar" id="quiz-progress-bar-p2"></div>
-                        </div>
-                        <div class="quiz-question" id="quiz-question-p2"></div>
-                        <div class="quiz-options" id="quiz-options-p2"></div>
-                    </div>
-                </div>
-            </div>
-            <div id="quiz-game-over" class="game-over-overlay hidden">
-                <div id="quiz-winner-icon-container"></div>
-                <h2 id="quiz-win-text"></h2>
-                <div class="win-buttons">
-                    <button class="icon-btn" id="new-round-quiz-btn" title="Yeni Tur"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-                </div>
-            </div>
-        </div>
-        <div id="match-screen" class="screen">
-            <div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-            <div class="match-container">
-                <div class="match-column" id="match-arabic-list"></div>
-                <div class="match-column" id="match-turkish-list"></div>
-            </div>
-            <div id="match-complete-overlay" class="game-start-overlay hidden">
-                <button id="play-again-match-btn" class="icon-btn" title="Yeni Oyun">
-                    <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg>
-                </button>
-            </div>
-        </div>
-        
-        <div id="typing-screen" class="screen">
-            <div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-            <div id="typing-main-container">
-                <div id="typing-status-panel">
-                    <h2>Durum</h2>
-                    <ul id="typing-status-list"></ul>
-                </div>
-                <div id="typing-game-area">
-                    <div id="typing-game-over" class="game-start-overlay hidden">
-                        <button class="icon-btn" id="play-again-typing-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-                    </div>
-                    <div id="typing-interactive-elements">
-                        <div class="typing-stats">
-                            <div id="timer-stat-item" class="stat-item">
-                                <svg viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" /></svg>
-                                <span id="timer-value">120</span>
-                            </div>
-                            <div id="score-stat-item" class="stat-item">
-                                <div class="score-effects-container-typing"></div>
-                                <svg viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" /></svg>
-                                <span id="score-value">0</span>
-                            </div>
-                        </div>
-                        <div id="typing-progress-bar" class="progress-bar"></div>
-                        <div id="typing-prompt"></div>
-                        <div class="typing-input-area">
-                            <input type="text" id="typing-input" autocomplete="off" spellcheck="false" readonly />
-                            <button id="typing-submit-btn"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" /></svg></button>
-                        </div>
-                    </div>
-                    <div id="virtual-keyboard"></div>
-                </div>
-            </div>
-    
-            <div id="countdown-overlay" class="countdown-overlay"></div>
-        </div>
-    
-        <div id="results-screen" class="screen results-screen">
-            <div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg></button></div>
-            <h2 id="results-title">Oyun Bitti!</h2><p id="results-score-text"></p>
-            <div id="results-details"></div>
-            <div class="win-buttons">
-                <button class="icon-btn" id="play-again-btn" title="Tekrar Oyna"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"/></svg></button>
-                <button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
-                <button class="icon-btn" id="main-menu-results-btn" title="Ana Menü"><svg viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/></svg></button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
+<div id="orientation-warning">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.89,15.5L18.31,16.92C19.21,15.75 19.76,14.43 19.93,13H17.91C17.77,13.89 17.42,14.73 16.89,15.5M16.92,18.31L15.5,16.89C14.73,17.42 13.89,17.77 13,17.91V19.93C14.43,19.76 15.75,19.21 16.92,18.31M19.93,11H17.91C17.77,10.11 17.42,9.27 16.89,8.5L18.31,7.08C19.21,8.25 19.76,9.57 19.93,11M13,4.07V6.09C12.11,6.23 11.27,6.58 10.5,7.11L9.08,5.69C10.25,4.79 11.57,4.24 13,4.07M2,4.27L3.28,3L21,20.72L19.73,22L16.03,18.33C14.9,18.75 13.68,19 12.39,19C8.36,19 5,15.64 5,11.61C5,10.32 5.25,9.1 5.67,7.97L2,4.27M7,9.39C6.56,10.05 6.26,10.81 6.13,11.61C6.13,15.03 8.97,17.87 12.39,17.87C13.19,17.87 13.95,17.57 14.61,17.13L7,9.39Z"></path></svg>
+<h2>Lütfen cihazınızı yatay konuma getirin.</h2>
+</div>
+<div id="game-wrapper">
+<div class="screen active" id="main-menu-screen">
+<h1 class="main-title">Arapça Kelime Oyunları</h1>
+<div class="main-content-grid">
+<div class="selection-wrapper">
+<div class="grades-container">
+<div class="grade-column grade-9">
+<div class="grade-header">9. Sınıf</div>
+<div class="units-container" id="grade9-container"></div>
+</div>
+<div class="grade-column grade-10">
+<div class="grade-header">10. Sınıf</div>
+<div class="units-container" id="grade10-container"></div>
+</div>
+</div>
+<div class="actions-column">
+<div class="game-selection-panel">
+<h3>Oyun Seç</h3>
+<div id="game-selector-container"></div>
+</div>
+</div>
+</div>
+<div class="start-action-wrapper">
+<button class="start-btn" disabled="" id="start-game-btn">Başla</button>
+</div>
+</div>
+</div>
+<div class="screen" id="game-screen">
+<div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewbox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg></button></div>
+<div class="score-display" id="player1-display">
+<svg viewbox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+<span id="score1">0</span>
+</div>
+<div id="game-board"></div>
+<div class="score-display" id="player2-display">
+<svg viewbox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path></svg>
+<span id="score2">0</span>
+</div>
+<div class="game-over-overlay hidden" id="memory-game-over">
+<div id="winner-icon-container"></div>
+<h2 id="memory-win-text"></h2>
+<div class="win-buttons">
+<button class="icon-btn" id="play-again-memory-btn" title="Tekrar Oyna"><svg viewbox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg></button>
+<button class="icon-btn" id="main-menu-memory-btn" title="Ana Menü"><svg viewbox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"></path></svg></button>
+</div>
+</div>
+</div>
+<div class="screen" id="quiz-screen">
+<div class="countdown-overlay" id="quiz-countdown-overlay"></div>
+<div class="game-start-overlay" id="quiz-start-overlay">
+<button id="quiz-start-btn">BAŞLA</button>
+</div>
+<div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewbox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg></button></div>
+<div id="quiz-container">
+<div class="quiz-player-area p1">
+<div class="score-effects-container"></div>
+<div class="quiz-game-content hidden">
+<div class="quiz-top-bar">
+<div class="quiz-progress" id="quiz-progress-p1"></div>
+<div class="progress-bar" id="quiz-progress-bar-p1"></div>
+</div>
+<div class="quiz-question" id="quiz-question-p1"></div>
+<div class="quiz-options" id="quiz-options-p1"></div>
+</div>
+</div>
+<div class="quiz-player-area p2">
+<div class="score-effects-container"></div>
+<div class="quiz-game-content hidden">
+<div class="quiz-top-bar">
+<div class="quiz-progress" id="quiz-progress-p2"></div>
+<div class="progress-bar" id="quiz-progress-bar-p2"></div>
+</div>
+<div class="quiz-question" id="quiz-question-p2"></div>
+<div class="quiz-options" id="quiz-options-p2"></div>
+</div>
+</div>
+</div>
+<div class="game-over-overlay hidden" id="quiz-game-over">
+<div id="quiz-winner-icon-container"></div>
+<h2 id="quiz-win-text"></h2>
+<div class="win-buttons">
+<button class="icon-btn" id="new-round-quiz-btn" title="Yeni Tur"><svg viewbox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg></button>
+</div>
+</div>
+</div>
+<div class="screen" id="match-screen">
+<div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewbox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg></button></div>
+<div class="match-container">
+<div class="match-column" id="match-arabic-list"></div>
+<div class="match-column" id="match-turkish-list"></div>
+</div>
+<div class="game-start-overlay hidden" id="match-complete-overlay">
+<button class="icon-btn" id="play-again-match-btn" title="Yeni Oyun">
+<svg viewbox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg>
+</button>
+</div>
+</div>
+<div class="screen" id="typing-screen">
+<div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewbox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg></button></div>
+<div id="typing-main-container">
+<div id="typing-status-panel">
+<h2>Durum</h2>
+<ul id="typing-status-list"></ul>
+</div>
+<div id="typing-game-area">
+<div class="game-start-overlay hidden" id="typing-game-over">
+<button class="icon-btn" id="play-again-typing-btn" title="Tekrar Oyna"><svg viewbox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg></button>
+</div>
+<div id="typing-interactive-elements">
+<div class="typing-stats">
+<div class="stat-item" id="timer-stat-item">
+<svg viewbox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"></path></svg>
+<span id="timer-value">120</span>
+</div>
+<div class="stat-item" id="score-stat-item">
+<div class="score-effects-container-typing"></div>
+<svg viewbox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"></path></svg>
+<span id="score-value">0</span>
+</div>
+</div>
+<div class="progress-bar" id="typing-progress-bar"></div>
+<div id="typing-prompt"></div>
+<div class="typing-input-area">
+<input autocomplete="off" id="typing-input" readonly="" spellcheck="false" type="text"/>
+<button id="typing-submit-btn"><svg viewbox="0 0 24 24"><path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"></path></svg></button>
+</div>
+</div>
+<div id="virtual-keyboard"></div>
+</div>
+</div>
+<div class="countdown-overlay" id="countdown-overlay"></div>
+</div>
+<div class="screen results-screen" id="results-screen">
+<div class="header-navigation"><button class="back-btn" data-target="main-menu-screen"><svg viewbox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"></path></svg></button></div>
+<h2 id="results-title">Oyun Bitti!</h2><p id="results-score-text"></p>
+<div id="results-details"></div>
+<div class="win-buttons">
+<button class="icon-btn" id="play-again-btn" title="Tekrar Oyna"><svg viewbox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg></button>
+<button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewbox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg></button>
+<button class="icon-btn" id="main-menu-results-btn" title="Ana Menü"><svg viewbox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"></path></svg></button>
+</div>
+</div>
+</div>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
 
     // --- DATA MODULE ---
@@ -1155,20 +1251,20 @@
                         lesson1: { 
                             description: { tr: "Selamlaşma" },
                             words: [
-                                { id: 1, arabic: 'السَّلَامُ عَلَيْكُمْ', turkish: 'Selam üzerinize olsun!' },
-                                { id: 2, arabic: 'وَعَلَيْكُمُ السَّلَامُ', turkish: 'Selam sizin de üzerinize olsun!' },
-                                { id: 3, arabic: 'صَبَاحُ الْخَيْرِ', turkish: 'Hayırlı Sabahlar' },
-                                { id: 4, arabic: 'صَبَاحُ النُّورِ', turkish: 'Günaydın' },
-                                { id: 5, arabic: 'مَسَاءُ الْخَيْرِ', turkish: 'İyi akşamlar' },
-                                { id: 6, arabic: 'مَسَاءُ النُّورِ', turkish: 'İyi akşamlar (cevap)' },
+                                { id: 1, arabic: 'السَّلام عَلَيْكُمْ', turkish: 'Selam üzerinize olsun!' },
+                                { id: 2, arabic: 'وَعَلَيْكُم السَّلام', turkish: 'Selam sizin de üzerinize olsun!' },
+                                { id: 3, arabic: 'صَباح الخَيْر', turkish: 'Hayırlı Sabahlar' },
+                                { id: 4, arabic: 'صَباح النّور', turkish: 'Günaydın' },
+                                { id: 5, arabic: 'مَساء الخَيْر', turkish: 'İyi akşamlar' },
+                                { id: 6, arabic: 'مَساء النّور', turkish: 'İyi akşamlar (cevap)' },
                                 { id: 7, arabic: 'مَرْحَبًا', turkish: 'Merhaba!' },
                                 { id: 8, arabic: 'أَهْلًا وَسَهْلًا', turkish: 'Hoş geldiniz!' },
-                                { id: 9, arabic: 'أَهْلًا بِكَ', turkish: 'Hoş bulduk!' },
-                                { id: 10, arabic: 'كَيْفَ حَالُكَ؟', turkish: 'Nasılsın?' },
-                                { id: 11, arabic: 'أَنَا بِخَيْرٍ، الْحَمْدُ لِلّٰهِ', turkish: 'İyiyim, Allah’a şükür' },
-                                { id: 12, arabic: 'إِلَى اللِّقَاءِ', turkish: 'Görüşmek üzere!' },
-                                { id: 13, arabic: 'مَعَ السَّلَامَةِ', turkish: 'Hoşça kal' },
-                                { id: 14, arabic: 'فِي أَمَانِ اللّٰهِ', turkish: 'Allah’a emanet ol' },
+                                { id: 9, arabic: 'أَهْلًا بِك', turkish: 'Hoş bulduk!' },
+                                { id: 10, arabic: 'كَيْفَ حالُك؟', turkish: 'Nasılsın?' },
+                                { id: 11, arabic: 'أَنا بِخَيْر', turkish: 'İyiyim‫!‬' },
+                                { id: 12, arabic: 'إِلى اللِّقاء', turkish: 'Görüşmek üzere!' },
+                                { id: 13, arabic: 'مَع السَّلامَة', turkish: 'Hoşça kal' },
+                                { id: 14, arabic: 'في أَمان الّٰلهِ', turkish: 'Allah’a emanet ol' },
                                 { id: 15, arabic: 'اِقْرَأْ', turkish: 'Oku!' },
                                 { id: 16, arabic: 'اُكْتُبْ', turkish: 'Yaz!' },
                                 { id: 17, arabic: 'أَعِدْ', turkish: 'Tekrar et!' },
@@ -1178,24 +1274,24 @@
                         lesson2: { 
                             description: { tr: "Tanışma" },
                             words: [
-                                { id: 19, arabic: 'طَالِب', turkish: 'Erkek öğrenci' },
+                                { id: 19, arabic: 'طالِب', turkish: 'Erkek öğrenci' },
                                 { id: 20, arabic: 'مُدَرِّس', turkish: 'Erkek öğretmen' },
-                                { id: 21, arabic: 'صَدِيق', turkish: 'Erkek arkadaş' },
+                                { id: 21, arabic: 'صَديق', turkish: 'Erkek arkadaş' },
                                 { id: 22, arabic: 'هُوَ', turkish: 'O (erkek)' },
                                 { id: 23, arabic: 'هِيَ', turkish: 'O (kadın)' },
                                 { id: 24, arabic: 'أَنْتَ', turkish: 'Sen (erkek)' },
-                                { id: 25, arabic: 'أَنَا', turkish: 'Ben' },
-                                { id: 26, arabic: 'مَا اسْمُكَ؟', turkish: 'Adın ne?' },
-                                { id: 27, arabic: 'اِسْمِي', turkish: 'Benim adım' },
-                                { id: 28, arabic: 'مِنْ أَيْنَ؟', turkish: 'Nereli?' },
+                                { id: 25, arabic: 'أَنا', turkish: 'Ben' },
+                                { id: 26, arabic: 'ما اسْمُك؟', turkish: 'Adın ne?' },
+                                { id: 27, arabic: 'اِسْمي', turkish: 'Benim adım' },
+                                { id: 28, arabic: 'مِن أَيْن؟', turkish: 'Nereli?' },
                                 { id: 29, arabic: 'نَعَم', turkish: 'Evet' },
-                                { id: 30, arabic: 'لَا', turkish: 'Hayır' },
+                                { id: 30, arabic: 'لا', turkish: 'Hayır' },
                                 { id: 31, arabic: 'تَكَلَّمْ', turkish: 'Konuş' },
                                 { id: 32, arabic: 'اُسْكُتْ', turkish: 'Sus' },
-                                { id: 33, arabic: 'تَعَالَ', turkish: 'Gel' },
+                                { id: 33, arabic: 'تَعالَ', turkish: 'Gel' },
                                 { id: 34, arabic: 'اِذْهَبْ', turkish: 'Git' },
                                 { id: 35, arabic: 'تَشَرَّفْتُ', turkish: 'Tanıştığıma memnun oldum' },
-                                { id: 36, arabic: 'فُرْصَةٌ سَعِيدَةٌ', turkish: 'Memnun oldum' },
+                                { id: 36, arabic: 'فُرْصَة سَعيدَة', turkish: 'Memnun oldum' },
                                 { id: 37, arabic: 'شُكْرًا', turkish: 'Teşekkür ederim' },
                                 { id: 38, arabic: 'عَفْوًا', turkish: 'Rica ederim' }
                             ]
@@ -1211,35 +1307,35 @@
                             words: [
                                 { id: 101, arabic: 'مَدْرَسَة', turkish: 'Okul' },
                                 { id: 102, arabic: 'صَفّ', turkish: 'Sınıf' },
-                                { id: 103, arabic: 'كِتَاب', turkish: 'Kitap' },
+                                { id: 103, arabic: 'كِتاب', turkish: 'Kitap' },
                                 { id: 104, arabic: 'دَفْتَر', turkish: 'Defter' },
                                 { id: 105, arabic: 'قَلَم', turkish: 'Kalem' },
-                                { id: 106, arabic: 'سَبُّورَة', turkish: 'Tahta' },
+                                { id: 106, arabic: 'سَبّورة', turkish: 'Tahta' },
                                 { id: 107, arabic: 'كُرْسِيّ', turkish: 'Sandalye' },
                                 { id: 108, arabic: 'مَكْتَب', turkish: 'Masa' },
-                                { id: 109, arabic: 'مِمْحَاة', turkish: 'Silgi' },
+                                { id: 109, arabic: 'مِمْحاة', turkish: 'Silgi' },
                                 { id: 110, arabic: 'مِسْطَرَة', turkish: 'Cetvel' },
-                                { id: 111, arabic: 'حَقِيبَة', turkish: 'Çanta' },
-                                { id: 112, arabic: 'بَاب', turkish: 'Kapı' },
-                                { id: 113, arabic: 'نَافِذَة', turkish: 'Pencere' }
+                                { id: 111, arabic: 'حَقيبَة', turkish: 'Çanta' },
+                                { id: 112, arabic: 'باب', turkish: 'Kapı' },
+                                { id: 113, arabic: 'نافِذَة', turkish: 'Pencere' }
                             ]
                         },
                         lesson2: { 
                             description: { tr: "Yönler ve Eylemler" },
                             words: [
-                                { id: 114, arabic: 'أَيْنَ؟', turkish: 'Nerede?' },
-                                { id: 115, arabic: 'هُنَا', turkish: 'Burada' },
-                                { id: 116, arabic: 'هُنَاكَ', turkish: 'Orada' },
-                                { id: 117, arabic: 'عَلَى', turkish: 'Üstünde' },
-                                { id: 118, arabic: 'تَحْتَ', turkish: 'Altında' },
-                                { id: 119, arabic: 'أَمَامَ', turkish: 'Önünde' },
-                                { id: 120, arabic: 'خَلْفَ', turkish: 'Arkasında' },
-                                { id: 121, arabic: 'فَوْقَ', turkish: 'Üzerinde' },
-                                { id: 122, arabic: 'جَانِبَ', turkish: 'Yanında' },
+                                { id: 114, arabic: 'أَيْن؟', turkish: 'Nerede?' },
+                                { id: 115, arabic: 'هُنا', turkish: 'Burada' },
+                                { id: 116, arabic: 'هُناك', turkish: 'Orada' },
+                                { id: 117, arabic: 'عَلى', turkish: 'Üstünde' },
+                                { id: 118, arabic: 'تَحْت', turkish: 'Altında' },
+                                { id: 119, arabic: 'أَمام', turkish: 'Önünde' },
+                                { id: 120, arabic: 'خَلْف', turkish: 'Arkasında' },
+                                { id: 121, arabic: 'فَوْق', turkish: 'Üzerinde' },
+                                { id: 122, arabic: 'جَانِب', turkish: 'Yanında' },
                                 { id: 123, arabic: 'فِي', turkish: 'İçinde' },
-                                { id: 124, arabic: 'خَارِجَ', turkish: 'Dışında' },
-                                { id: 125, arabic: 'اِفْتَحِ الْكِتَابَ', turkish: 'Kitabı aç' },
-                                { id: 126, arabic: 'اِجْلِسْ عَلَى الْكُرْسِيِّ', turkish: 'Sandalyeye otur' },
+                                { id: 124, arabic: 'خَارِج', turkish: 'Dışında' },
+                                { id: 125, arabic: 'اِفْتَح', turkish: 'Kitabı aç' },
+                                { id: 126, arabic: 'اِجْلِسْ', turkish: 'Otur' },
                                 { id: 127, arabic: 'اُدْخُلِ الصَّفَّ', turkish: 'Sınıfa gir' }
                             ]
                         }
@@ -1252,36 +1348,36 @@
                         lesson1: { 
                             description: { tr: "Evdeyim" },
                             words: [
-                                { id: 201, arabic: 'الْبَيْت', turkish: 'Ev' },
-                                { id: 202, arabic: 'الْغُرْفَةُ', turkish: 'Oda' },
-                                { id: 203, arabic: 'غُرْفَةُ النَّوْمِ', turkish: 'Yatak odası' },
-                                { id: 204, arabic: 'غُرْفَةُ الْجُلُوسِ', turkish: 'Oturma odası' },
-                                { id: 205, arabic: 'الْمَطْبَخُ', turkish: 'Mutfak' },
-                                { id: 206, arabic: 'الْحَمَّامُ', turkish: 'Banyo' },
-                                { id: 207, arabic: 'السَّرِيرُ', turkish: 'Yatak' },
-                                { id: 208, arabic: 'الطَّاوِلَةُ', turkish: 'Masa' },
-                                { id: 209, arabic: 'الْكُرْسِيُّ', turkish: 'Sandalye' },
-                                { id: 210, arabic: 'التِّلْفَازُ', turkish: 'Televizyon' },
-                                { id: 211, arabic: 'الثَّلَّاجَةُ', turkish: 'Buzdolabı' },
-                                { id: 212, arabic: 'الْفُرْنُ', turkish: 'Fırın' },
-                                { id: 213, arabic: 'السَّجَّادَةُ', turkish: 'Halı' },
-                                { id: 214, arabic: 'الْهَاتِفُ', turkish: 'Telefon' },
-                                { id: 215, arabic: 'الْمِصْبَاحُ', turkish: 'Lamba' }
+                                { id: 201, arabic: 'بَيْت', turkish: 'Ev' },
+                                { id: 202, arabic: 'غُرْفَة', turkish: 'Oda' },
+                                { id: 203, arabic: 'غُرْفَة النَّوْم', turkish: 'Yatak odası' },
+                                { id: 204, arabic: 'غُرْفَة جُلوس', turkish: 'Oturma odası' },
+                                { id: 205, arabic: 'مَطْبَخ', turkish: 'Mutfak' },
+                                { id: 206, arabic: 'حَمّام', turkish: 'Banyo' },
+                                { id: 207, arabic: 'سَرير', turkish: 'Yatak' },
+                                { id: 208, arabic: 'طاوِلَة', turkish: 'Masa' },
+                                { id: 209, arabic: 'كُرْسِيّ', turkish: 'Sandalye' },
+                                { id: 210, arabic: 'تِلْفاز', turkish: 'Televizyon' },
+                                { id: 211, arabic: 'ثَلّاجة', turkish: 'Buzdolabı' },
+                                { id: 212, arabic: 'فُرْن', turkish: 'Fırın' },
+                                { id: 213, arabic: 'سَجّادَة', turkish: 'Halı' },
+                                { id: 214, arabic: 'هَاتِف', turkish: 'Telefon' },
+                                { id: 215, arabic: 'مِصْباح', turkish: 'Lamba' }
                             ]
                         },
                          lesson2: { 
                             description: { tr: "Odamda" },
                             words: [
-                                { id: 216, arabic: 'غُرْفَتِي', turkish: 'Odam' },
-                                { id: 217, arabic: 'سَرِير', turkish: 'Yatak' },
+                                { id: 216, arabic: 'غُرْفَتي', turkish: 'Odam' },
+                                { id: 217, arabic: 'سَرير', turkish: 'Yatak' },
                                 { id: 218, arabic: 'مَكْتَب', turkish: 'Çalışma masası' },
                                 { id: 219, arabic: 'كُرْسِيّ', turkish: 'Sandalye' },
-                                { id: 220, arabic: 'سِتَارَة', turkish: 'Perde' },
-                                { id: 221, arabic: 'مِصْبَاح', turkish: 'Lamba' },
+                                { id: 220, arabic: 'سِتارَة', turkish: 'Perde' },
+                                { id: 221, arabic: 'مِصْباح', turkish: 'Lamba' },
                                 { id: 222, arabic: 'مِرْآة', turkish: 'Ayna' },
-                                { id: 223, arabic: 'سَجَّادَة', turkish: 'Halı' },
-                                { id: 224, arabic: 'دُولَاب', turkish: 'Dolap' },
-                                { id: 225, arabic: 'نَظِيف', turkish: 'Temiz' },
+                                { id: 223, arabic: 'سَجّادَة', turkish: 'Halı' },
+                                { id: 224, arabic: 'دُولاب', turkish: 'Dolap' },
+                                { id: 225, arabic: 'نَظيف', turkish: 'Temiz' },
                                 { id: 226, arabic: 'مُرَتَّب', turkish: 'Düzenli' },
                                 { id: 227, arabic: 'وَسِخ', turkish: 'Kirli' },
                                 { id: 228, arabic: 'يُنَظِّفُ', turkish: 'Temizliyor' },
@@ -1297,20 +1393,20 @@
                         lesson1: { 
                             description: { tr: "Bir Günüm" },
                             words: [
-                                { id: 301, arabic: 'الصَّبَاح', turkish: 'Sabah' },
-                                { id: 302, arabic: 'الظُّهْر', turkish: 'Öğle' },
-                                { id: 303, arabic: 'الْمَسَاء', turkish: 'Akşam' },
-                                { id: 304, arabic: 'اللَّيْل', turkish: 'Gece' },
+                                { id: 301, arabic: 'صَباح', turkish: 'Sabah' },
+                                { id: 302, arabic: 'ظُهْر', turkish: 'Öğle' },
+                                { id: 303, arabic: 'مَساء', turkish: 'Akşam' },
+                                { id: 304, arabic: 'لَيْل', turkish: 'Gece' },
                                 { id: 305, arabic: 'يَسْتَيْقِظُ', turkish: 'Uyanıyor' },
                                 { id: 306, arabic: 'يَغْسِلُ وَجْهَهُ', turkish: 'Yüzünü yıkıyor' },
-                                { id: 307, arabic: 'يُصَلِّي', turkish: 'Namaz kılıyor' },
-                                { id: 308, arabic: 'يَلْبَسُ مَلَابِسَهُ', turkish: 'Giyiniyor' },
-                                { id: 309, arabic: 'يَتَنَاوَلُ الْفَطُورَ', turkish: 'Kahvaltı yapıyor' },
-                                { id: 310, arabic: 'يَذْهَبُ إِلَى الْمَدْرَسَةِ', turkish: 'Okula gidiyor' },
-                                { id: 311, arabic: 'يَدْرُسُ', turkish: 'Ders çalışıyor' },
-                                { id: 312, arabic: 'يَرْجِعُ إِلَى الْبَيْتِ', turkish: 'Eve dönüyor' },
-                                { id: 313, arabic: 'يَتَغَدَّى', turkish: 'Öğle yemeği yiyor' },
-                                { id: 314, arabic: 'يَسْتَرِيحُ', turkish: 'Dinleniyor' },
+                                { id: 307, arabic: 'يُصَلّي', turkish: 'Namaz kılıyor' },
+                                { id: 308, arabic: 'يَلْبَسُ مَلابِسَهُ', turkish: 'Giyiniyor' },
+                                { id: 309, arabic: 'يَتَناوَلُ الفَطور', turkish: 'Kahvaltı yapıyor' },
+                                { id: 310, arabic: 'يَذْهَبُ إِلى المَدْرَسَة', turkish: 'Okula gidiyor' },
+                                { id: 311, arabic: 'ُيَدْرُس', turkish: 'Ders çalışıyor' },
+                                { id: 312, arabic: 'يَرْجِعُ إِلى البَيْت', turkish: 'Eve dönüyor' },
+                                { id: 313, arabic: 'يَتَغَدّى', turkish: 'Öğle yemeği yiyor' },
+                                { id: 314, arabic: 'يَسْتَريحُ', turkish: 'Dinleniyor' },
                                 { id: 315, arabic: 'يَلْعَبُ', turkish: 'Oynuyor' }
                             ]
                         },
@@ -1318,20 +1414,21 @@
                             description: { tr: "Günlük Rutin" },
                             words: [
                                 { id: 316, arabic: 'أَسْتَيْقِظُ مُبَكِّرًا', turkish: 'Erken uyanıyorum' },
-                                { id: 317, arabic: 'أَذْهَبُ إِلَى الْمَدْرَسَةِ', turkish: 'Okula gidiyorum' },
-                                { id: 318, arabic: 'أُصَلِّي صَلَاةَ الظُّهْرِ', turkish: 'Öğle namazı kılıyorum' },
-                                { id: 319, arabic: 'أَتَغَدَّى مَعَ أُسْرَتِي', turkish: 'Ailemle öğle yemeği yiyorum' },
-                                { id: 320, arabic: 'أَقْرَأُ دُرُوسِي', turkish: 'Derslerimi okuyorum' },
-                                { id: 321, arabic: 'أَكْتُبُ وَاجِبَاتِي', turkish: 'Ödev yazıyorum' },
-                                { id: 322, arabic: 'أَلْعَبُ فِي السَّاحَةِ', turkish: 'Bahçede oynuyorum' },
-                                { id: 323, arabic: 'أُسَاعِدُ أُمِّي فِي الْمَطْبَخِ', turkish: 'Anneme mutfakta yardım ediyorum' },
-                                { id: 324, arabic: 'أَزُورُ جَدِّي', turkish: 'Dedemi ziyaret ediyorum' },
-                                { id: 325, arabic: 'أَذْهَبُ إِلَى الْمَسْجِدِ', turkish: 'Camiye gidiyorum' },
-                                { id: 326, arabic: 'أُرَتِّبُ سَرِيرِي', turkish: 'Yatağımı düzeltiyorum' },
-                                { id: 327, arabic: 'أُنَظِّفُ غُرْفَتِي', turkish: 'Odamı temizliyorum' },
-                                { id: 328, arabic: 'أُرَاجِعُ دُرُوسِي', turkish: 'Derslerimi tekrar ediyorum' },
-                                { id: 329, arabic: 'أَنَامُ مُتَأَخِّرًا', turkish: 'Geç yatıyorum' }
-                            ]
+                                { id: 317, arabic: 'أَذْهَبُ إِلى المَدْرَسَة', turkish: 'Okula gidiyorum' },
+                                { id: 318, arabic: 'أُصَلّي صَلاة الظُّهْر', turkish: 'Öğle namazı kılıyorum' },
+                                { id: 319, arabic: 'أَتَغَدّى مَع أُسْرَتي', turkish: 'Ailemle öğle yemeği yiyorum' },
+                                { id: 320, arabic: 'أَقْرَأُ دُروسي', turkish: 'Derslerimi okuyorum' },
+                                { id: 321, arabic: 'أَكْتُبُ واجِباتي', turkish: 'Ödev yazıyorum' },
+                                { id: 322, arabic: 'أَلْعَبُ في السّاحَة', turkish: 'Bahçede oynuyorum' },
+                                { id: 323, arabic: 'أُساعِدُ أُمّي', turkish: 'Anneme yardım ediyorum' },
+                                { id: 324, arabic: 'أَزورُ جَدِي', turkish: 'Dedemi ziyaret ediyorum' },
+                                { id: 325, arabic: 'أَذْهَبُ إِلى المَسْجِد', turkish: 'Camiye gidiyorum' },
+                                { id: 326, arabic: 'أُرَتِّبُ سَريري', turkish: 'Yatağımı düzeltiyorum' },
+                                { id: 327, arabic: 'أُنَظِّفُ غُرْفَتي', turkish: 'Odamı temizliyorum' },
+                                { id: 328, arabic: 'أُراجِعُ دُروسي', turkish: 'Derslerimi tekrar ediyorum' },
+                                { id: 329, arabic: 'أَنامُ مُتَأَخِّرًا', turkish: 'Geç yatıyorum' }
+                            
+]
                         }
                     }
                 }
@@ -1347,19 +1444,19 @@
                         lesson1: { 
                             description: { tr: "Güzel Davranışlar" },
                             words: [
-                                { id: 401, arabic: 'الصِّدْق', turkish: 'Doğruluk' },
-                                { id: 402, arabic: 'الْأَمَانَة', turkish: 'Güvenilirlik' },
-                                { id: 403, arabic: 'الْإِخْلَاص', turkish: 'Samimiyet' },
-                                { id: 404, arabic: 'التَّعَاوُن', turkish: 'Yardımlaşma' },
-                                { id: 405, arabic: 'الِاحْتِرَام', turkish: 'Saygı' },
-                                { id: 406, arabic: 'الْمَحَبَّة', turkish: 'Sevgi' },
-                                { id: 407, arabic: 'الشُّكْر', turkish: 'Teşekkür' },
-                                { id: 408, arabic: 'الِاعْتِذَار', turkish: 'Özür dileme' },
-                                { id: 409, arabic: 'الرَّحْمَة', turkish: 'Merhamet' },
-                                { id: 410, arabic: 'الصَّبْر', turkish: 'Sabır' },
-                                { id: 411, arabic: 'الْعَدْل', turkish: 'Adalet' },
-                                { id: 412, arabic: 'التَّوَاضُع', turkish: 'Alçakgönüllülük' },
-                                { id: 413, arabic: 'يُسَاعِدُ', turkish: 'Yardım ediyor' },
+                                { id: 401, arabic: 'صِدْق', turkish: 'Doğruluk' },
+                                { id: 402, arabic: 'أَمانَة', turkish: 'Güvenilirlik' },
+                                { id: 403, arabic: 'إِخْلاص', turkish: 'Samimiyet' },
+                                { id: 404, arabic: 'تَعاوُن', turkish: 'Yardımlaşma' },
+                                { id: 405, arabic: 'اِحْتِرام', turkish: 'Saygı' },
+                                { id: 406, arabic: 'مَحَبَّة', turkish: 'Sevgi' },
+                                { id: 407, arabic: 'شُكْر', turkish: 'Teşekkür' },
+                                { id: 408, arabic: 'الِاعْتِذار', turkish: 'Özür dileme' },
+                                { id: 409, arabic: 'رَحْمَة', turkish: 'Merhamet' },
+                                { id: 410, arabic: 'صَبْر', turkish: 'Sabır' },
+                                { id: 411, arabic: 'عَدْل', turkish: 'Adalet' },
+                                { id: 412, arabic: 'تَواضُع', turkish: 'Alçakgönüllülük' },
+                                { id: 413, arabic: 'يُساعِدُ', turkish: 'Yardım ediyor' },
                                 { id: 414, arabic: 'يُحِبُّ', turkish: 'Seviyor' },
                                 { id: 415, arabic: 'يَبْتَسِمُ', turkish: 'Gülümsüyor' }
                             ]
@@ -1367,21 +1464,21 @@
                         lesson2: { 
                             description: { tr: "Mutlu Aile" },
                             words: [
-                                { id: 416, arabic: 'الْأُسْرَة', turkish: 'Aile' },
-                                { id: 417, arabic: 'الْأَب', turkish: 'Baba' },
-                                { id: 418, arabic: 'الْأُمّ', turkish: 'Anne' },
-                                { id: 419, arabic: 'الْأَخ', turkish: 'Erkek kardeş' },
-                                { id: 420, arabic: 'الْأُخْت', turkish: 'Kız kardeş' },
-                                { id: 421, arabic: 'الْجَدّ', turkish: 'Dede' },
-                                { id: 422, arabic: 'الْجَدَّة', turkish: 'Nine' },
-                                { id: 423, arabic: 'الْعَمّ', turkish: 'Amca' },
-                                { id: 424, arabic: 'الْعَمَّة', turkish: 'Hala' },
-                                { id: 425, arabic: 'الْخَال', turkish: 'Dayı' },
-                                { id: 426, arabic: 'الْخَالَة', turkish: 'Teyze' },
-                                { id: 427, arabic: 'الْأَقَارِب', turkish: 'Akrabalar' },
-                                { id: 428, arabic: 'يَزُورُ الْأَقَارِبَ', turkish: 'Akrabaları ziyaret ediyor' },
-                                { id: 429, arabic: 'يَحْتَرِمُ الْكِبَارَ', turkish: 'Büyüklere saygı gösteriyor' },
-                                { id: 430, arabic: 'يَرْحَمُ الصِّغَارَ', turkish: 'Küçüklere merhamet ediyor' }
+                                { id: 416, arabic: 'أُسْرَة', turkish: 'Aile' },
+                                { id: 417, arabic: 'أَب', turkish: 'Baba' },
+                                { id: 418, arabic: 'أُمّ', turkish: 'Anne' },
+                                { id: 419, arabic: 'أَخ', turkish: 'Erkek kardeş' },
+                                { id: 420, arabic: 'أُخْت', turkish: 'Kız kardeş' },
+                                { id: 421, arabic: 'جَدّ', turkish: 'Dede' },
+                                { id: 422, arabic: 'جَدَّة', turkish: 'Nine' },
+                                { id: 423, arabic: 'عَمّ', turkish: 'Amca' },
+                                { id: 424, arabic: 'عَمَّة', turkish: 'Hala' },
+                                { id: 425, arabic: 'خَال', turkish: 'Dayı' },
+                                { id: 426, arabic: 'خالَة', turkish: 'Teyze' },
+                                { id: 427, arabic: 'أَقارِب', turkish: 'Akrabalar' },
+                                { id: 428, arabic: 'يَزورُ الأَقارِب', turkish: 'Akrabaları ziyaret ediyor' },
+                                { id: 429, arabic: 'يَحْتَرِمُ الكِبار', turkish: 'Büyüklere saygı gösteriyor' },
+                                { id: 430, arabic: 'يَرْحَمُ الصِّغار', turkish: 'Küçüklere merhamet ediyor' }
                             ]
                         }
                     }
@@ -1393,41 +1490,41 @@
                         lesson1: { 
                             description: { tr: "Ben Kimim?" },
                             words: [
-                                { id: 501, arabic: 'مَنْ أَنَا؟', turkish: 'Ben kimim?' },
-                                { id: 502, arabic: 'الِاسْم', turkish: 'İsim' },
-                                { id: 503, arabic: 'الْعُمْر', turkish: 'Yaş' },
-                                { id: 504, arabic: 'الْمِهْنَة', turkish: 'Meslek' },
-                                { id: 505, arabic: 'الْهِوَايَة', turkish: 'Hobi' },
-                                { id: 506, arabic: 'الْمَوْهِبَة', turkish: 'Yetenek' },
-                                { id: 507, arabic: 'الطَّيِّب', turkish: 'İyi kalpli' },
-                                { id: 508, arabic: 'الْمُجْتَهِد', turkish: 'Çalışkan' },
-                                { id: 509, arabic: 'الْكَسُول', turkish: 'Tembel' },
-                                { id: 510, arabic: 'الْهَادِئ', turkish: 'Sakin' },
-                                { id: 511, arabic: 'النَّشِيط', turkish: 'Enerjik' },
-                                { id: 512, arabic: 'الْمُبْتَسِم', turkish: 'Güleryüzlü' },
-                                { id: 513, arabic: 'الصَّبُور', turkish: 'Sabırlı' },
-                                { id: 514, arabic: 'أَحْلَامِي', turkish: 'Hayallerim' },
-                                { id: 515, arabic: 'الْمُسْتَقْبَل', turkish: 'Gelecek' }
+                                { id: 501, arabic: 'مَن أَنا؟', turkish: 'Ben kimim?' },
+                                { id: 502, arabic: 'اِسْم', turkish: 'İsim' },
+                                { id: 503, arabic: 'عُمْر', turkish: 'Yaş' },
+                                { id: 504, arabic: 'مِهْنَة', turkish: 'Meslek' },
+                                { id: 505, arabic: 'هِوايَة', turkish: 'Hobi' },
+                                { id: 506, arabic: 'مَوْهِبَة', turkish: 'Yetenek' },
+                                { id: 507, arabic: 'طَيِّب', turkish: 'İyi kalpli' },
+                                { id: 508, arabic: 'مُجْتَهِد', turkish: 'Çalışkan' },
+                                { id: 509, arabic: 'كَسول', turkish: 'Tembel' },
+                                { id: 510, arabic: 'هادِئ', turkish: 'Sakin' },
+                                { id: 511, arabic: 'نَشيط', turkish: 'Enerjik' },
+                                { id: 512, arabic: 'مُبْتَسِم', turkish: 'Güleryüzlü' },
+                                { id: 513, arabic: 'صَبور', turkish: 'Sabırlı' },
+                                { id: 514, arabic: 'أَحْلامي', turkish: 'Hayallerim' },
+                                { id: 515, arabic: 'مُسْتَقْبَل', turkish: 'Gelecek' }
                             ]
                         },
                         lesson2: { 
                             description: { tr: "Hobilerim" },
                             words: [
-                                { id: 516, arabic: 'الْقِرَاءَة', turkish: 'Okuma' },
-                                { id: 517, arabic: 'الْكِتَابَة', turkish: 'Yazma' },
-                                { id: 518, arabic: 'الرَّسْم', turkish: 'Resim yapma' },
-                                { id: 519, arabic: 'الطَّبْخ', turkish: 'Yemek pişirme' },
-                                { id: 520, arabic: 'التَّصْوِير', turkish: 'Fotoğrafçılık' },
-                                { id: 521, arabic: 'الرِّيَاضَة', turkish: 'Spor' },
-                                { id: 522, arabic: 'كُرَةُ الْقَدَمِ', turkish: 'Futbol' },
-                                { id: 523, arabic: 'كُرَةُ السَّلَّةِ', turkish: 'Basketbol' },
-                                { id: 524, arabic: 'السَّفَر', turkish: 'Seyahat' },
-                                { id: 525, arabic: 'الطَّبِيعَة', turkish: 'Doğa' },
-                                { id: 526, arabic: 'الْأَفْلَام', turkish: 'Filmler' },
-                                { id: 527, arabic: 'الْمُوسِيقَى', turkish: 'Müzik' },
-                                { id: 528, arabic: 'الْمَكْتَبَة', turkish: 'Kütüphane' },
-                                { id: 529, arabic: 'فِي الْوَقْتِ الْفَارِغِ', turkish: 'Boş zamanlarda' },
-                                { id: 530, arabic: 'مُفِيد', turkish: 'Faydalı' },
+                                { id: 516, arabic: 'قِراءَة', turkish: 'Okuma' },
+                                { id: 517, arabic: 'كِتابَة', turkish: 'Yazma' },
+                                { id: 518, arabic: 'رَسْم', turkish: 'Resim yapma' },
+                                { id: 519, arabic: 'طَبْخ', turkish: 'Yemek pişirme' },
+                                { id: 520, arabic: 'تَصْوير', turkish: 'Fotoğrafçılık' },
+                                { id: 521, arabic: 'رِياضَة', turkish: 'Spor' },
+                                { id: 522, arabic: 'كُرَة القَدَم', turkish: 'Futbol' },
+                                { id: 523, arabic: 'كُرَة السَّلَّة', turkish: 'Basketbol' },
+                                { id: 524, arabic: 'سَفَر', turkish: 'Seyahat' },
+                                { id: 525, arabic: 'طَبيعَة', turkish: 'Doğa' },
+                                { id: 526, arabic: 'أَفْلام', turkish: 'Filmler' },
+                                { id: 527, arabic: 'موسيقى', turkish: 'Müzik' },
+                                { id: 528, arabic: 'مَكْتَبَة', turkish: 'Kütüphane' },
+                                { id: 529, arabic: 'في الوَقْت الفارِغ', turkish: 'Boş zamanlarda' },
+                                { id: 530, arabic: 'مُفيد', turkish: 'Faydalı' },
                                 { id: 531, arabic: 'مُمْتِع', turkish: 'Eğlenceli' }
                             ]
                         }
@@ -1440,41 +1537,41 @@
                         lesson1: { 
                             description: { tr: "Zamanım ve Hayatım" },
                             words: [
-                                { id: 601, arabic: 'وَقْتِي', turkish: 'Zamanım' },
-                                { id: 602, arabic: 'حَيَاتِي', turkish: 'Hayatım' },
-                                { id: 603, arabic: 'النَّوْم', turkish: 'Uyku' },
-                                { id: 604, arabic: 'الْعَمَل', turkish: 'Çalışma' },
-                                { id: 605, arabic: 'الِاسْتِرَاحَة', turkish: 'Dinlenme' },
-                                { id: 606, arabic: 'النَّهَار', turkish: 'Gündüz' },
+                                { id: 601, arabic: 'وَقْتي', turkish: 'Zamanım' },
+                                { id: 602, arabic: 'حَياتي', turkish: 'Hayatım' },
+                                { id: 603, arabic: 'نَوْم', turkish: 'Uyku' },
+                                { id: 604, arabic: 'عَمَل', turkish: 'Çalışma' },
+                                { id: 605, arabic: 'اِسْتِراحَة', turkish: 'Dinlenme' },
+                                { id: 606, arabic: 'نَهار', turkish: 'Gündüz' },
                                 { id: 607, arabic: 'يُنَظِّمُ', turkish: 'Düzenliyor' },
                                 { id: 608, arabic: 'يُخَطِّطُ', turkish: 'Planlıyor' },
                                 { id: 609, arabic: 'يَدْرُسُ', turkish: 'Ders çalışıyor' },
-                                { id: 610, arabic: 'يَسْتَرِيحُ', turkish: 'Dinleniyor' },
-                                { id: 611, arabic: 'كُلَّ يَوْمٍ', turkish: 'Her gün' },
-                                { id: 612, arabic: 'أَحْيَانًا', turkish: 'Bazen' },
-                                { id: 613, arabic: 'نَادِرًا', turkish: 'Nadiren' },
-                                { id: 614, arabic: 'دَائِمًا', turkish: 'Her zaman' },
-                                { id: 615, arabic: 'النَّجَاح', turkish: 'Başarı' }
+                                { id: 610, arabic: 'يَسْتَريحُ', turkish: 'Dinleniyor' },
+                                { id: 611, arabic: 'كُلّ يَوْم', turkish: 'Her gün' },
+                                { id: 612, arabic: 'أَحْيانًا', turkish: 'Bazen' },
+                                { id: 613, arabic: 'نادِرًا', turkish: 'Nadiren' },
+                                { id: 614, arabic: 'دائِمًا', turkish: 'Her zaman' },
+                                { id: 615, arabic: 'نَجاح', turkish: 'Başarı' }
                             ]
                         },
                         lesson2: { 
                             description: { tr: "Zamanımı Değerlendiriyorum" },
                             words: [
-                                { id: 616, arabic: 'التَّخْطِيط', turkish: 'Planlama' },
-                                { id: 617, arabic: 'الْفَشَل', turkish: 'Başarısızlık' },
-                                { id: 618, arabic: 'الْجِدّ', turkish: 'Ciddiyet' },
-                                { id: 619, arabic: 'الْكَسَل', turkish: 'Tembellik' },
-                                { id: 620, arabic: 'الْحِكْمَة', turkish: 'Bilgelik' },
-                                { id: 621, arabic: 'الْإِبْدَاع', turkish: 'Yaratıcılık' },
-                                { id: 622, arabic: 'لَا يُؤَجِّلُ', turkish: 'Ertelemiyor' },
-                                { id: 623, arabic: 'يَسْتَغِلُّ الْوَقْتَ', turkish: 'Zamanı değerlendiriyor' },
-                                { id: 624, arabic: 'يُضَيِّعُ الْوَقْتَ', turkish: 'Zamanı boşa harcıyor' },
-                                { id: 625, arabic: 'الْيَوْم', turkish: 'Gün' },
-                                { id: 626, arabic: 'الْأُسْبُوع', turkish: 'Hafta' },
-                                { id: 627, arabic: 'الْمُسْتَقْبَل', turkish: 'Gelecek' },
-                                { id: 628, arabic: 'الْحَاضِر', turkish: 'Şimdi' },
-                                { id: 629, arabic: 'الْمَاضِي', turkish: 'Geçmiş' },
-                                { id: 630, arabic: 'تَطْوِيرُ النَّفْسِ', turkish: 'Kendini geliştirme' }
+                                { id: 616, arabic: 'تَّخْطيط', turkish: 'Planlama' },
+                                { id: 617, arabic: 'فَشَل', turkish: 'Başarısızlık' },
+                                { id: 618, arabic: 'جِدّ', turkish: 'Ciddiyet' },
+                                { id: 619, arabic: 'كَسَل', turkish: 'Tembellik' },
+                                { id: 620, arabic: 'حِكْمَة', turkish: 'Bilgelik' },
+                                { id: 621, arabic: 'إِبْداع', turkish: 'Yaratıcılık' },
+                                { id: 622, arabic: 'لا يُؤَجِّلُ', turkish: 'Ertelemiyor' },
+                                { id: 623, arabic: 'يَسْتَغِلُّ الوَقْت', turkish: 'Zamanı değerlendiriyor' },
+                                { id: 624, arabic: 'يُضَيِّعُ الوَقْت', turkish: 'Zamanı boşa harcıyor' },
+                                { id: 625, arabic: 'يَوْم', turkish: 'Gün' },
+                                { id: 626, arabic: 'أُسْبوع', turkish: 'Hafta' },
+                                { id: 627, arabic: 'مُسْتَقْبَل', turkish: 'Gelecek' },
+                                { id: 628, arabic: 'حاضِر', turkish: 'Şimdi' },
+                                { id: 629, arabic: 'مَاضي', turkish: 'Geçmiş' },
+                                { id: 630, arabic: 'تَطْوير النَّفْس', turkish: 'Kendini geliştirme' }
                             ]
                         }
                     }
@@ -1486,41 +1583,41 @@
                         lesson1: { 
                             description: { tr: "Sağlıklı Yaşam" },
                             words: [
-                                { id: 701, arabic: 'الْجِسْم', turkish: 'Vücut' },
-                                { id: 702, arabic: 'الْعَقْل', turkish: 'Akıl' },
-                                { id: 703, arabic: 'النَّظَافَة', turkish: 'Temizlik' },
-                                { id: 704, arabic: 'الْغِذَاء', turkish: 'Beslenme' },
-                                { id: 705, arabic: 'الصِّحَّة', turkish: 'Sağlık' },
-                                { id: 706, arabic: 'الْمَرَض', turkish: 'Hastalık' },
-                                { id: 707, arabic: 'الطَّبِيب', turkish: 'Doktor' },
-                                { id: 708, arabic: 'الدَّوَاء', turkish: 'İlaç' },
-                                { id: 709, arabic: 'الْأَسْنَان', turkish: 'Dişler' },
-                                { id: 710, arabic: 'النَّظَافَةُ مِنَ الْإِيمَانِ', turkish: 'Temizlik imandandır' },
-                                { id: 711, arabic: 'يُفَرِّشُ الْأَسْنَانَ', turkish: 'Diş fırçalıyor' },
-                                { id: 712, arabic: 'يَسْتَحِمُّ', turkish: 'Banyo yapıyor' },
-                                { id: 713, arabic: 'يَنَامُ مُبَكِّرًا', turkish: 'Erken uyuyor' },
-                                { id: 714, arabic: 'يَأْكُلُ الطَّعَamَ الصِّحِّيَّ', turkish: 'Sağlıklı yemek yiyor' },
-                                { id: 715, arabic: 'يُمَارِسُ الرِّيَاضَةَ', turkish: 'Spor yapıyor' }
+                                { id: 701, arabic: 'جِسْم', turkish: 'Vücut' },
+                                { id: 702, arabic: 'عَقْل', turkish: 'Akıl' },
+                                { id: 703, arabic: 'نَظّافَة', turkish: 'Temizlik' },
+                                { id: 704, arabic: 'غِذاء', turkish: 'Beslenme' },
+                                { id: 705, arabic: 'صِحَّة', turkish: 'Sağlık' },
+                                { id: 706, arabic: 'مَرَض', turkish: 'Hastalık' },
+                                { id: 707, arabic: 'طَبيب', turkish: 'Doktor' },
+                                { id: 708, arabic: 'دَواء', turkish: 'İlaç' },
+                                { id: 709, arabic: 'أَسْنان', turkish: 'Dişler' },
+                                { id: 710, arabic: 'النَّظّافَة مِن الإِيمان', turkish: 'Temizlik imandandır' },
+                                { id: 711, arabic: 'يُفَرِّشُ الأَسْنان', turkish: 'Diş fırçalıyor' },
+                                { id: 712, arabic: 'يَسْتَحِمُّ', turkish: 'Banyo yapıyor' },
+                                { id: 713, arabic: 'يَنامُ مُبَكِّرًا', turkish: 'Erken uyuyor' },
+                                { id: 714, arabic: 'صِحِّيّ', turkish: 'Sağlıklı' },
+                                { id: 715, arabic: 'يُمارِسُ الرِّياضَة', turkish: 'Spor yapıyor' }
                             ]
                         },
                         lesson2: { 
                             description: { tr: "Sağlıklı Beslenme" },
                             words: [
-                                { id: 716, arabic: 'الْفَوَاكِه', turkish: 'Meyveler' },
-                                { id: 717, arabic: 'الْخُضْرَاوَات', turkish: 'Sebzeler' },
-                                { id: 718, arabic: 'اللَّحْم', turkish: 'Et' },
-                                { id: 719, arabic: 'السَّمَك', turkish: 'Balık' },
-                                { id: 720, arabic: 'اللَّبَن', turkish: 'Süt' },
-                                { id: 721, arabic: 'الْجُبْن', turkish: 'Peynir' },
-                                { id: 222, arabic: 'الْبَيْض', turkish: 'Yumurta' },
-                                { id: 723, arabic: 'الْخُبْز', turkish: 'Ekmek' },
-                                { id: 724, arabic: 'الْمَاء', turkish: 'Su' },
-                                { id: 725, arabic: 'الْعَصِير', turkish: 'Meyve suyu' },
-                                { id: 726, arabic: 'الطَّعَamُ السَّرِيعُ', turkish: 'Fast food' },
-                                { id: 727, arabic: 'الْمَشْرُوبَاتُ الْغَازِيَّةُ', turkish: 'Gazlı içecekler' },
-                                { id: 728, arabic: 'الْفُطُور', turkish: 'Kahvaltı' },
-                                { id: 729, arabic: 'الْغَدَاء', turkish: 'Öğle yemeği' },
-                                { id: 730, arabic: 'الْعَشَاء', turkish: 'Akşam yemeği' }
+                                { id: 716, arabic: 'فَواكِه', turkish: 'Meyveler' },
+                                { id: 717, arabic: 'خُضْراوات', turkish: 'Sebzeler' },
+                                { id: 718, arabic: 'لَحْم', turkish: 'Et' },
+                                { id: 719, arabic: 'سَمَك', turkish: 'Balık' },
+                                { id: 720, arabic: 'لَبَن', turkish: 'Süt' },
+                                { id: 721, arabic: 'جُبْن', turkish: 'Peynir' },
+                                { id: 222, arabic: 'بَيْض', turkish: 'Yumurta' },
+                                { id: 723, arabic: 'خُبْز', turkish: 'Ekmek' },
+                                { id: 724, arabic: 'ماء', turkish: 'Su' },
+                                { id: 725, arabic: 'عَصير', turkish: 'Meyve suyu' },
+                                { id: 726, arabic: 'الطَّعام السَّريع', turkish: 'Fast food' },
+                                { id: 727, arabic: 'المَشْروبات الغازِيَة', turkish: 'Gazlı içecekler' },
+                                { id: 728, arabic: 'فَطور', turkish: 'Kahvaltı' },
+                                { id: 729, arabic: 'غَداء', turkish: 'Öğle yemeği' },
+                                { id: 730, arabic: 'عَشاء', turkish: 'Akşam yemeği' }
                             ]
                         }
                     }
@@ -1528,6 +1625,46 @@
             }
         }
     };
+// === DERS SEÇİLMEDEN OYUNLAR KİLİTLİ ===
+(function () {
+  // Güvenli kilitle/aç yardımcıları
+  function lockGames() {
+    document.querySelectorAll('.menu-btn').forEach(b => {
+      b.classList.add('locked');
+      b.classList.remove('unlocked');
+    });
+  }
+  function unlockGames() {
+    document.querySelectorAll('.menu-btn').forEach(b => {
+      b.classList.remove('locked');
+      b.classList.add('unlocked');
+    });
+  }
+
+  // Oyun kartları dinamik üretildiği için, hazır olana kadar bekle
+  function waitForMenuButtons(tries = 0) {
+    const buttons = document.querySelectorAll('.menu-btn');
+    if (buttons.length) {
+      lockGames();
+    } else if (tries < 80) { // ~4sn
+      setTimeout(() => waitForMenuButtons(tries + 1), 50);
+    }
+  }
+  waitForMenuButtons();
+
+  // Herhangi bir ders seçilince oyunları aç
+  document.addEventListener('click', (e) => {
+    const lessonBtn = e.target.closest('.lesson-btn');
+    if (lessonBtn) {
+      // istersen önce "seçili" durumu da ver:
+      document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('selected'));
+      lessonBtn.classList.add('selected');
+
+      unlockGames();
+    }
+  });
+})();
+
     
     // --- UTILS MODULE ---
     const Utils = {
@@ -1700,11 +1837,7 @@
                 { type: 'memory', title: 'Hafıza Kartı', svg: '<svg viewBox="0 0 24 24"><path d="M7 3H17C18.1 3 19 3.9 19 5V15C19 16.1 18.1 17 17 17H7C5.9 17 5 16.1 5 15V5C5 3.9 5.9 3 7 3M3 7V19C3 20.1 3.9 21 5 21H15V19H5V7H3Z" /></svg>' },
                 { type: 'quiz', title: 'İkili Test', svg: '<svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6A4,4 0 0,0 8,10H10A2,2 0 0,1 12,8A2,2 0 0,1 14,10C14,12 11,11.75 11,15H13C13,12.75 16,12.5 16,10A4,4 0 0,0 12,6M11,16H13V18H11V16Z" /></svg>' },
                 { type: 'match', title: 'Eşleştirme', svg: '<svg viewBox="0 0 24 24"><path d="M21,9L17,5V8H10V10H17V13M7,11V8L3,12L7,16V13H14V11H7Z" /></svg>' },
-                { type: 'typing', title: 'Klavye Oyunu', svg: '<svg viewBox="0 0 24 24"><path d="M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z" /></svg>' },
-                { type: 'game5', title: 'Yeni Oyun 1', svg: '<svg viewBox="0 0 24 24"><path d="M17,2V6H15V4H9V6H7V2H17M7,22V18H9V20H15V18H17V22H7M21,9A2,2 0 0,1 23,11V13A2,2 0 0,1 21,15H19V13H21V11H19V9H21M5,9H3V11H5V13H3V15H5A2,2 0 0,1 7,13V11A2,2 0 0,1 5,9M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,9A1.5,1.5 0 0,1 13,7.5A1.5,1.5 0 0,1 14.5,6A1.5,1.5 0 0,1 16,7.5A1.5,1.5 0 0,1 14.5,9Z"/></svg>' },
-                { type: 'game6', title: 'Yeni Oyun 2', svg: '<svg viewBox="0 0 24 24"><path d="M17,2V6H15V4H9V6H7V2H17M7,22V18H9V20H15V18H17V22H7M21,9A2,2 0 0,1 23,11V13A2,2 0 0,1 21,15H19V13H21V11H19V9H21M5,9H3V11H5V13H3V15H5A2,2 0 0,1 7,13V11A2,2 0 0,1 5,9M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,9A1.5,1.5 0 0,1 13,7.5A1.5,1.5 0 0,1 14.5,6A1.5,1.5 0 0,1 16,7.5A1.5,1.5 0 0,1 14.5,9Z"/></svg>' },
-                { type: 'game7', title: 'Yeni Oyun 3', svg: '<svg viewBox="0 0 24 24"><path d="M17,2V6H15V4H9V6H7V2H17M7,22V18H9V20H15V18H17V22H7M21,9A2,2 0 0,1 23,11V13A2,2 0 0,1 21,15H19V13H21V11H19V9H21M5,9H3V11H5V13H3V15H5A2,2 0 0,1 7,13V11A2,2 0 0,1 5,9M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,9A1.5,1.5 0 0,1 13,7.5A1.5,1.5 0 0,1 14.5,6A1.5,1.5 0 0,1 16,7.5A1.5,1.5 0 0,1 14.5,9Z"/></svg>' },
-                { type: 'game8', title: 'Yeni Oyun 4', svg: '<svg viewBox="0 0 24 24"><path d="M17,2V6H15V4H9V6H7V2H17M7,22V18H9V20H15V18H17V22H7M21,9A2,2 0 0,1 23,11V13A2,2 0 0,1 21,15H19V13H21V11H19V9H21M5,9H3V11H5V13H3V15H5A2,2 0 0,1 7,13V11A2,2 0 0,1 5,9M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,9A1.5,1.5 0 0,1 13,7.5A1.5,1.5 0 0,1 14.5,6A1.5,1.5 0 0,1 16,7.5A1.5,1.5 0 0,1 14.5,9Z"/></svg>' }
+                { type: 'typing', title: 'Klavye Oyunu', svg: '<svg viewBox="0 0 24 24"><path d="M20 5H4C2.9 5 2 5.9 2 7V17C2 18.1 2.9 19 4 19H20C21.1 19 22 18.1 22 17V7C22 5.9 21.1 5 20 5M20 17H4V7H20V17M15 8H17V10H15V8M15 11H17V13H15V11M12 8H14V10H12V8M12 11H14V13H12V11M9 8H11V10H9V8M9 11H11V13H9V11M6 8H8V10H6V8M6 11H8V13H6V11M7 14H17V16H7V14Z" /></svg>' }
             ];
 
             gameTypes.forEach(game => {
@@ -2753,12 +2886,14 @@
             b = Math.max(0, Math.floor(b * 0.85));
             return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
         }
+
+
     };
 
     App.init();
 
     });
+
     </script>
 </body>
 </html>
-
