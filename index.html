@@ -284,6 +284,7 @@
             flex-grow: 1;
         }
         
+
         .menu-btn {
             background-color: var(--surface-color);
             color: var(--text-color);
@@ -1079,14 +1080,6 @@ button, input, .lesson-btn, .menu-btn .menu-title, .grade-header, .unit-title {
   font-size: 1.3em !important;
 }
 /* Oyun içi metinleri küçülten kural kaldırıldı. */
-/* 🎨 Eşleştirme Oyunu Türkçe Yazı Tipi: Marhey */
-[data-game="match"],
-[data-game="match"] *,
-#match-game,
-#match-game * {
-  font-family: 'Marhey', sans-serif !important;
-}
-
 </style></head>
 <body>
 <div id="orientation-warning">
@@ -1100,11 +1093,11 @@ button, input, .lesson-btn, .menu-btn .menu-title, .grade-header, .unit-title {
 <div class="selection-wrapper">
 <div class="grades-container">
 <div class="grade-column grade-9">
-<div class="grade-header">9. Sınıf</div>
+<div class="grade-header">1. Seviye</div>
 <div class="units-container" id="grade9-container"></div>
 </div>
 <div class="grade-column grade-10">
-<div class="grade-header">10. Sınıf</div>
+<div class="grade-header">2. Seviye</div>
 <div class="units-container" id="grade10-container"></div>
 </div>
 </div>
@@ -1242,7 +1235,7 @@ button, input, .lesson-btn, .menu-btn .menu-title, .grade-header, .unit-title {
     // --- DATA MODULE ---
     const Data = {
         grade9: {
-            title: "9. Sınıf",
+            title: "Seviye 1",
             words: {
                 unit1: {
                     title: { tr: "1. Ünite" },
@@ -1435,7 +1428,7 @@ button, input, .lesson-btn, .menu-btn .menu-title, .grade-header, .unit-title {
             }
         },
         grade10: {
-            title: "10. Sınıf",
+            title: "Seviye 2",
             words: {
                 unit1: {
                     title: { tr: "1. Ünite" },
