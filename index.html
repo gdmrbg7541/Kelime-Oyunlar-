@@ -951,38 +951,11 @@
             animation: breathing-effect 2s infinite ease-in-out;
         }
 
-        @media screen and (orientation: portrait) {
-            #game-wrapper {
-                display: none;
-            }
-            #orientation-warning {
-                display: flex;
-            }
-        }
-
-
+        
         @media (max-width: 1200px) { #typing-main-container { flex-direction: column; height: auto; } #typing-status-panel { width: 100%; flex: none; height: 250px; } #typing-game-area { width: 100%; } #quiz-screen { flex-direction: column; } #quiz-container { flex-direction: column; gap: 10px; height: 95%; } #quiz-container::after { display: none; } .main-content-grid { grid-template-columns: 1fr; } .actions-column { flex-direction: row; align-items: stretch; } }
         @media (max-width: 800px) { #game-screen { flex-direction: column; padding-top: 20px; } .score-display { flex-direction: row; height: 80px; width: 100%; max-width: none; } #game-board { flex-grow: 1; margin: 10px 0; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr); } .quiz-player-area .quiz-options { grid-template-columns: 1fr; } .match-item, .match-target { font-size: 1.2rem; padding: 8px;} .keyboard-key { font-size: 1.1rem; padding: 8px 4px; } #game-selector-container { grid-template-columns: 1fr 1fr; } }
     
-          /* === Oyun butonlarını küçült === */
-          .menu-btn {
-          transform: scale(0.9);      /* Butonu %10 küçültür */
-          font-size: 1rem;            /* Yazı boyutunu azaltır */
-          padding: 5px 7px;         /* Kutu iç boşluğunu azaltır */
-          }
-
-          .menu-btn .menu-title {
-          font-size: 1rem;            /* Oyun adını küçültür */
-          }
-          /* === Oyun kutuları arası boşluğu azalt === */
-          #main-menu-screen {
-          gap: 4px; /* kutular arası genel boşluk (önce 15'ti) */
-          }
-
-          .selection-wrapper {
-          gap: 3px; /* dikey boşluğu yarıya indirir */
-          }
-          
+           
            .game-selection-panel h3 {
   background: linear-gradient(90deg, #ff66c4, #ffde59, #81d45e, #00c9ff, #7b53cb);
   -webkit-background-clip: text;
@@ -1071,15 +1044,6 @@ button, input,
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Marhey', sans-serif !important;
 }
-</style><style>
-/* === Font size adjustment === */
-body, html {
-  font-size: 0.92em !important;
-}
-button, input, .lesson-btn, .menu-btn .menu-title, .grade-header, .unit-title {
-  font-size: 1.3em !important;
-}
-/* Oyun içi metinleri küçülten kural kaldırıldı. */
 </style></head>
 <body>
 <div id="orientation-warning">
