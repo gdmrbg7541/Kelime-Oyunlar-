@@ -10,6 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Harmattan:wght@400;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&amp;family=Harmattan:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Marhey:wght@400;700&display=swap" rel="stylesheet">
 <style>
+        html {
+            /* Font boyutu minimum 12px olsun (çok küçük telefonlar için),
+               Tercihen ekran genişliğinin %1.2'si kadar olsun,
+               Maksimum 18px olsun (çok büyük 4K monitörlerde devasa görünmesin).
+            */
+            font-size: clamp(12px, 1.2vw, 18px);
+        }
+        
         :root {
             --bg-start: #f7f9fc;
             --bg-end: #e8eef5;
@@ -175,7 +183,7 @@
             display: grid;
             grid-template-columns: 1fr;
             gap: 8px; /* Dersler arası boşluk eklendi */
-            width: 350px; /* Sabit genişlik */
+            /* width: 350px; KALDIRILDI - Artık esnek */
             background-color: transparent;
             border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
             overflow: visible; /* Efektlerin görünmesi için değiştirildi */
@@ -279,7 +287,8 @@
 
         #game-selector-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 sütunlu yeni düzen */
+            /* 4 sütunlu (repeat(4, 1fr)) kuralı auto-fit ile değiştirildi */
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
             flex-grow: 1;
         }
@@ -1188,7 +1197,7 @@ h1, h2, h3, h4, h5, h6 {
 <div id="results-details"></div>
 <div class="win-buttons">
 <button class="icon-btn" id="play-again-btn" title="Tekrar Oyna"><svg viewbox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"></path></svg></button>
-<button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewbox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg></button>
+<button class="icon-btn" id="new-player-btn" title="Yeni Oyun"><svg viewbox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></button>
 <button class="icon-btn" id="main-menu-results-btn" title="Ana Menü"><svg viewbox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"></path></svg></button>
 </div>
 </div>
@@ -1307,7 +1316,7 @@ h1, h2, h3, h4, h5, h6 {
                             words: [
                                 { id: 201, arabic: 'بَيْت', turkish: 'Ev' },
                                 { id: 202, arabic: 'غُرْفَة', turkish: 'Oda' },
-                                { id: 203, arabic: 'غُرْفَة النَّوْم', turkish: 'Yatak odası' },
+                                { id: 203, arabic: 'غُرْfَة النَّوْم', turkish: 'Yatak odası' },
                                 { id: 204, arabic: 'غُرْفَة جُلوس', turkish: 'Oturma odası' },
                                 { id: 205, arabic: 'مَطْبَخ', turkish: 'Mutfak' },
                                 { id: 206, arabic: 'حَمّام', turkish: 'Banyo' },
